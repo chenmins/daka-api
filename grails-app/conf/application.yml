@@ -1,4 +1,22 @@
 ---
+#支持swagger文档
+org:
+    grails:
+        jaxrs:
+            swagger:
+                enabled: true
+                resourcePackage: org.chenmin.daka
+                version: '1.0'
+                title: 打卡平台 API
+                description: 所有API采用JAX-RS和Grails技术.
+                contact: Chenmin
+                license: Apache 2.0
+                licenseUrl: https://www.apache.org/licenses/LICENSE-2.0
+#支持跨域
+grails:
+    cors:
+        enabled: true
+---
 grails:
     profile: web
     codegen:
