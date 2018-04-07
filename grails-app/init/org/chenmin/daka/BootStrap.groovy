@@ -17,7 +17,7 @@ class BootStrap {
         earlyStar.staminaCount = 5
         earlyStar.paid = 3000
         earlyStar.cash = 123
-        earlyStar.cash = 5123
+        earlyStar.totalReward = 5123
         earlyStar.save()
         //增加测试的毅力之星
         def staminaStar = new ClockUser()
@@ -29,12 +29,12 @@ class BootStrap {
         staminaStar.staminaCount = 25
         staminaStar.paid = 2300
         staminaStar.cash = 321
-        staminaStar.cash = 2123
+        staminaStar.totalReward = 2123
         staminaStar.save()
         //增加测试的今日看板
         def today = new TodayBoard()
         today.ymd=DateTool.today()
-        today.currentTotaloney=2360000
+        today.currentTotalMoney=2360000
         today.currentParticipateCount=231
         today.todayHitClock=170
         today.todayNotHitClock=61

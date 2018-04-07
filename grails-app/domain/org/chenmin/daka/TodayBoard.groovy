@@ -5,23 +5,28 @@ package org.chenmin.daka
 class TodayBoard {
 
     //当前年月日
-    String ymd;
+    String ymd
     //实时挑战金
-    String currentTotaloney;
+    int currentTotalMoney
     //实时参与人数
-    int currentParticipateCount;
+    int currentParticipateCount
     //今日已打卡
-    int todayHitClock;
+    int todayHitClock
     //今日未打卡
-    int todayNotHitClock;
+    int todayNotHitClock
     //早起之星
-    ClockUser earlyStar;
+    ClockUser earlyStar
     //最早打卡时间
-    String earlyTime;
+    String earlyTime
     //毅力之星
-    ClockUser staminaStar;
+    ClockUser staminaStar
     //毅力次数
-    int staminaCount;
+    int staminaCount
+
+    static mapping = {
+        earlyStar lazy:false
+        staminaStar lazy:false
+    }
 
     static constraints = {
 

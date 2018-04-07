@@ -18,6 +18,11 @@ grails:
     #支持跨域
     cors:
         enabled: true
+    #支持JSON的深度对象
+    converters:
+        json:
+            default:
+                deep: true
 ---
 grails:
     profile: web
