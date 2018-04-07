@@ -11,7 +11,7 @@ import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 
-@Api(value = "common", description = "公共服务相关接口")
+@Api(value = "test", description = "测试服务相关接口")
 @Path('/api')
 class TestResource {
 

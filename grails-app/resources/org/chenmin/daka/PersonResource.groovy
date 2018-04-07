@@ -5,14 +5,48 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 
+import javax.ws.rs.Consumes
 import javax.ws.rs.GET
+import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
+import javax.ws.rs.core.MediaType
 
 @Api(value = "person", description = "个人服务相关接口")
 @Path('/api/person')
 class PersonResource {
+
+    @POST
+    @Path('/update')
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "更新个人资料", notes = "openid,nickname,headImg 为必填，其余字段无效")
+    ClockUser update(ClockUser body) {
+        if(!body.openid){
+            return
+        }
+        def has = ClockUser.findByOpenid(body.openid)
+        if(has == null){
+            def staminaStar = new ClockUser()
+            staminaStar.openid = body.openid
+            staminaStar.nickname = body.nickname
+            staminaStar.headImg = body.headImg
+            staminaStar.unionid = UUIDTool.getUUID()
+            staminaStar.todayTime = "00:00:00"
+            staminaStar.staminaCount = 0
+            staminaStar.paid = 0
+            staminaStar.cash = 0
+            staminaStar.totalReward = 0
+            staminaStar.save()
+            return ClockUser.findByOpenid(body.openid)
+        }else{
+            has.nickname = body.nickname
+            has.headImg = body.headImg
+            has.save()
+            return has
+        }
+    }
 
     @GET
     @Path('/board/{openid}')
