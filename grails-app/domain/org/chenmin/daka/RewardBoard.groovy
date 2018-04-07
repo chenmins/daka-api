@@ -33,6 +33,10 @@ class RewardBoard {
      */
     String hitType
 
+    static mapping = {
+        table('daka_reward_board')
+    }
+
     static constraints = {
 
     }

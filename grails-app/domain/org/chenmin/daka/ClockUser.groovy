@@ -41,6 +41,9 @@ class ClockUser {
      */
     int totalReward  = 0
 
+    static mapping = {
+        table('daka_clock_user')
+    }
 
     static constraints = {
     }

@@ -54,6 +54,7 @@ class TodayBoard {
     int staminaCount
 
     static mapping = {
+        table('daka_today_board')
         earlyStar lazy:false
         staminaStar lazy:false
     }

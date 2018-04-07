@@ -29,6 +29,10 @@ class CashBoard {
      */
     Date createTime = new Date()
 
+    static mapping = {
+        table('daka_cash_board')
+    }
+
     static constraints = {
     }
 }
