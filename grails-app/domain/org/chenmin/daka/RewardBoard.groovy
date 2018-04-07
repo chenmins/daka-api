@@ -9,7 +9,7 @@ class RewardBoard {
      */
     ClockUser user
     /**
-     * 打卡用户对象
+     * 打卡用户对象ID
      */
     String openid
     /**

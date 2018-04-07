@@ -64,6 +64,17 @@ class BootStrap {
         r2.hitTime = DateTool.time()
         r2.hitType = "wx"
         r2.save()
+        //增加流水数据
+        def cb1 = new CashBoard()
+        cb1.user = earlyStar
+        cb1.openid = earlyStar.openid
+        cb1.cashType = "deposit"
+        /**
+         * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金）
+         */
+        cb1.cash = 1000
+        cb1.remark = "付押金10元"
+        cb1.save()
 
         println "It  init ok "
 

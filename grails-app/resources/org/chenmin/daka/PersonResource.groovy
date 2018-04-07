@@ -36,7 +36,26 @@ class PersonResource {
                        @ApiParam(required = true, value = "4位年2位月")
                        @PathParam("yyyyMM")
                                String yyyyMM) {
-        def json = RewardBoard.findAllByOpenidAndYm(openid,yyyyMM) as JSON
+        def json = RewardBoard.findAllByOpenidAndYm(openid, yyyyMM) as JSON
+        return json
+    }
+
+    @GET
+    @Path('/cash/{openid}/{max}/{offset}')
+    @ApiOperation(value = "现金流水列表", notes = "分页取出用户现金流水，按时间倒排")
+    @Produces('text/plain')
+    String cashList(
+            @ApiParam(required = true, value = "微信个人ID")
+            @PathParam("openid")
+                    String openid,
+            @ApiParam(required = true, value = "最大返回行数", defaultValue = "10")
+            @PathParam("max")
+                    int max,
+            @ApiParam(required = true, value = "起始行数", defaultValue = "0")
+            @PathParam("offset")
+                    int offset) {
+        def cashs = CashBoard.list([max: max, offset: offset, sort: "id", order: "desc"])
+        def json = [cashs: cashs, max: max, offset: offset, count: CashBoard.count()] as JSON
         return json
     }
 
