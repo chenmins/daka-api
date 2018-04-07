@@ -12,8 +12,10 @@ org:
                 contact: Chenmin
                 license: Apache 2.0
                 licenseUrl: https://www.apache.org/licenses/LICENSE-2.0
-#支持跨域
+
+---
 grails:
+    #支持跨域
     cors:
         enabled: true
 ---
