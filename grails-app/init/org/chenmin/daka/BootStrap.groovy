@@ -38,12 +38,15 @@ class BootStrap {
         today.ymd=DateTool.today()
         today.currentTotalMoney=2360000
         today.currentParticipateCount=231
-        today.todayHitClock=170
-        today.todayNotHitClock=61
+        today.hitClock=170
+        today.notHitClock=61
         today.earlyStar = earlyStar
         today.earlyTime = today.earlyStar.todayTime
         today.staminaStar = staminaStar
         today.staminaCount = today.staminaStar.staminaCount
+        today.hitMoney=2300000
+        today.notHitMoney=60000
+        today.thousandRewardMoney=531
         today.save()
         //增加打卡奖励
         def r1 = new RewardBoard()

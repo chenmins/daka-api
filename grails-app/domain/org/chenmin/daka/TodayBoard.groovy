@@ -19,11 +19,23 @@ class TodayBoard {
     /**
      * 今日已打卡
      */
-    int todayHitClock
+    int hitClock
     /**
      * 今日未打卡
      */
-    int todayNotHitClock
+    int notHitClock
+    /**
+     * 今日已打卡金额
+     */
+    int hitMoney
+    /**
+     * 今日未打卡金额
+     */
+    int notHitMoney
+    /**
+     * 每千份奖励金额
+     */
+    int thousandRewardMoney
     /**
      * 早起之星
      */
