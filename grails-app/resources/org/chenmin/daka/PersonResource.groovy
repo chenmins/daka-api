@@ -26,4 +26,19 @@ class PersonResource {
         return json
     }
 
+    @GET
+    @Path('/rewardBoard/{openid}/{yyyyMM}')
+    @ApiOperation(value = "个人日历看板", notes = "根据4位年2位月取出指定用户的月份的奖励金列表")
+    @Produces('text/plain')
+    String rewardBoard(@ApiParam(required = true, value = "微信个人ID")
+                       @PathParam("openid")
+                               String openid,
+                       @ApiParam(required = true, value = "4位年2位月")
+                       @PathParam("yyyyMM")
+                               String yyyyMM) {
+        def json = RewardBoard.findAllByOpenidAndYm(openid,yyyyMM) as JSON
+        return json
+    }
+
+
 }

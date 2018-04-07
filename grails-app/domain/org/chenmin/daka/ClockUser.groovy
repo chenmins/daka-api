@@ -27,19 +27,19 @@ class ClockUser {
     /**
      * 连续打卡次数
      */
-    int staminaCount
+    int staminaCount = 0
     /**
      * 我的投入
      */
-    int paid
+    int paid = 0
     /**
      * 我的余额
      */
-    int cash
+    int cash  = 0
     /**
      * 累计奖励
      */
-    int totalReward
+    int totalReward  = 0
 
 
     static constraints = {
