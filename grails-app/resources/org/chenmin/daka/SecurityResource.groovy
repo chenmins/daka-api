@@ -53,6 +53,7 @@ class SecurityResource {
     String clock(@ApiParam(required = true, value = "微信个人ID")
                  @PathParam("openid")
                          String openid) {
+        //插入打卡记录
 
     }
     //结算测试

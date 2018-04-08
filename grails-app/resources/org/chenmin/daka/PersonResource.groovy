@@ -88,7 +88,7 @@ class PersonResource {
             @ApiParam(required = true, value = "起始行数", defaultValue = "0")
             @PathParam("offset")
                     int offset) {
-        def cashs = CashBoard.list([max: max, offset: offset, sort: "id", order: "desc"])
+        def cashs = CashBoard.findAllByOpenid(openid,[max: max, offset: offset, sort: "id", order: "desc"])
         def json = [cashs: cashs, max: max, offset: offset, count: CashBoard.count()] as JSON
         return json
     }
