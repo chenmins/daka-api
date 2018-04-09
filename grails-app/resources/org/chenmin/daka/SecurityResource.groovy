@@ -9,6 +9,7 @@ import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
+import javax.ws.rs.core.MediaType
 
 @Api(value = "security", description = "个人安全服务相关接口")
 @Path('/api/security')
@@ -17,7 +18,7 @@ class SecurityResource {
     @GET
     @Path('/pay/{openid}/{cash}')
     @ApiOperation(value = "支付挑战金测试", notes = "仅供测试")
-    @Produces('text/plain')
+    @Produces(MediaType.APPLICATION_JSON)
     String pay(@ApiParam(required = true, value = "微信个人ID")
                        @PathParam("openid")
                                String openid,
@@ -49,7 +50,7 @@ class SecurityResource {
     @GET
     @Path('/clock/{openid}')
     @ApiOperation(value = "打卡测试", notes = "仅供测试")
-    @Produces('text/plain')
+    @Produces(MediaType.APPLICATION_JSON)
     String clock(@ApiParam(required = true, value = "微信个人ID")
                  @PathParam("openid")
                          String openid) {
@@ -59,5 +60,7 @@ class SecurityResource {
     //结算测试
 
     //每日生成
+
+    //提现测试
 
 }

@@ -51,7 +51,7 @@ class PersonResource {
     @GET
     @Path('/board/{openid}')
     @ApiOperation(value = "个人看板")
-    @Produces('text/plain')
+    @Produces(MediaType.APPLICATION_JSON)
     String person(@ApiParam(required = true, value = "微信个人ID")
                   @PathParam("openid")
                           String openid) {
@@ -63,7 +63,7 @@ class PersonResource {
     @GET
     @Path('/rewardBoard/{openid}/{yyyyMM}')
     @ApiOperation(value = "个人日历看板", notes = "根据4位年2位月取出指定用户的月份的奖励金列表")
-    @Produces('text/plain')
+    @Produces(MediaType.APPLICATION_JSON)
     String rewardBoard(@ApiParam(required = true, value = "微信个人ID")
                        @PathParam("openid")
                                String openid,
@@ -77,7 +77,7 @@ class PersonResource {
     @GET
     @Path('/cash/{openid}/{max}/{offset}')
     @ApiOperation(value = "现金流水列表", notes = "分页取出用户现金流水，按时间倒排")
-    @Produces('text/plain')
+    @Produces(MediaType.APPLICATION_JSON)
     String cashList(
             @ApiParam(required = true, value = "微信个人ID")
             @PathParam("openid")
