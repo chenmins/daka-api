@@ -42,14 +42,14 @@ class SecurityResource {
             String jscode
     ){
         //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
-        def url = "https://api.weixin.qq.com/sns/jscode2session"
+        def url = "https://api.weixin.qq.com/sns/jscode2session?"
+        url += "appid=wxbd7ee929512fd71f"
+        url += "&secret=74492633a33a639fa1301c2ae4310446"
+        url += ("&js_code="+jscode)
+        url += "&grant_type=authorization_code"
         CookiesHttpClient chc = new CookiesHttpClient()
         HttpClient hc = chc.getHttpClient();
         def p = new HashMap<String,String>()
-        p.appid ='wxbd7ee929512fd71f'
-        p.secret ='74492633a33a639fa1301c2ae4310446'
-        p.js_code =jscode
-        p.grant_type ='authorization_code'
         def json = HttpClientTools.get(hc,url,p)
         chc.close()
         return json
