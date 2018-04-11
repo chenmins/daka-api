@@ -33,7 +33,13 @@ class PublicResource {
         def max = 20
         def offset = 0
         def persons = ClockUser.list([max: max, offset: offset,  sort: "id", order: "desc"])
-        def json = [persons: persons,max: max, offset: offset, count: ClockUser.count()] as JSON
+        def ps = []
+        persons.each {p ->
+            p.openid=''
+            p.unionid=''
+            ps << p
+        }
+        def json = [persons: ps,max: max, offset: offset, count: ClockUser.count()] as JSON
         return json
     }
 
@@ -57,7 +63,13 @@ class PublicResource {
             @PathParam("offset")
                     int offset) {
         def persons = ClockUser.list([max: max, offset: offset, sort: "totalReward", order: "desc"])
-        def json = [persons: persons,max: max, offset: offset, count: ClockUser.count()] as JSON
+        def ps = []
+        persons.each {p ->
+            p.openid=''
+            p.unionid=''
+            ps << p
+        }
+        def json = [persons: ps,max: max, offset: offset, count: ClockUser.count()] as JSON
         return json
     }
 }

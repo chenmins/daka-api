@@ -21,7 +21,7 @@ class PersonResource {
     @Path('/update')
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "更新个人资料", notes = "openid,nickname,headImg 为必填，其余字段无效")
+    @ApiOperation(value = "更新个人资料", notes = "openid,nickname,headImg 为必填；unionid有则填写，其余字段无效")
     ClockUser update(ClockUser body) {
         if(!body.openid){
             return
@@ -32,7 +32,7 @@ class PersonResource {
             staminaStar.openid = body.openid
             staminaStar.nickname = body.nickname
             staminaStar.headImg = body.headImg
-            staminaStar.unionid = UUIDTool.getUUID()
+            staminaStar.unionid = body.unionid
             staminaStar.todayTime = "00:00:00"
             staminaStar.staminaCount = 0
             staminaStar.paid = 0

@@ -39,7 +39,7 @@ class SecurityResource {
     String jscode2session(
             @ApiParam(required = true, value = " 临时登录凭证code")
             @PathParam("jscode")
-            String jscode
+                    String jscode
     ){
         //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
         def url = "https://api.weixin.qq.com/sns/jscode2session?"
@@ -60,11 +60,11 @@ class SecurityResource {
     @ApiOperation(value = "支付挑战金测试", notes = "仅供测试")
     @Produces(MediaType.APPLICATION_JSON)
     String pay(@ApiParam(required = true, value = "微信个人ID")
-                       @PathParam("openid")
-                               String openid,
-                       @ApiParam(required = true, value = "充值金额（单位分）")
-                       @PathParam("cash")
-                               int cash) {
+               @PathParam("openid")
+                       String openid,
+               @ApiParam(required = true, value = "充值金额（单位分）")
+               @PathParam("cash")
+                       int cash) {
         //记录交易流水
         //增加流水数据
         def earlyStar = ClockUser.findByOpenid(openid)
@@ -102,5 +102,33 @@ class SecurityResource {
     //每日生成
 
     //提现测试
+    @GET
+    @Path('/take/{openid}/{cash}')
+    @ApiOperation(value = "提取奖励金测试", notes = "仅供测试")
+    @Produces(MediaType.APPLICATION_JSON)
+    String take(@ApiParam(required = true, value = "微信个人ID")
+               @PathParam("openid")
+                       String openid,
+               @ApiParam(required = true, value = "提取金额（单位分）")
+               @PathParam("cash")
+                       int cash) {
+
+    }
+
+
+    @GET
+    @Path('/refund/{openid}/{cash}')
+    @ApiOperation(value = "退还挑战金测试", notes = "仅供测试")
+    @Produces(MediaType.APPLICATION_JSON)
+    String refund(@ApiParam(required = true, value = "微信个人ID")
+                @PathParam("openid")
+                        String openid,
+                @ApiParam(required = true, value = "提取金额（单位分）")
+                @PathParam("cash")
+                        int cash) {
+
+    }
 
 }
+
+import javax.ws.rs.core.MediaType
