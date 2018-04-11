@@ -22,9 +22,12 @@ class SecurityResource {
     @ApiOperation(value = "获得服务器请求IP", notes = "")
     @Produces(MediaType.APPLICATION_JSON)
     String ip(){
+        CookiesHttpClient chc = new CookiesHttpClient()
+        HttpClient hc = chc.getHttpClient()
         def url = "http://httpbin.org/ip"
         def p = new HashMap<String,String>()
         def json = HttpClientTools.get(url,p)
+        chc.close()
         return json
     }
 
@@ -47,7 +50,8 @@ class SecurityResource {
         p.secret ='74492633a33a639fa1301c2ae4310446'
         p.js_code =jscode
         p.grant_type ='authorization_code'
-        def json = HttpClientTools.get(url,p)
+        def json = HttpClientTools.get(hc,url,p)
+        chc.close()
         return json
     }
     //支付测试
