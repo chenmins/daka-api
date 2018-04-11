@@ -26,7 +26,7 @@ class SecurityResource {
         HttpClient hc = chc.getHttpClient()
         def url = "http://httpbin.org/ip"
         def p = new HashMap<String,String>()
-        def json = HttpClientTools.get(url,p)
+        def json = HttpClientTools.get(hc,url,p)
         chc.close()
         return json
     }
