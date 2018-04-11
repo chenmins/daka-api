@@ -9,6 +9,7 @@ class UrlMappings {
             }
         }
         "/"(controller:"showRestApi")
+        "/*.txt"(controller:"txt")
         "/real"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')

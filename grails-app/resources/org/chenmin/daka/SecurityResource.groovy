@@ -4,6 +4,7 @@ import grails.converters.JSON
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
+import org.apache.http.client.HttpClient
 
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -14,6 +15,28 @@ import javax.ws.rs.core.MediaType
 @Api(value = "security", description = "个人安全服务相关接口")
 @Path('/api/security')
 class SecurityResource {
+    //openid授权
+    @GET
+    @Path('/jscode2session/{jscode}')
+    @ApiOperation(value = "openid授权", notes = "")
+    @Produces(MediaType.APPLICATION_JSON)
+    String jscode2session(
+            @ApiParam(required = true, value = " 临时登录凭证code")
+            @PathParam("jscode")
+            String jscode
+    ){
+        //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
+        def url = "https://api.weixin.qq.com/sns/jscode2session"
+        CookiesHttpClient chc = new CookiesHttpClient()
+        HttpClient hc = chc.getHttpClient();
+        def p = [:]
+        p.appid ='wxbd7ee929512fd71f'
+        p.secret ='74492633a33a639fa1301c2ae4310446'
+        p.js_code =jscode
+        p.grant_type ='authorization_code'
+        def json = HttpClientTools.get(url,p)
+        return json
+    }
     //支付测试
     @GET
     @Path('/pay/{openid}/{cash}')

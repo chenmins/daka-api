@@ -28,11 +28,13 @@ repositories {
 dependencies {
 
     //新的插件开始
-    //add rest api start
+    //add rest api
     compile 'org.grails.plugins:jaxrs-jersey1:3.0.4'
     compile 'org.grails.plugins:jaxrs-swagger-ui:3.0.4'
     compile 'mysql:mysql-connector-java:5.1.24'
-    //add rest api end
+    //httpclient
+    compile 'org.apache.httpcomponents:httpclient:4.5.3'
+    compile 'org.apache.httpcomponents:httpmime:4.5.3'
     //JWT 工具包
     compile 'com.auth0:java-jwt:2.2.0'
 
@@ -78,4 +80,7 @@ bootRun {
 assets {
     minifyJs = true
     minifyCss = true
+    includes = ['**/*.txt']
+    excludes = ['**/*.less'] //Example Exclude GLOB pattern
+
 }
