@@ -15,6 +15,18 @@ import javax.ws.rs.core.MediaType
 @Api(value = "security", description = "个人安全服务相关接口")
 @Path('/api/security')
 class SecurityResource {
+
+
+    @GET
+    @Path('/ip')
+    @ApiOperation(value = "获得服务器请求IP", notes = "")
+    @Produces(MediaType.APPLICATION_JSON)
+    String ip(){
+        def url = "http://httpbin.org/ip"
+        def json = HttpClientTools.get(url)
+        return json
+    }
+
     //openid授权
     @GET
     @Path('/jscode2session/{jscode}')
