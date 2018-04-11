@@ -23,7 +23,8 @@ class SecurityResource {
     @Produces(MediaType.APPLICATION_JSON)
     String ip(){
         def url = "http://httpbin.org/ip"
-        def json = HttpClientTools.get(url)
+        def p = new HashMap<String,String>()
+        def json = HttpClientTools.get(url,p)
         return json
     }
 
@@ -41,7 +42,7 @@ class SecurityResource {
         def url = "https://api.weixin.qq.com/sns/jscode2session"
         CookiesHttpClient chc = new CookiesHttpClient()
         HttpClient hc = chc.getHttpClient();
-        def p = [:]
+        def p = new HashMap<String,String>()
         p.appid ='wxbd7ee929512fd71f'
         p.secret ='74492633a33a639fa1301c2ae4310446'
         p.js_code =jscode
