@@ -24,7 +24,7 @@ cronExpression: "s m h D M W Y"
         // execute job
         println DateTool.time()
         def hasToday = TodayBoard.findByYmd(DateTool.today())
-        if(hasToday==null){
+        if(hasToday!=null){
             println hasToday as JSON
             println DateTool.time()+" has exsit!"
             return
