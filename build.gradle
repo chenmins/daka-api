@@ -37,6 +37,8 @@ dependencies {
     compile 'org.apache.httpcomponents:httpmime:4.5.3'
     //JWT 工具包
     compile 'com.auth0:java-jwt:2.2.0'
+    //定时器
+    compile 'org.grails.plugins:quartz:2.0.13'
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
@@ -80,7 +82,7 @@ bootRun {
 assets {
     minifyJs = true
     minifyCss = true
-    includes = ['**/*.txt']
-    excludes = ['**/*.less'] //Example Exclude GLOB pattern
+    //includes = ['**/*.txt']
+    //excludes = ['**/*.less'] //Example Exclude GLOB pattern
 
 }
