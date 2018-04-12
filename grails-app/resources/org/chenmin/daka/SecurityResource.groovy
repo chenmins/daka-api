@@ -16,21 +16,6 @@ import javax.ws.rs.core.MediaType
 @Path('/api/security')
 class SecurityResource {
 
-
-    @GET
-    @Path('/ip')
-    @ApiOperation(value = "获得服务器请求IP", notes = "")
-    @Produces(MediaType.APPLICATION_JSON)
-    String ip(){
-        CookiesHttpClient chc = new CookiesHttpClient()
-        HttpClient hc = chc.getHttpClient()
-        def url = "http://httpbin.org/ip"
-        def p = new HashMap<String,String>()
-        def json = HttpClientTools.get(hc,url,p)
-        chc.close()
-        return json
-    }
-
     //openid授权
     @GET
     @Path('/jscode2session/{jscode}')
