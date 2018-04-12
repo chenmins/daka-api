@@ -61,7 +61,10 @@ class SecurityResource {
          * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金）
          */
         cb1.cash = cash
-        cb1.remark = "测试付押金10元"
+        cb1.remark = "测试付押金"+(cash/100)+"元"
+        cb1.refund=null
+        //TODO 改为真是的
+        cb1.orderID= UUIDTool.getUUID()
         cb1.save()
         //修改用户押金
         earlyStar.paid = earlyStar.paid + cash
@@ -82,9 +85,29 @@ class SecurityResource {
         //插入打卡记录
 
     }
-    //结算测试
 
-    //每日生成
+    //结算测试
+    @GET
+    @Path('/calc/{cash}')
+    @ApiOperation(value = "提取奖励金测试", notes = "仅供测试")
+    @Produces(MediaType.APPLICATION_JSON)
+    String calc(
+                @ApiParam(required = true, value = "预留金额（单位分）")
+                @PathParam("cash")
+                        int cash) {
+
+    }
+
+    //未退的挑战金列表
+    @GET
+    @Path('/payist/{openid}')
+    @ApiOperation(value = "未退的押金列表", notes = "仅供测试")
+    @Produces(MediaType.APPLICATION_JSON)
+    List<CashBoard> payList(@ApiParam(required = true, value = "微信个人ID")
+                   @PathParam("openid")
+                           String openid){
+        return null
+    }
 
     //提现测试
     @GET
@@ -97,23 +120,24 @@ class SecurityResource {
                @ApiParam(required = true, value = "提取金额（单位分）")
                @PathParam("cash")
                        int cash) {
-
+        //记录资金流水日志
+        //扣除奖励金
     }
 
-
+    //退还挑战金测试
     @GET
-    @Path('/refund/{openid}/{cash}')
+    @Path('/refund/{openid}/{orderID}')
     @ApiOperation(value = "退还挑战金测试", notes = "仅供测试")
     @Produces(MediaType.APPLICATION_JSON)
     String refund(@ApiParam(required = true, value = "微信个人ID")
                 @PathParam("openid")
                         String openid,
-                @ApiParam(required = true, value = "提取金额（单位分）")
-                @PathParam("cash")
-                        int cash) {
+                @ApiParam(required = true, value = "充值")
+                @PathParam("orderID")
+                        String orderID) {
+
 
     }
 
 }
 
-import javax.ws.rs.core.MediaType

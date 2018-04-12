@@ -21,6 +21,14 @@ class CashBoard {
      */
     int cash
     /**
+     * 退款流水号
+     */
+    String refund
+    /**
+     * 充值订单号
+     */
+    String orderID
+    /**
      * 备注
      */
     String remark
