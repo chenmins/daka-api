@@ -32,7 +32,10 @@ class PersonResource {
             staminaStar.openid = body.openid
             staminaStar.nickname = body.nickname
             staminaStar.headImg = body.headImg
-            staminaStar.unionid = body.unionid
+            if(body.unionid)
+                staminaStar.unionid = body.unionid
+            else
+                staminaStar.unionid = ''
             staminaStar.todayTime = "00:00:00"
             staminaStar.staminaCount = 0
             staminaStar.paid = 0
