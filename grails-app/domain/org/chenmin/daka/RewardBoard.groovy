@@ -21,6 +21,10 @@ class RewardBoard {
      */
     String ym
     /**
+     * 打卡属于本月第几日
+     */
+    int d
+    /**
      * 打卡奖励金(-1,表示未发放)
      */
     int reward = -1
