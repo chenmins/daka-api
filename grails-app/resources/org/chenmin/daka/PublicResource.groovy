@@ -69,7 +69,12 @@ class PublicResource {
             p.unionid=''
             ps << p
         }
-        def json = [persons: ps,max: max, offset: offset, count: ClockUser.count()] as JSON
+        def count = ClockUser.count()
+        boolean hasNext = false
+        if((offset+max)<count){
+            hasNext = true
+        }
+        def json = [persons: ps,max: max, offset: offset, count: count,hasNext :hasNext] as JSON
         return json
     }
 }

@@ -100,7 +100,7 @@ class SecurityResource {
 
     //未退的挑战金列表
     @GET
-    @Path('/payist/{openid}')
+    @Path('/payList/{openid}')
     @ApiOperation(value = "未退的押金列表", notes = "仅供测试")
     @Produces(MediaType.APPLICATION_JSON)
     List<CashBoard> payList(@ApiParam(required = true, value = "微信个人ID")
@@ -121,7 +121,9 @@ class SecurityResource {
                @PathParam("cash")
                        int cash) {
         //记录资金流水日志
+
         //扣除奖励金
+
     }
 
     //退还挑战金测试

@@ -92,7 +92,12 @@ class PersonResource {
             @PathParam("offset")
                     int offset) {
         def cashs = CashBoard.findAllByOpenid(openid,[max: max, offset: offset, sort: "id", order: "desc"])
-        def json = [cashs: cashs, max: max, offset: offset, count: CashBoard.count()] as JSON
+        def count = CashBoard.count()
+        boolean hasNext = false
+        if((offset+max)<count){
+            hasNext = true
+        }
+        def json = [cashs: cashs, max: max, offset: offset, count:count,hasNext:hasNext] as JSON
         return json
     }
 
