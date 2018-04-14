@@ -116,7 +116,7 @@ class SecurityResource {
             earlyStar.staminaCount = earlyStar.staminaCount+1
             earlyStar.save(flush: true)
         }
-        return earlyStar
+        return earlyStar as JSON
     }
 
     //结算测试
