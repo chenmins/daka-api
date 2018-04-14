@@ -65,10 +65,10 @@ class SecurityResource {
         cb1.refund = "-1"
         //TODO 改为真是的
         cb1.orderID= UUIDTool.getUUID()
-        cb1.save()
+        cb1.save(flush: true)
         //修改用户押金
         earlyStar.paid = earlyStar.paid + cash
-        earlyStar.save()
+        earlyStar.save(flush: true)
         //返回用户对象
         def json =  earlyStar as JSON
         return json
