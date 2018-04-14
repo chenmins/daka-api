@@ -1,7 +1,4 @@
 package org.chenmin.daka
-
-import javax.persistence.Transient
-
 /**
  * 每日看板类
  */
@@ -64,8 +61,9 @@ class TodayBoard {
      */
     String endTime
 
-    @Transient
     boolean clock = false
+
+    String leftTime
 
     /**
      * 创建时间
@@ -75,6 +73,16 @@ class TodayBoard {
      * 更新时间
      */
     Date lastUpdated
+
+    boolean isClock(){
+        return DateTool.in(startTime,endTime)
+    }
+
+    String getLeftTime(){
+        return DateTool.leftTomorrow(startTime)
+    }
+
+    static transients=['clock','leftTime']
 
     static mapping = {
         table('daka_today_board')
