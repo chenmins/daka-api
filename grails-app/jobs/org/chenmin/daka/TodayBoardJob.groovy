@@ -64,7 +64,7 @@ cronExpression: "s m h D M W Y"
         //当前已经未打卡人数
         today.notHitClock=today.currentParticipateCount
         today.earlyStar = earlyStar
-        today.earlyTime = today.earlyStar.todayTime
+        today.earlyTime = "06:30:00"
         today.staminaStar = staminaStar
         today.staminaCount = today.staminaStar.staminaCount
         today.hitMoney=0
