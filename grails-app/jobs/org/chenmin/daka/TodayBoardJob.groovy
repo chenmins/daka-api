@@ -46,6 +46,10 @@ cronExpression: "s m h D M W Y"
         sql.eachRow(strSql) {
             currentCount = it.counts
         }
+        //删除所有人的前一天的打卡日期
+        strSql = "update from daka_clock_user t set t.today_time=null ";
+        int c = sql.executeUpdate(strSql)
+        println c+" user today_time set null "
         //增加初始化的今日看板
         def earlyStar = ClockUser.get(1)
         def staminaStar = ClockUser.get(2)

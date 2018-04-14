@@ -96,8 +96,27 @@ class SecurityResource {
     String clock(@ApiParam(required = true, value = "微信个人ID")
                  @PathParam("openid")
                          String openid) {
-        //插入打卡记录
-
+        //检测打卡记录
+        def has = RewardBoard.findByOpenidAndYmd(openid,DateTool.today())
+        def earlyStar = ClockUser.findByOpenid(openid)
+        if(!has){
+            //插入打卡记录
+            def r1 = new RewardBoard()
+            r1.user = earlyStar
+            r1.openid = earlyStar.openid
+            r1.ymd = DateTool.today()
+            r1.ym = DateTool.month()
+            r1.d =DateTool.d()
+            r1.reward = -1
+            r1.hitTime = DateTool.time()
+            r1.hitType = "wx"
+            r1.save(flush: true)
+            //修改今日记录
+            earlyStar.todayTime = DateTool.time()
+            earlyStar.staminaCount = earlyStar.staminaCount+1
+            earlyStar.save(flush: true)
+        }
+        return earlyStar
     }
 
     //结算测试

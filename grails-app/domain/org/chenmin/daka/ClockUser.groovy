@@ -55,5 +55,6 @@ class ClockUser {
     }
 
     static constraints = {
+        todayTime(nullable:true)
     }
 }

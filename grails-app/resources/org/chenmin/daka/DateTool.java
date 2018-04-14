@@ -47,6 +47,11 @@ public class DateTool {
         SimpleDateFormat sdf =new SimpleDateFormat("yyyyMM");
         return sdf.format(new Date());
     }
+
+    public static int d(){
+        SimpleDateFormat sdf =new SimpleDateFormat("dd");
+        return Integer.parseInt(sdf.format(new Date())) ;
+    }
     public static String time(){
         SimpleDateFormat sdf =new SimpleDateFormat("HH:mm:ss");
         return sdf.format(new Date());
