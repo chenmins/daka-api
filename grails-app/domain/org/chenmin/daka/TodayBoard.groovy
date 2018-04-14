@@ -91,6 +91,8 @@ class TodayBoard {
     }
 
     static constraints = {
+        leftTime(nullable:true)
+        clock(nullable:true)
 
     }
 }
