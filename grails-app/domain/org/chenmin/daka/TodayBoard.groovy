@@ -82,7 +82,7 @@ class TodayBoard {
         return DateTool.leftTomorrow(startTime)
     }
 
-    static transients=['clock','leftTime']
+    //static transients=['clock','leftTime']
 
     static mapping = {
         table('daka_today_board')
