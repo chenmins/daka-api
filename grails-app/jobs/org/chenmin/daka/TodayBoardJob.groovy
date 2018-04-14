@@ -38,16 +38,16 @@ cronExpression: "s m h D M W Y"
         int spaid = 0
         int currentCount = 0
         def sql = new Sql(dataSource);
-        String strSql = "select sum(paid) spaid from daka_clock_user t ";
+        String strSql = "select sum(paid) spaid from daka_clock_user t "
         sql.eachRow(strSql) {
             spaid = it.spaid
         }
-        strSql = "select count(paid) counts from daka_clock_user t where t.paid>0 ";
+        strSql = "select count(paid) counts from daka_clock_user t where t.paid>0 "
         sql.eachRow(strSql) {
             currentCount = it.counts
         }
         //删除所有人的前一天的打卡日期
-        strSql = "update from daka_clock_user t set t.today_time=null ";
+        strSql = "update from daka_clock_user t set t.today_time is null "
         int c = sql.executeUpdate(strSql)
         println c+" user today_time set null "
         //增加初始化的今日看板
