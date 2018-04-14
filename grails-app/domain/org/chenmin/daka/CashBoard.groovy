@@ -35,7 +35,11 @@ class CashBoard {
     /**
      * 创建时间
      */
-    Date createTime = new Date()
+    Date dateCreated
+    /**
+     * 更新时间
+     */
+    Date lastUpdated
 
     static mapping = {
         table('daka_cash_board')

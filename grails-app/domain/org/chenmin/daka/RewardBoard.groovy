@@ -37,6 +37,15 @@ class RewardBoard {
      */
     String hitType
 
+    /**
+     * 创建时间
+     */
+    Date dateCreated
+    /**
+     * 更新时间
+     */
+    Date lastUpdated
+
     static mapping = {
         table('daka_reward_board')
     }

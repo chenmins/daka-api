@@ -1,4 +1,7 @@
 package org.chenmin.daka
+
+import javax.persistence.Transient
+
 /**
  * 每日看板类
  */
@@ -60,6 +63,18 @@ class TodayBoard {
      * 打卡结束时间
      */
     String endTime
+
+    @Transient
+    boolean clock = false
+
+    /**
+     * 创建时间
+     */
+    Date dateCreated
+    /**
+     * 更新时间
+     */
+    Date lastUpdated
 
     static mapping = {
         table('daka_today_board')
