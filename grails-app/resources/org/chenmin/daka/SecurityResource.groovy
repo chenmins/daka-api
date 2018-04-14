@@ -128,7 +128,11 @@ class SecurityResource {
                 @ApiParam(required = true, value = "预留金额（单位分）")
                 @PathParam("cash")
                         int cash) {
-
+        //罚没未打卡的挑战金
+        //扣除预留
+        //算出费率
+        //发放奖励
+        //平差价（四舍五入）
     }
 
     //未退的挑战金列表

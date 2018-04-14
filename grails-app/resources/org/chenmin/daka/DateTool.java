@@ -25,9 +25,17 @@ public class DateTool {
 
     public static String leftTomorrow (String time){
         try {
-            String tomorrow = tomorrow()+time;
+            //此处有bug，如果当前时间小于time，则time-now
+            String now = now();
+            String day = null;
+            if(now.compareTo(time)<=0){
+                day = today()+time;
+            }else{
+                //如果当前时间大于time，则测算明天的time-now
+                day = tomorrow()+time;
+            }
             SimpleDateFormat sdf =new SimpleDateFormat("yyyyMMddHH:mm");
-            Date d = sdf.parse(tomorrow);
+            Date d = sdf.parse(day);
             long endTime = d.getTime();
             long startTime = (new Date()).getTime();
             long midTime = (endTime - startTime) / 1000;
