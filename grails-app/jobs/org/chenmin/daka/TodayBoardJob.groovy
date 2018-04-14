@@ -66,6 +66,8 @@ cronExpression: "s m h D M W Y"
         today.hitMoney=0
         today.notHitMoney=today.currentTotalMoney
         today.thousandRewardMoney=-1
+        today.startTime="0630"
+        today.endTime="0730"
         today.save()
         println DateTool.today()+" "+ DateTool.time()+" TodayBoard has created!"
 

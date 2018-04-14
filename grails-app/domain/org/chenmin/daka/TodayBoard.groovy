@@ -52,6 +52,14 @@ class TodayBoard {
      * 毅力次数
      */
     int staminaCount
+    /**
+     * 打卡开始时间
+     */
+    String startTime
+    /**
+     * 打卡结束时间
+     */
+    String endTime
 
     static mapping = {
         table('daka_today_board')
