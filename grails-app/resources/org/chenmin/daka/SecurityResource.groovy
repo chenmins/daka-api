@@ -62,7 +62,7 @@ class SecurityResource {
          */
         cb1.cash = cash
         cb1.remark = "测试付押金"+(cash/100)+"元"
-        cb1.refund=null
+        cb1.refund = "-1"
         //TODO 改为真是的
         cb1.orderID= UUIDTool.getUUID()
         cb1.save()
