@@ -1,6 +1,7 @@
 package org.chenmin.daka
 
 import grails.converters.JSON
+import groovy.sql.Sql
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -39,6 +40,9 @@ class SecurityResource {
         chc.close()
         return json
     }
+
+    def dataSource
+
     //支付测试
     @GET
     @Path('/pay/{openid}/{cash}')
@@ -69,6 +73,16 @@ class SecurityResource {
         //修改用户押金
         earlyStar.paid = earlyStar.paid + cash
         earlyStar.save(flush: true)
+        //TODO 更新挑战金
+        int spaid = 0
+        def sql = new Sql(dataSource);
+        String strSql = "select sum(paid) spaid from daka_clock_user t ";
+        sql.eachRow(strSql) {
+            spaid = it.spaid
+        }
+        def hasToday = TodayBoard.findByYmd(DateTool.today())
+        hasToday.currentTotalMoney = spaid
+        hasToday.save(flush: true)
         //返回用户对象
         def json =  earlyStar as JSON
         return json
