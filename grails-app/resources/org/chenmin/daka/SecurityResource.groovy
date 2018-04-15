@@ -80,8 +80,16 @@ class SecurityResource {
         sql.eachRow(strSql) {
             spaid = it.spaid
         }
+        // 更新挑战人数
+        int currentCount = 0
+        strSql = "select count(paid) counts from daka_clock_user t where t.paid>0 "
+        sql.eachRow(strSql) {
+            currentCount = it.counts
+        }
         def hasToday = TodayBoard.findByYmd(DateTool.today())
         hasToday.currentTotalMoney = spaid
+        //当前挑战人数
+        hasToday.currentParticipateCount=currentCount
         hasToday.save(flush: true)
         //返回用户对象
         def json =  earlyStar as JSON
@@ -153,6 +161,7 @@ class SecurityResource {
         //算出费率
         //发放奖励
         //平差价（四舍五入）
+        //更新个人累计奖励
     }
 
     //未退的挑战金列表
