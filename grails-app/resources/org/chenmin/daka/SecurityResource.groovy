@@ -128,12 +128,12 @@ class SecurityResource {
         //此处可能会出现并发问题
         int spaid = 0
         def sql = new Sql(dataSource)
-        String strSql = "select sum(paid) spaid from daka_reward_board t where y.ymd='"+DateTool.today()+"'"
+        String strSql = "select sum(paid) spaid from daka_reward_board t where t.ymd='"+DateTool.today()+"'"
         sql.eachRow(strSql) {
             spaid = it.spaid
         }
         int counts = 0
-        strSql = "select count(paid) counts from daka_reward_board t where y.ymd='"+DateTool.today()+"'"
+        strSql = "select count(paid) counts from daka_reward_board t where t.ymd='"+DateTool.today()+"'"
         sql.eachRow(strSql) {
             counts = it.counts
         }
