@@ -61,6 +61,8 @@ class TodayBoard {
      */
     String endTime
 
+    boolean calc = false
+
     boolean clock = false
 
     String leftTime

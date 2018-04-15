@@ -82,7 +82,7 @@ public class DateTool {
         System.out.println(in("22:10","22:30"));
         System.out.println(in("22:13","22:30"));
         System.out.println(in("22:10","22:13"));
-        System.out.println(in("22:22","22:44"));
+        System.out.println(in("08:30","09:30"));
         System.out.println(leftTomorrow("06:30" ));
 
     }
