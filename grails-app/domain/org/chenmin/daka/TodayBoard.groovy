@@ -60,11 +60,17 @@ class TodayBoard {
      * 打卡结束时间
      */
     String endTime
-
+    /**
+     * 是否结算过
+     */
     boolean calc = false
-
+    /**
+     * 打卡区间
+     */
     boolean clock = false
-
+    /**
+     * 打卡倒计时
+     */
     String leftTime
 
     /**

@@ -25,6 +25,10 @@ class RewardBoard {
      */
     int d
     /**
+     * 挑战金
+     */
+    int paid = 0
+    /**
      * 打卡奖励金(-1,表示未发放)
      */
     int reward = -1

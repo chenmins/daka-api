@@ -37,7 +37,7 @@ cronExpression: "s m h D M W Y"
         println DateTool.today()+" "+ DateTool.time()+" TodayBoard init!"
         int spaid = 0
         int currentCount = 0
-        def sql = new Sql(dataSource);
+        def sql = new Sql(dataSource)
         String strSql = "select sum(paid) spaid from daka_clock_user t "
         sql.eachRow(strSql) {
             spaid = it.spaid

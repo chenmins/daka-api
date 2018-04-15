@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType
 @Path('/api/security')
 class SecurityResource {
 
+    def dataSource
+
     //openid授权
     @GET
     @Path('/jscode2session/{jscode}')
@@ -40,8 +42,6 @@ class SecurityResource {
         chc.close()
         return json
     }
-
-    def dataSource
 
     //支付测试
     @GET
@@ -107,15 +107,35 @@ class SecurityResource {
             r1.ymd = DateTool.today()
             r1.ym = DateTool.month()
             r1.d =DateTool.d()
+            r1.paid = earlyStar.paid
             r1.reward = -1
             r1.hitTime = DateTool.time()
             r1.hitType = "wx"
             r1.save(flush: true)
-            //修改今日记录
+            //打卡成功，修改今日记录
             earlyStar.todayTime = DateTool.time()
             earlyStar.staminaCount = earlyStar.staminaCount+1
             earlyStar.save(flush: true)
         }
+        //此处可能会出现并发问题
+        int spaid = 0
+        def sql = new Sql(dataSource)
+        String strSql = "select sum(paid) spaid from daka_reward_board t where y.ymd='"+DateTool.today()+"'"
+        sql.eachRow(strSql) {
+            spaid = it.spaid
+        }
+        int counts = 0
+        strSql = "select count(paid) counts from daka_reward_board t where y.ymd='"+DateTool.today()+"'"
+        sql.eachRow(strSql) {
+            counts = it.counts
+        }
+        //更新每日显示的打卡人数，和打卡金额
+        def today = TodayBoard.findByYmd(DateTool.today())
+        today.hitMoney = spaid
+        today.notHitMoney =  today.currentTotalMoney - spaid
+        today.hitClock = counts
+        today.notHitClock = today.currentParticipateCount - counts
+        today.save(flush: true)
         return earlyStar as JSON
     }
 
