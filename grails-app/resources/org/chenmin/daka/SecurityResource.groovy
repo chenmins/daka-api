@@ -96,6 +96,8 @@ class SecurityResource {
         return json
     }
 
+
+
     //结算测试
     @GET
     @Path('/calc/{cash}/{paid}')
@@ -231,6 +233,144 @@ class SecurityResource {
         hasToday.currentParticipateCount=cb.reals
         hasToday.calc = true
         hasToday.save(flush: true)
+        return cb as JSON
+    }
+
+    //试算测试
+    @GET
+    @Path('/trys/{cash}/{paid}')
+    @ApiOperation(value = "试算奖励金测试", notes = "仅供测试")
+    @Produces(MediaType.APPLICATION_JSON)
+    String trys(
+            @ApiParam(required = true, value = "预留金额（单位分）")
+            @PathParam("cash")
+                    int cash,
+            @ApiParam(required = true, value = "补贴金额（单位分）")
+            @PathParam("paid")
+                    int paid) {
+        //测试有没有结算过
+        //检测打卡记录
+//        def has = CalcBoard.findByYmd(DateTool.today())
+//        if(has)
+//            return has as JSON
+        //罚没未打卡的挑战金
+        def cb = new CalcBoard()
+        cb.ymd = DateTool.today()
+        def sql = new Sql(dataSource)
+        String strSql = "select sum(paid) all_paids from daka_clock_user u where u.paid>0"
+        sql.eachRow(strSql) {
+            cb.currentTotalMoney = it.all_paids
+        }
+        strSql = "select count(id) all_counts from daka_clock_user u where u.paid>0"
+        sql.eachRow(strSql) {
+            cb.currentParticipateCount = it.all_counts
+        }
+        strSql = "select count(id) clock_counts from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        sql.eachRow(strSql) {
+            cb.hitClock = it.clock_counts
+        }
+        strSql = "select count(id) noclock_counts from daka_clock_user u where u.paid>0 and u.today_time is null"
+        sql.eachRow(strSql) {
+            cb.notHitClock = it.noclock_counts
+        }
+        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        sql.eachRow(strSql) {
+            cb.hitMoney = it.clock_paids
+        }
+        strSql = "select sum(paid) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null"
+        sql.eachRow(strSql) {
+            cb.notHitMoney = it.noclock_paids
+        }
+
+        cb.cash = cash
+        cb.paid = paid
+        //可瓜分金额，扣除预留
+        cb.reals=cb.notHitMoney-cb.cash+cb.paid
+        //算出费率
+        double v = cb.reals/cb.hitMoney
+        cb.thousandRewardMoney = Math.floor(v*1000*100)
+
+        int fine = 0
+        //罚没挑战金，记录流水，删除挑战金
+        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is null"
+        sql.eachRow(strSql) {
+            def cu = ClockUser.get(it.id)
+            fine += cu.paid
+            //增加流水数据
+            def cb1 = new CashBoard()
+            cb1.user = cu
+            cb1.openid = cu.openid
+            cb1.cashType = "fine"
+            /**
+             * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
+             */
+            cb1.cash = cu.paid
+            cb1.remark = DateTool.today()+"未打卡，罚金${cu.paid/100}元"
+            //cb1.save(flush: true)
+            cu.paid = 0
+            //cu.save(flush: true)
+        }
+        int reward = 0
+        //发放奖励，记录流水，增加奖励金
+        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        sql.eachRow(strSql) {
+            def cu = ClockUser.get(it.id)
+            //计算奖励
+            int va = Math.floor(cu.paid * v)
+            reward += va
+            //增加流水数据
+            def cb1 = new CashBoard()
+            cb1.user = cu
+            cb1.openid = cu.openid
+            cb1.cashType = "reward"
+            /**
+             * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
+             */
+            cb1.cash = va
+            cb1.remark = DateTool.today()+"坚持打卡，奖金${va/100}元"
+            //cb1.save(flush: true)
+            cu.cash =  cu.cash + va
+            cu.totalReward = cu.totalReward + va
+            //cu.save(flush: true)
+            //奖励金日历变更
+            def rb = RewardBoard.findByYmdAndOpenid(DateTool.today(),cu.openid)
+            rb.reward = va
+            //rb.save(flush: true)
+        }
+        //平差价（四舍五入）
+        cb.floors = fine - reward
+        cb.remark ="今日发放摘要：" +
+                "未打卡金额${cb.notHitMoney/100}," +
+                "打卡金额${cb.hitMoney/100}," +
+                "扣除${cb.cash/100}," +
+                "补贴${cb.paid/100}," +
+                "实际发放${cb.reals/100}," +
+                "千份收益率${cb.thousandRewardMoney/100}," +
+                "平差价:${cb.floors/100}"
+        //cb.save(flush: true)
+
+        //更新早起之星和毅力之星
+        def hasToday = TodayBoard.findByYmd(DateTool.today())
+        int eid = 0
+        strSql = "select id,today_time,stamina_count from daka_clock_user u where u.paid>0 and u.today_time is not null order by today_time asc limit 1"
+        sql.eachRow(strSql) {
+            eid = it.id
+        }
+        int sid = 0
+        strSql = "select id,today_time,stamina_count from daka_clock_user u where u.paid>0 and u.today_time is not null order by stamina_count desc limit 1"
+        sql.eachRow(strSql) {
+            sid = it.id
+        }
+        def earlyStar = ClockUser.get(eid)
+        def staminaStar = ClockUser.get(sid)
+        hasToday.earlyStar = earlyStar
+        hasToday.earlyTime = earlyStar.todayTime
+        hasToday.staminaStar = staminaStar
+        hasToday.staminaCount = staminaStar.staminaCount
+        //更新每日表的发放状态和调整后的打卡数据
+        hasToday.currentParticipateCount=cb.reals
+        hasToday.calc = true
+        //hasToday.save(flush: true)
         return cb as JSON
     }
 
