@@ -192,6 +192,10 @@ class SecurityResource {
             cu.cash =  cu.cash + va
             cu.totalReward = cu.totalReward + va
             cu.save(flush: true)
+            //奖励金日历变更
+            def rb = RewardBoard.findByYmdAndOpenid(DateTool.today(),cu.openid)
+            rb.reward = va
+            rb.save(flush: true)
         }
         //平差价（四舍五入）
         cb.floors = fine - reward
@@ -225,6 +229,7 @@ class SecurityResource {
         hasToday.staminaCount = staminaStar.staminaCount
         //更新每日表的发放状态和调整后的打卡数据
         hasToday.currentParticipateCount=cb.reals
+        hasToday.calc = true
         hasToday.save(flush: true)
         return cb as JSON
     }
