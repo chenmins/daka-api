@@ -96,7 +96,79 @@ class SecurityResource {
         return json
     }
 
-    //打卡测试
+    //结算测试
+    @GET
+    @Path('/calc/{cash}')
+    @ApiOperation(value = "计算奖励金测试", notes = "仅供测试")
+    @Produces(MediaType.APPLICATION_JSON)
+    String calc(
+            @ApiParam(required = true, value = "预留金额（单位分）")
+            @PathParam("cash")
+                    int cash,
+            @ApiParam(required = true, value = "补贴金额（单位分）")
+            @PathParam("paid")
+                    int paid) {
+        //测试有没有结算过
+        //检测打卡记录
+        def has = CalcBoard.findByYmd(DateTool.today())
+        if(has)
+            return has as JSON
+        //罚没未打卡的挑战金
+        def cb = new CalcBoard()
+        cb.ymd = DateTool.today()
+        def sql = new Sql(dataSource)
+        String strSql = "select sum(paid) all_paids from daka_clock_user u where u.paid>0"
+        sql.eachRow(strSql) {
+            cb.currentTotalMoney = it.all_paids
+        }
+        strSql = "select count(id) all_counts from daka_clock_user u where u.paid>0"
+        sql.eachRow(strSql) {
+            cb.currentParticipateCount = it.all_counts
+        }
+        strSql = "select count(id) clock_counts from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        sql.eachRow(strSql) {
+            cb.hitClock = it.clock_counts
+        }
+        strSql = "select count(id) noclock_counts from daka_clock_user u where u.paid>0 and u.today_time is null"
+        sql.eachRow(strSql) {
+            cb.notHitClock = it.noclock_counts
+        }
+        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        sql.eachRow(strSql) {
+            cb.hitMoney = it.clock_paids
+        }
+        strSql = "select sum(paid) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null"
+        sql.eachRow(strSql) {
+            cb.notHitMoney = it.noclock_paids
+        }
+
+        cb.cash = cash
+        cb.paid = paid
+        //可瓜分金额
+        cb.real=cb.notHitMoney-cb.cash+cb.paid
+        double v = cb.real/cb.hitMoney
+        cb.thousandRewardMoney = Math.floor(v*1000)
+
+        cb.remark = '''
+今日发放摘要：
+未打卡金额${cb.notHitMoney/100},
+扣除${cb.cash/100},
+补贴${cb.paid/100},
+实际发放${cb.real/100},
+千份收益率${cb.thousandRewardMoney/100},
+'''
+        //扣除预留
+        //算出费率
+        //发放奖励
+        //平差价（四舍五入）
+        //更新个人累计奖励
+        //更新早起之星和毅力之星
+        //更新每日表的发放状态和调整后的打卡数据
+        cb.save(flush: true)
+        return cb as JSON
+    }
+
+    //结算测试
     @GET
     @Path('/clock/{openid}')
     @ApiOperation(value = "打卡测试", notes = "仅供测试")
@@ -145,23 +217,6 @@ class SecurityResource {
         today.notHitClock = today.currentParticipateCount - counts
         today.save(flush: true)
         return earlyStar as JSON
-    }
-
-    //结算测试
-    @GET
-    @Path('/calc/{cash}')
-    @ApiOperation(value = "提取奖励金测试", notes = "仅供测试")
-    @Produces(MediaType.APPLICATION_JSON)
-    String calc(
-                @ApiParam(required = true, value = "预留金额（单位分）")
-                @PathParam("cash")
-                        int cash) {
-        //罚没未打卡的挑战金
-        //扣除预留
-        //算出费率
-        //发放奖励
-        //平差价（四舍五入）
-        //更新个人累计奖励
     }
 
     //未退的挑战金列表

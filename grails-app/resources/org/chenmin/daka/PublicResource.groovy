@@ -27,10 +27,10 @@ class PublicResource {
 
     @GET
     @Path('/last')
-    @ApiOperation(value = "最新加入用户列表", notes = "取出最后加入的20个用户")
+    @ApiOperation(value = "最新加入用户列表", notes = "取出最后加入的16个用户")
     @Produces(MediaType.APPLICATION_JSON)
     String lastPersonList() {
-        def max = 20
+        def max = 16
         def offset = 0
         def persons = ClockUser.list([max: max, offset: offset,  sort: "id", order: "desc"])
         def ps = []
