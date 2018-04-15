@@ -13,7 +13,7 @@ class CashBoard {
      */
     String openid
     /**
-     * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金）
+     * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
      */
     String cashType
     /**
@@ -46,5 +46,7 @@ class CashBoard {
     }
 
     static constraints = {
+        orderID(nullable:true)
+        refund(nullable:true)
     }
 }

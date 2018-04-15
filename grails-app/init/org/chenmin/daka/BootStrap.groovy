@@ -1,8 +1,15 @@
 package org.chenmin.daka
 
+import grails.converters.JSON
+
 class BootStrap {
 
     def init = { servletContext ->
+        JSON.registerObjectMarshaller(Date) {
+
+            return it?.format("yyyy-MM-dd HH:mm:ss")
+
+        }
         if(ClockUser.get(1)!=null){
             println "It has init "
             return
@@ -73,7 +80,7 @@ class BootStrap {
         cb1.openid = earlyStar.openid
         cb1.cashType = "deposit"
         /**
-         * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金）
+         * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
          */
         cb1.cash = 1000
         cb1.remark = "付押金10元"

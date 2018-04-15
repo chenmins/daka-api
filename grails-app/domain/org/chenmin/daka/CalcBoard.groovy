@@ -1,5 +1,7 @@
 package org.chenmin.daka
-
+/**
+ * 结算类
+ */
 class CalcBoard {
     /**
      * 当前年月日
@@ -44,7 +46,11 @@ class CalcBoard {
     /**
      * 实际瓜分金额
      */
-    int real
+    int reals
+    /**
+     * 舍掉小数取整
+     */
+    int floors
     /**
      * 备注
      */
