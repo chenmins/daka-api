@@ -98,7 +98,7 @@ class SecurityResource {
 
     //结算测试
     @GET
-    @Path('/calc/{cash}')
+    @Path('/calc/{cash}/{paid}')
     @ApiOperation(value = "计算奖励金测试", notes = "仅供测试")
     @Produces(MediaType.APPLICATION_JSON)
     String calc(
