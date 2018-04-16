@@ -235,6 +235,11 @@ class SecurityResource {
         //更新每日表的发放状态和调整后的打卡数据
         hasToday.notHitMoney=cb.reals
         hasToday.calc = true
+        //更新罚款后的实时挑战金
+        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0"
+        sql.eachRow(strSql) {
+            cb.currentTotalMoney = it.clock_paids
+        }
         hasToday.save(flush: true)
         return cb as JSON
     }
