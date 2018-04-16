@@ -233,7 +233,7 @@ class SecurityResource {
         hasToday.staminaStar = staminaStar
         hasToday.staminaCount = staminaStar.staminaCount
         //更新每日表的发放状态和调整后的打卡数据
-        hasToday.currentParticipateCount=cb.reals
+        hasToday.notHitMoney=cb.reals
         hasToday.calc = true
         hasToday.save(flush: true)
         return cb as JSON
