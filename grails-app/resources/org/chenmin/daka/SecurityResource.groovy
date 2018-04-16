@@ -240,6 +240,11 @@ class SecurityResource {
         sql.eachRow(strSql) {
             cb.currentTotalMoney = it.clock_paids
         }
+        //更新罚款后的实时挑战人数
+        strSql = "select count(paid) counts from daka_clock_user u where u.paid>0"
+        sql.eachRow(strSql) {
+            cb.currentParticipateCount = it.counts
+        }
         hasToday.save(flush: true)
         return cb as JSON
     }
