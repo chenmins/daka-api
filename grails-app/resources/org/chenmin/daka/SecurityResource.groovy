@@ -333,8 +333,8 @@ class SecurityResource {
             cu.totalReward = cu.totalReward + va
             //cu.save(flush: true)
             //奖励金日历变更
-            def rb = RewardBoard.findByYmdAndOpenid(DateTool.today(),cu.openid)
-            rb.reward = va
+            //def rb = RewardBoard.findByYmdAndOpenid(DateTool.today(),cu.openid)
+            //rb.reward = va
             //rb.save(flush: true)
         }
         //平差价（四舍五入）
