@@ -36,7 +36,7 @@ class PersonResource {
                 staminaStar.unionid = body.unionid
             else
                 staminaStar.unionid = ''
-            staminaStar.todayTime = "00:00:00"
+            //staminaStar.todayTime = "00:00:00"
             staminaStar.staminaCount = 0
             staminaStar.paid = 0
             staminaStar.cash = 0

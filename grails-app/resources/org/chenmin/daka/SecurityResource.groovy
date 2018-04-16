@@ -135,7 +135,8 @@ class SecurityResource {
         sql.eachRow(strSql) {
             cb.notHitClock = it.noclock_counts
         }
-        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
+        //strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
+        strSql = "select sum(paid) clock_paids from daka_reward_board u where u.ymd = '"+DateTool.today()+"'"
         sql.eachRow(strSql) {
             cb.hitMoney = it.clock_paids
         }
@@ -178,8 +179,9 @@ class SecurityResource {
         strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
         sql.eachRow(strSql) {
             def cu = ClockUser.get(it.id)
+            def rb = RewardBoard.findByYmdAndOpenid(DateTool.today(),cu.openid)
             //计算奖励
-            int va = Math.floor(cu.paid * v)
+            int va = Math.floor(rb.paid * v)
             reward += va
             //增加流水数据
             def cb1 = new CashBoard()
@@ -190,13 +192,13 @@ class SecurityResource {
              * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
              */
             cb1.cash = va
-            cb1.remark = DateTool.today()+"坚持打卡，奖金${va/100}元"
+            cb1.remark = DateTool.today()+"坚持打卡，挑战金${rb.paid}元,奖金${va/100}元"
             cb1.save(flush: true)
             cu.cash =  cu.cash + va
             cu.totalReward = cu.totalReward + va
             cu.save(flush: true)
             //奖励金日历变更
-            def rb = RewardBoard.findByYmdAndOpenid(DateTool.today(),cu.openid)
+
             rb.reward = va
             rb.save(flush: true)
         }
@@ -274,7 +276,8 @@ class SecurityResource {
         sql.eachRow(strSql) {
             cb.notHitClock = it.noclock_counts
         }
-        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
+        //strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
+        strSql = "select sum(paid) clock_paids from daka_reward_board u where u.ymd = '"+DateTool.today()+"'"
         sql.eachRow(strSql) {
             cb.hitMoney = it.clock_paids
         }
@@ -317,8 +320,9 @@ class SecurityResource {
         strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
         sql.eachRow(strSql) {
             def cu = ClockUser.get(it.id)
+            def rb = RewardBoard.findByYmdAndOpenid(DateTool.today(),cu.openid)
             //计算奖励
-            int va = Math.floor(cu.paid * v)
+            int va = Math.floor(rb.paid * v)
             reward += va
             //增加流水数据
             def cb1 = new CashBoard()
@@ -329,15 +333,15 @@ class SecurityResource {
              * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
              */
             cb1.cash = va
-            cb1.remark = DateTool.today()+"坚持打卡，奖金${va/100}元"
-            //cb1.save(flush: true)
+            cb1.remark = DateTool.today()+"坚持打卡，挑战金${rb.paid}元,奖金${va/100}元"
+//            cb1.save(flush: true)
             cu.cash =  cu.cash + va
             cu.totalReward = cu.totalReward + va
-            //cu.save(flush: true)
+//            cu.save(flush: true)
             //奖励金日历变更
-            //def rb = RewardBoard.findByYmdAndOpenid(DateTool.today(),cu.openid)
-            //rb.reward = va
-            //rb.save(flush: true)
+//
+//            rb.reward = va
+//            rb.save(flush: true)
         }
         //平差价（四舍五入）
         cb.floors = fine - reward
