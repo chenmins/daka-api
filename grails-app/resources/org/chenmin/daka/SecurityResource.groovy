@@ -167,7 +167,7 @@ class SecurityResource {
             /**
              * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
              */
-            cb1.cash = cu.paid
+            cb1.cash = cu.paid*-1
             cb1.remark = DateTool.today()+"未打卡，罚金${cu.paid/100}元"
             cb1.save(flush: true)
             cu.paid = 0
@@ -308,7 +308,7 @@ class SecurityResource {
             /**
              * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
              */
-            cb1.cash = cu.paid
+            cb1.cash = cu.paid*-1
             cb1.remark = DateTool.today()+"未打卡，罚金${cu.paid/100}元"
             cu.pour = false//改为没下注
             //cb1.save(flush: true)
