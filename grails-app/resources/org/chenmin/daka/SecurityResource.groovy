@@ -119,27 +119,27 @@ class SecurityResource {
         def cb = new CalcBoard()
         cb.ymd = DateTool.today()
         def sql = new Sql(dataSource)
-        String strSql = "select sum(paid) all_paids from daka_clock_user u where u.paid>0"
+        String strSql = "select sum(paid) all_paids from daka_clock_user u where u.paid>0 and u.pour = true"
         sql.eachRow(strSql) {
             cb.currentTotalMoney = it.all_paids
         }
-        strSql = "select count(id) all_counts from daka_clock_user u where u.paid>0"
+        strSql = "select count(id) all_counts from daka_clock_user u where u.paid>0 and u.pour = true"
         sql.eachRow(strSql) {
             cb.currentParticipateCount = it.all_counts
         }
-        strSql = "select count(id) clock_counts from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        strSql = "select count(id) clock_counts from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
         sql.eachRow(strSql) {
             cb.hitClock = it.clock_counts
         }
-        strSql = "select count(id) noclock_counts from daka_clock_user u where u.paid>0 and u.today_time is null"
+        strSql = "select count(id) noclock_counts from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
         sql.eachRow(strSql) {
             cb.notHitClock = it.noclock_counts
         }
-        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
         sql.eachRow(strSql) {
             cb.hitMoney = it.clock_paids
         }
-        strSql = "select sum(paid) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null"
+        strSql = "select sum(paid) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
         sql.eachRow(strSql) {
             cb.notHitMoney = it.noclock_paids
         }
@@ -154,7 +154,7 @@ class SecurityResource {
 
         int fine = 0
         //罚没挑战金，记录流水，删除挑战金
-        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is null"
+        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
         sql.eachRow(strSql) {
             def cu = ClockUser.get(it.id)
             fine += cu.paid
@@ -170,11 +170,12 @@ class SecurityResource {
             cb1.remark = DateTool.today()+"未打卡，罚金${cu.paid/100}元"
             cb1.save(flush: true)
             cu.paid = 0
+            cu.pour = false//改为没下注
             cu.save(flush: true)
         }
         int reward = 0
         //发放奖励，记录流水，增加奖励金
-        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
         sql.eachRow(strSql) {
             def cu = ClockUser.get(it.id)
             //计算奖励
@@ -257,27 +258,27 @@ class SecurityResource {
         def cb = new CalcBoard()
         cb.ymd = DateTool.today()
         def sql = new Sql(dataSource)
-        String strSql = "select sum(paid) all_paids from daka_clock_user u where u.paid>0"
+        String strSql = "select sum(paid) all_paids from daka_clock_user u where u.paid>0 and u.pour = true"
         sql.eachRow(strSql) {
             cb.currentTotalMoney = it.all_paids
         }
-        strSql = "select count(id) all_counts from daka_clock_user u where u.paid>0"
+        strSql = "select count(id) all_counts from daka_clock_user u where u.paid>0 and u.pour = true"
         sql.eachRow(strSql) {
             cb.currentParticipateCount = it.all_counts
         }
-        strSql = "select count(id) clock_counts from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        strSql = "select count(id) clock_counts from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
         sql.eachRow(strSql) {
             cb.hitClock = it.clock_counts
         }
-        strSql = "select count(id) noclock_counts from daka_clock_user u where u.paid>0 and u.today_time is null"
+        strSql = "select count(id) noclock_counts from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
         sql.eachRow(strSql) {
             cb.notHitClock = it.noclock_counts
         }
-        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
         sql.eachRow(strSql) {
             cb.hitMoney = it.clock_paids
         }
-        strSql = "select sum(paid) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null"
+        strSql = "select sum(paid) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
         sql.eachRow(strSql) {
             cb.notHitMoney = it.noclock_paids
         }
@@ -292,7 +293,7 @@ class SecurityResource {
 
         int fine = 0
         //罚没挑战金，记录流水，删除挑战金
-        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is null"
+        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
         sql.eachRow(strSql) {
             def cu = ClockUser.get(it.id)
             fine += cu.paid
@@ -306,13 +307,14 @@ class SecurityResource {
              */
             cb1.cash = cu.paid
             cb1.remark = DateTool.today()+"未打卡，罚金${cu.paid/100}元"
+            cu.pour = false//改为没下注
             //cb1.save(flush: true)
             cu.paid = 0
             //cu.save(flush: true)
         }
         int reward = 0
         //发放奖励，记录流水，增加奖励金
-        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null"
+        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
         sql.eachRow(strSql) {
             def cu = ClockUser.get(it.id)
             //计算奖励

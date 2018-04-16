@@ -40,6 +40,10 @@ class ClockUser {
      * 累计奖励
      */
     int totalReward  = 0
+    /**
+     * 下注（每日定时器刷为下注）
+     */
+    boolean pour = false
 
     /**
      * 创建时间
