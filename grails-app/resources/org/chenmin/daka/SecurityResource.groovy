@@ -192,7 +192,7 @@ class SecurityResource {
              * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
              */
             cb1.cash = va
-            cb1.remark = DateTool.today()+"坚持打卡，挑战金${rb.paid}元,奖金${va/100}元"
+            cb1.remark = DateTool.today()+"坚持打卡，挑战金${rb.paid/100}元,奖金${va/100}元"
             cb1.save(flush: true)
             cu.cash =  cu.cash + va
             cu.totalReward = cu.totalReward + va
@@ -333,7 +333,7 @@ class SecurityResource {
              * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
              */
             cb1.cash = va
-            cb1.remark = DateTool.today()+"坚持打卡，挑战金${rb.paid}元,奖金${va/100}元"
+            cb1.remark = DateTool.today()+"坚持打卡，挑战金${rb.paid/100}元,奖金${va/100}元"
 //            cb1.save(flush: true)
             cu.cash =  cu.cash + va
             cu.totalReward = cu.totalReward + va
@@ -374,7 +374,7 @@ class SecurityResource {
         hasToday.staminaStar = staminaStar
         hasToday.staminaCount = staminaStar.staminaCount
         //更新每日表的发放状态和调整后的打卡数据
-        hasToday.currentParticipateCount=cb.reals
+        hasToday.notHitMoney=cb.reals
         hasToday.calc = true
         //hasToday.save(flush: true)
         return cb as JSON
