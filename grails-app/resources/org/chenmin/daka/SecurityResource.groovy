@@ -76,6 +76,7 @@ class SecurityResource {
         unifiedorder.setSpbill_create_ip("127.0.0.1");//IP
         unifiedorder.setNotify_url(url);
         unifiedorder.setTrade_type("JSAPI");//JSAPI，NATIVE，APP，WAP
+        unifiedorder.setAttach("daka__"+openid);
         //统一下单，生成预支付订单
         UnifiedorderResult unifiedorderResult = PayMchAPI.payUnifiedorder(unifiedorder,key);
         println "unifiedorderResult:"+params.id
@@ -84,7 +85,6 @@ class SecurityResource {
         //@since 2.8.5  API返回数据签名验证
         if(unifiedorderResult.getSign_status() !=null && unifiedorderResult.getSign_status()){
             String json = PayUtil.generateMchPayJsRequestJson(unifiedorderResult.getPrepay_id(), appid, key);
-
             return json
         }
         return unifiedorderResult as JSON
