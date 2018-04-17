@@ -79,7 +79,6 @@ class SecurityResource {
         unifiedorder.setAttach("daka__"+openid);
         //统一下单，生成预支付订单
         UnifiedorderResult unifiedorderResult = PayMchAPI.payUnifiedorder(unifiedorder,key);
-        println "unifiedorderResult:"+params.id
         println unifiedorder as JSON
         println unifiedorderResult as JSON
         //@since 2.8.5  API返回数据签名验证
