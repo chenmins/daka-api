@@ -30,6 +30,7 @@ class PayController {
         //统一下单，生成预支付订单
         UnifiedorderResult unifiedorderResult = PayMchAPI.payUnifiedorder(unifiedorder,key);
         println "unifiedorderResult:"+params.id
+        println unifiedorder as JSON
         println unifiedorderResult as JSON
 
 
@@ -45,7 +46,7 @@ class PayController {
             render json
             return
         }
-        render '{error:"支付错误"}'
+        render unifiedorderResult as JSON
         return
     }
 }
