@@ -171,6 +171,7 @@ class SecurityResource {
             cb1.remark = DateTool.today()+"未打卡，罚金${cu.paid/100}元"
             cb1.save(flush: true)
             cu.paid = 0
+            cu.staminaCount = 0 //删除持续值
             cu.pour = false//改为没下注
             cu.save(flush: true)
         }
