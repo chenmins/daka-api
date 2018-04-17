@@ -73,7 +73,7 @@ class SecurityResource {
         unifiedorder.setBody("商品信息");
         unifiedorder.setOut_trade_no(UUID.randomUUID().toString().toString().replace("-", ""));
         unifiedorder.setTotal_fee(fee);//单位分
-        unifiedorder.setSpbill_create_ip(request.getRemoteAddr());//IP
+        unifiedorder.setSpbill_create_ip("127.0.0.1");//IP
         unifiedorder.setNotify_url(url);
         unifiedorder.setTrade_type("JSAPI");//JSAPI，NATIVE，APP，WAP
         //统一下单，生成预支付订单
