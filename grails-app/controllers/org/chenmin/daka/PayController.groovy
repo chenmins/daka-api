@@ -22,7 +22,7 @@ class PayController {
 
         unifiedorder.setOpenid(wx_openid);
         unifiedorder.setBody("商品信息");
-        unifiedorder.setOut_trade_no("123456");
+        unifiedorder.setOut_trade_no(UUID.randomUUID().toString().toString().replace("-", ""));
         unifiedorder.setTotal_fee(fee);//单位分
         unifiedorder.setSpbill_create_ip(request.getRemoteAddr());//IP
         unifiedorder.setNotify_url(url);
