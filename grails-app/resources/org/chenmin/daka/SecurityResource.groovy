@@ -62,7 +62,7 @@ class SecurityResource {
         String appid = "wxbd7ee929512fd71f"
         String mch_id = "1490841962"
         String key = "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2"
-        String wx_openid = params.id
+        String wx_openid = openid
         String fee = ""+cash
         Unifiedorder unifiedorder = new Unifiedorder();
         unifiedorder.setAppid(appid);
