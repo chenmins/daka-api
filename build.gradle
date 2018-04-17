@@ -39,6 +39,8 @@ dependencies {
     compile 'com.auth0:java-jwt:2.2.0'
     //定时器
     compile 'org.grails.plugins:quartz:2.0.13'
+    //微信相关包
+    compile 'com.github.liyiorg:weixin-popular:2.8.19'
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
