@@ -38,7 +38,7 @@ class PersonResource {
 //        //type 5
 //        EmojiUtil.removeAllEmojis
         //表情包替换
-        body.nickname = EmojiUtil.parse(body.nickname,2)
+        body.nickname = EmojiUtil.parse(body.nickname,5)
         def has = ClockUser.findByOpenid(body.openid)
         if(has == null){
             def staminaStar = new ClockUser()
