@@ -4,6 +4,7 @@ import grails.converters.JSON
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
+import weixin.popular.util.EmojiUtil
 
 import javax.ws.rs.Consumes
 import javax.ws.rs.GET
@@ -26,6 +27,18 @@ class PersonResource {
         if(!body.openid){
             return
         }
+        //type 1
+//        EmojiUtil.parseToHtmlHexadecimal
+//        //type 2
+//        EmojiUtil.parseToHtmlTag
+//        //type 3
+//        EmojiUtil.parseToAliases
+//        //type 4
+//        EmojiUtil.parseToHtmlDecimal
+//        //type 5
+//        EmojiUtil.removeAllEmojis
+        //表情包替换
+        body.nickname = EmojiUtil.parse(body.nickname,2)
         def has = ClockUser.findByOpenid(body.openid)
         if(has == null){
             def staminaStar = new ClockUser()
