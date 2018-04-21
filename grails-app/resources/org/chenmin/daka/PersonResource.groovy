@@ -54,12 +54,12 @@ class PersonResource {
             staminaStar.paid = 0
             staminaStar.cash = 0
             staminaStar.totalReward = 0
-            staminaStar.save()
+            staminaStar.save(flush: true)
             return ClockUser.findByOpenid(body.openid)
         }else{
             has.nickname = body.nickname
             has.headImg = body.headImg
-            has.save()
+            has.save(flush: true)
             return has
         }
     }

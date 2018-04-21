@@ -280,6 +280,8 @@ class SecurityResource {
         hasToday.staminaCount = staminaStar.staminaCount
         //更新每日表的发放状态和调整后的打卡数据
         hasToday.notHitMoney=cb.reals
+        //扣掉的钱加上去
+        hasToday.hitMoney = hasToday.hitMoney + cash
         hasToday.calc = true
         //更新罚款后的实时挑战金
         strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0"
