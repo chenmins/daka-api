@@ -76,7 +76,7 @@ class SecurityResource {
         unifiedorder.setSpbill_create_ip("127.0.0.1");//IP
         unifiedorder.setNotify_url(url);
         unifiedorder.setTrade_type("JSAPI");//JSAPI，NATIVE，APP，WAP
-        unifiedorder.setAttach("daka__"+openid);
+        unifiedorder.setAttach("daka__"+openid+"_"+DateTool.today()+"_"+DateTool.time());
         //统一下单，生成预支付订单
         UnifiedorderResult unifiedorderResult = PayMchAPI.payUnifiedorder(unifiedorder,key);
         println unifiedorder as JSON
