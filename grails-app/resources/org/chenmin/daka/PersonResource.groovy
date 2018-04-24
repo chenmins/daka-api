@@ -59,6 +59,10 @@ class PersonResource {
         }else{
             has.nickname = body.nickname
             has.headImg = body.headImg
+            if(body.unionid)
+                has.unionid = body.unionid
+            else
+                has.unionid = ''
             has.save(flush: true)
             return has
         }
