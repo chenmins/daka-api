@@ -25,6 +25,8 @@ class CommonResource {
         CookiesHttpClient chc = new CookiesHttpClient()
         HttpClient hc = chc.getHttpClient()
         def url = "http://httpbin.org/ip"
+        //http://ip.taobao.com/service/getIpInfo.php?ip=myip
+        url = "http://ip.taobao.com/service/getIpInfo.php?ip=myip"
         def p = new HashMap<String,String>()
         def json = HttpClientTools.get(hc,url,p)
         chc.close()
