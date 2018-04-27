@@ -81,6 +81,10 @@ class TodayBoard {
      * 更新时间
      */
     Date lastUpdated
+    /**
+     * 需要支付
+     */
+    boolean needPay = false
 
     boolean isClock(){
         return DateTool.in(startTime,endTime)
@@ -101,6 +105,6 @@ class TodayBoard {
     static constraints = {
         leftTime(nullable:true)
         clock(nullable:true)
-
+        needPay(nullable:true)
     }
 }
