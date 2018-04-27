@@ -27,6 +27,8 @@ class PersonResource {
         if(!body.openid){
             return
         }
+        println "~~~~/api/person/update~~~~~~~~~~"
+        println body as JSON
         //type 1
 //        EmojiUtil.parseToHtmlHexadecimal
 //        //type 2
