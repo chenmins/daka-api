@@ -121,7 +121,7 @@ class SecurityResource {
         //TODO 更新挑战金
         int spaid = 0
         def sql = new Sql(dataSource);
-        String strSql = "select sum(paid) spaid from daka_clock_user t ";
+        String strSql = "select ifnull(sum(paid),0) spaid from daka_clock_user t ";
         sql.eachRow(strSql) {
             spaid = it.spaid
         }
@@ -164,7 +164,7 @@ class SecurityResource {
         def cb = new CalcBoard()
         cb.ymd = DateTool.today()
         def sql = new Sql(dataSource)
-        String strSql = "select sum(paid) all_paids from daka_clock_user u where u.paid>0 and u.pour = true"
+        String strSql = "select ifnull(sum(paid),0) all_paids from daka_clock_user u where u.paid>0 and u.pour = true"
         sql.eachRow(strSql) {
             cb.currentTotalMoney = it.all_paids
         }
@@ -180,12 +180,12 @@ class SecurityResource {
         sql.eachRow(strSql) {
             cb.notHitClock = it.noclock_counts
         }
-        //strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
-        strSql = "select sum(paid) clock_paids from daka_reward_board u where u.ymd = '"+DateTool.today()+"'"
+        //strSql = "select ifnull(sum(paid),0) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
+        strSql = "select ifnull(sum(paid),0) clock_paids from daka_reward_board u where u.ymd = '"+DateTool.today()+"'"
         sql.eachRow(strSql) {
             cb.hitMoney = it.clock_paids
         }
-        strSql = "select sum(paid) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
+        strSql = "select ifnull(sum(paid),0) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
         sql.eachRow(strSql) {
             cb.notHitMoney = it.noclock_paids
         }
@@ -284,7 +284,7 @@ class SecurityResource {
         hasToday.hitMoney = hasToday.hitMoney + cash
         hasToday.calc = true
         //更新罚款后的实时挑战金
-        strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0"
+        strSql = "select ifnull(sum(paid),0) clock_paids from daka_clock_user u where u.paid>0"
         sql.eachRow(strSql) {
             cb.currentTotalMoney = it.clock_paids
         }
@@ -318,7 +318,7 @@ class SecurityResource {
         def cb = new CalcBoard()
         cb.ymd = DateTool.today()
         def sql = new Sql(dataSource)
-        String strSql = "select sum(paid) all_paids from daka_clock_user u where u.paid>0 and u.pour = true"
+        String strSql = "select ifnull(sum(paid),0) all_paids from daka_clock_user u where u.paid>0 and u.pour = true"
         sql.eachRow(strSql) {
             cb.currentTotalMoney = it.all_paids
         }
@@ -334,12 +334,12 @@ class SecurityResource {
         sql.eachRow(strSql) {
             cb.notHitClock = it.noclock_counts
         }
-        //strSql = "select sum(paid) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
-        strSql = "select sum(paid) clock_paids from daka_reward_board u where u.ymd = '"+DateTool.today()+"'"
+        //strSql = "select ifnull(sum(paid),0) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
+        strSql = "select ifnull(sum(paid),0) clock_paids from daka_reward_board u where u.ymd = '"+DateTool.today()+"'"
         sql.eachRow(strSql) {
             cb.hitMoney = it.clock_paids
         }
-        strSql = "select sum(paid) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
+        strSql = "select ifnull(sum(paid),0) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
         sql.eachRow(strSql) {
             cb.notHitMoney = it.noclock_paids
         }
@@ -470,7 +470,7 @@ class SecurityResource {
         //此处可能会出现并发问题
         int spaid = 0
         def sql = new Sql(dataSource)
-        String strSql = "select sum(paid) spaid from daka_reward_board t where t.ymd='"+DateTool.today()+"'"
+        String strSql = "select ifnull(sum(paid),0) spaid from daka_reward_board t where t.ymd='"+DateTool.today()+"'"
         sql.eachRow(strSql) {
             spaid = it.spaid
         }
