@@ -497,7 +497,8 @@ class SecurityResource {
     List<CashBoard> payList(@ApiParam(required = true, value = "微信个人ID")
                    @PathParam("openid")
                            String openid){
-        return null
+        def pay = CashBoard.findAllByOpenidAndCashTypeAndRefund(openid,"deposit","-1")
+        return pay
     }
 
     //提现测试
@@ -514,7 +515,10 @@ class SecurityResource {
         //记录资金流水日志
 
         //扣除奖励金
-
+        def r = [:]
+        r.success = true
+        r.msg = '提取奖励金成功，（未实现，仅供测试）'
+        return r as JSON
     }
 
     //退还挑战金测试
@@ -529,6 +533,10 @@ class SecurityResource {
                 @PathParam("orderID")
                         String orderID) {
 
+        def r = [:]
+        r.success = true
+        r.msg = '退款成功，请注意查收银行消息预计在24小时内到账，（未实现，仅供测试）'
+        return r as JSON
 
     }
 
