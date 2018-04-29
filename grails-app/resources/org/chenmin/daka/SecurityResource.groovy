@@ -517,7 +517,7 @@ class SecurityResource {
         //扣除奖励金
         def r = [:]
         r.success = true
-        r.msg = '提取奖励金${cash/100}元成功，（未实现，仅供测试）'
+        r.msg = "提取奖励金${cash/100}元成功，（未实现，仅供测试）"
         return r as JSON
     }
 
@@ -535,7 +535,7 @@ class SecurityResource {
 
         def r = [:]
         r.success = true
-        r.msg = '订单${orderID}退款成功，请注意查收银行消息预计在24小时内到账，（未实现，仅供测试）'
+        r.msg = "订单${orderID}退款成功，请注意查收银行消息预计在24小时内到账，（未实现，仅供测试）"
         return r as JSON
 
     }
