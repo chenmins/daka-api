@@ -1,6 +1,7 @@
 package org.chenmin.daka
 
 import grails.converters.JSON
+import org.springframework.web.bind.annotation.ResponseBody
 import weixin.popular.api.PayMchAPI
 import weixin.popular.bean.paymch.MchBaseResult
 import weixin.popular.bean.paymch.MchPayNotify
@@ -63,12 +64,13 @@ class PayController {
     private static ExpireKey expireKey = new DefaultExpireKey();
     private String key = "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2";	//mch key
 
+    @ResponseBody
     def payMchNotify() {
         //获取请求数据
         String xmlData = StreamUtils.copyToString(request.getInputStream(), Charset.forName("utf-8"));
-        println "~~~~payMchNotify1~~~~~~~~~~~~~~~~~~~"
+        println "#~~~~payMchNotify1~~~~~~~~~~~~~~~~~~~"
         println xmlData
-        println "~~~~payMchNotify2~~~~~~~~~~~~~~~~~~~"
+        println "#~~~~payMchNotify2~~~~~~~~~~~~~~~~~~~"
         //将XML转为MAP,确保所有字段都参与签名验证
         Map<String,String> mapData = XMLConverUtil.convertToMap(xmlData);
         //转换数据对象
@@ -90,9 +92,9 @@ class PayController {
             MchBaseResult baseResult = new MchBaseResult();
             baseResult.setReturn_code("SUCCESS");
             baseResult.setReturn_msg("OK");
-            println "~~~~payMchNotify3~~~~~~~~~~~~~~~~~~~"
+            println "#~~~~payMchNotify3~~~~~~~~~~~~~~~~~~~"
             println payNotify.getCash_fee()
-            println "~~~~payMchNotify4~~~~~~~~~~~~~~~~~~~"
+            println "#~~~~payMchNotify4~~~~~~~~~~~~~~~~~~~"
             response.getOutputStream().write(XMLConverUtil.convertToXML(baseResult).getBytes());
         }else{
             MchBaseResult baseResult = new MchBaseResult();
