@@ -81,6 +81,7 @@ class PayController {
             baseResult.setReturn_code("SUCCESS");
             baseResult.setReturn_msg("OK");
             response.getOutputStream().write(XMLConverUtil.convertToXML(baseResult).getBytes());
+            response.flushBuffer()
             return;
         }
         //签名验证
