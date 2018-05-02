@@ -90,6 +90,9 @@ class PayController {
             MchBaseResult baseResult = new MchBaseResult();
             baseResult.setReturn_code("SUCCESS");
             baseResult.setReturn_msg("OK");
+            println "~~~~payMchNotify3~~~~~~~~~~~~~~~~~~~"
+            println payNotify.getCash_fee()
+            println "~~~~payMchNotify4~~~~~~~~~~~~~~~~~~~"
             response.getOutputStream().write(XMLConverUtil.convertToXML(baseResult).getBytes());
         }else{
             MchBaseResult baseResult = new MchBaseResult();
@@ -97,6 +100,7 @@ class PayController {
             baseResult.setReturn_msg("ERROR");
             response.getOutputStream().write(XMLConverUtil.convertToXML(baseResult).getBytes());
         }
+        return
     }
 
 
