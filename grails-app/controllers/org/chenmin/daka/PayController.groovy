@@ -102,6 +102,7 @@ class PayController {
             baseResult.setReturn_msg("ERROR");
             response.getOutputStream().write(XMLConverUtil.convertToXML(baseResult).getBytes());
         }
+        response.flushBuffer()
         return
     }
 
