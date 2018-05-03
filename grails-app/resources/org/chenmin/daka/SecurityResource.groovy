@@ -489,15 +489,16 @@ class SecurityResource {
         return earlyStar as JSON
     }
 
-    //未退的挑战金列表
+    //押金列表
     @GET
     @Path('/payList/{openid}')
-    @ApiOperation(value = "未退的押金列表", notes = "仅供测试")
+    @ApiOperation(value = "押金列表", notes = "仅供测试")
     @Produces(MediaType.APPLICATION_JSON)
     List<CashBoard> payList(@ApiParam(required = true, value = "微信个人ID")
                    @PathParam("openid")
                            String openid){
-        def pay = CashBoard.findAllByOpenidAndCashTypeAndRefund(openid,"deposit","-1")
+        //def pay = CashBoard.findAllByOpenidAndCashTypeAndRefund(openid,"deposit","-1")
+        def pay = CashBoard.findAllByOpenidAndCashType(openid,"deposit")
         return pay
     }
 
