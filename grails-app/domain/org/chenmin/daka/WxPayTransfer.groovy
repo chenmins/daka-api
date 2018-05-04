@@ -20,7 +20,6 @@ class WxPayTransfer {
         partner_trade_no(nullable:true)
         payment_no(nullable:true)
         payment_time(nullable:true)
-        attach(nullable:true)
     }
 
     static mapping = {
