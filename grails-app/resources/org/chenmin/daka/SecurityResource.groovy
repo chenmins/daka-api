@@ -625,6 +625,7 @@ class SecurityResource {
             wpt.payment_time= tr.payment_time
             wpt.save(flush: true)
         } catch (Exception e) {
+            e.printStackTrace();
             //TODO 管理员发消息，通知交易失败
             //交易失败
             //增加流水数据
