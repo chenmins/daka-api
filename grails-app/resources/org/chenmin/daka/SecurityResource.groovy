@@ -102,40 +102,40 @@ class SecurityResource {
         //记录交易流水
         //增加流水数据
         def earlyStar = ClockUser.findByOpenid(openid)
-        def cb1 = new CashBoard()
-        cb1.user = earlyStar
-        cb1.openid = earlyStar.openid
-        cb1.cashType = "deposit"
-        /**
-         * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金）
-         */
-        cb1.cash = cash
-        cb1.remark = "测试付押金"+(cash/100)+"元"
-        cb1.refund = "-1"
-        //TODO 改为真是的
-        cb1.orderID= UUIDTool.getUUID()
-        cb1.save(flush: true)
-        //修改用户押金
-        earlyStar.paid = earlyStar.paid + cash
-        earlyStar.save(flush: true)
-        //TODO 更新挑战金
-        int spaid = 0
-        def sql = new Sql(dataSource);
-        String strSql = "select ifnull(sum(paid),0) spaid from daka_clock_user t ";
-        sql.eachRow(strSql) {
-            spaid = it.spaid
-        }
-        // 更新挑战人数
-        int currentCount = 0
-        strSql = "select count(paid) counts from daka_clock_user t where t.paid>0 "
-        sql.eachRow(strSql) {
-            currentCount = it.counts
-        }
-        def hasToday = TodayBoard.findByYmd(DateTool.today())
-        hasToday.currentTotalMoney = spaid
-        //当前挑战人数
-        hasToday.currentParticipateCount=currentCount
-        hasToday.save(flush: true)
+//        def cb1 = new CashBoard()
+//        cb1.user = earlyStar
+//        cb1.openid = earlyStar.openid
+//        cb1.cashType = "deposit"
+//        /**
+//         * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金）
+//         */
+//        cb1.cash = cash
+//        cb1.remark = "测试付押金"+(cash/100)+"元"
+//        cb1.refund = "-1"
+//        //TODO 改为真是的
+//        cb1.orderID= UUIDTool.getUUID()
+//        cb1.save(flush: true)
+//        //修改用户押金
+//        earlyStar.paid = earlyStar.paid + cash
+//        earlyStar.save(flush: true)
+//        //TODO 更新挑战金
+//        int spaid = 0
+//        def sql = new Sql(dataSource);
+//        String strSql = "select ifnull(sum(paid),0) spaid from daka_clock_user t ";
+//        sql.eachRow(strSql) {
+//            spaid = it.spaid
+//        }
+//        // 更新挑战人数
+//        int currentCount = 0
+//        strSql = "select count(paid) counts from daka_clock_user t where t.paid>0 "
+//        sql.eachRow(strSql) {
+//            currentCount = it.counts
+//        }
+//        def hasToday = TodayBoard.findByYmd(DateTool.today())
+//        hasToday.currentTotalMoney = spaid
+//        //当前挑战人数
+//        hasToday.currentParticipateCount=currentCount
+//        hasToday.save(flush: true)
         //返回用户对象
         def json =  earlyStar as JSON
         return json
