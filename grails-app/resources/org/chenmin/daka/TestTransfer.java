@@ -9,15 +9,16 @@ import weixin.popular.util.XMLConverUtil;
 public class TestTransfer {
 
     public static void main(String argc[]){
+        String openid= "oIvCJ5di1AHrla8j7pQFdTKVlV_U";
+        String amount= "30";
+        String desc= "测试付款到个人零钱0.3元";
+
         String appid = "wxbd7ee929512fd71f";
         String mch_id = "1490841962";
         String mch_key= "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2";
         String partner_trade_no = "TX" + System.currentTimeMillis();
-        String openid= "oIvCJ5TS79FQC5XQjsZQfRhlL-R8";
-        String amount= "30";
-        String desc= "测试付款到个人零钱0.3元";
         String keyStoreFilePath= "D:\\wx\\apiclient_cert.p12";
-
+// /home/bae/app/apiclient_cert.p12
         Transfers transfers = new Transfers();
         // <mch_appid>wxe062425f740c30d8</mch_appid>
         transfers.setMch_appid(appid);

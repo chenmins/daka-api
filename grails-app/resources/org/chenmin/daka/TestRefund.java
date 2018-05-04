@@ -12,7 +12,7 @@ public class TestRefund {
         String mch_id = "1490841962";
         String mch_key = "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2";
 //        商户订单号	out_trade_no
-        String out_trade_no ="44c905d6c2a7407ea8b953461c2591c1" ;
+        String out_trade_no ="046f18d8623440c49fcc3365f88a50b0" ;
 //        商户退款单号	out_refund_no
         String out_refund_no= "TK" + System.currentTimeMillis();
 //        订单金额	total_fee

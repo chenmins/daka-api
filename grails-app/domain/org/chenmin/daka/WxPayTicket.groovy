@@ -20,6 +20,11 @@ class WxPayTicket {
     String trade_type
     String transaction_id
 
+    /**
+     * 创建时间
+     */
+    Date dateCreated
+
     static constraints = {
         attach(nullable:true)
     }

@@ -7,9 +7,13 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import org.apache.http.client.HttpClient
 import weixin.popular.api.PayMchAPI
+import weixin.popular.bean.paymch.Transfers
+import weixin.popular.bean.paymch.TransfersResult
 import weixin.popular.bean.paymch.Unifiedorder
 import weixin.popular.bean.paymch.UnifiedorderResult
+import weixin.popular.client.LocalHttpClient
 import weixin.popular.util.PayUtil
+import weixin.popular.util.XMLConverUtil
 
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -513,12 +517,133 @@ class SecurityResource {
                @ApiParam(required = true, value = "提取金额（单位分）")
                @PathParam("cash")
                        int cash) {
-        //记录资金流水日志
-
-        //扣除奖励金
         def r = [:]
+        def person = ClockUser.findByOpenid(openid)
+        if(person.cash<cash){
+            r.success = false
+            r.msg = "提取奖励金${cash/100}元失败，余额不足"
+            return r as JSON
+        }
+        if(person.frozen>0){
+            r.success = false
+            r.msg = "提取奖励金${cash/100}元失败，上一笔提现处理中，请稍候"
+            return r as JSON
+        }
+        //记录资金流水日志
+        //增加流水数据
+        def cb1 = new CashBoard()
+        cb1.user = person
+        cb1.openid = person.openid
+        cb1.cashType = "Withdraw"
+        /**
+         * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
+         */
+        cb1.cash = cash*-1
+        cb1.remark = "提取奖励金${cash/100}元到微信零钱"
+        cb1.save(flush: true)
+        //扣除奖励金,进入冻结
+        person.cash = person.cash - cash
+        person.frozen = cash
+        person.save(flush: true)
+
+        //发送支付申请
+        String amount= ""+cash;
+        String desc= "付款到个人零钱0.3元";
+
+
         r.success = true
         r.msg = "提取奖励金${cash/100}元成功，（未实现，仅供测试）"
+        try {
+            String appid = "wxbd7ee929512fd71f";
+            String mch_id = "1490841962";
+            String mch_key= "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2";
+            String partner_trade_no = "TX" + System.currentTimeMillis();
+            String keyStoreFilePath= "/home/bae/app/apiclient_cert.p12";
+            Transfers transfers = new Transfers();
+            // <mch_appid>wxe062425f740c30d8</mch_appid>
+            transfers.setMch_appid(appid);
+            // <mchid>10000098</mchid>
+            transfers.setMchid(mch_id);
+            // <nonce_str>3PG2J4ILTKCH16CQ2502SI8ZNMTM67VS</nonce_str>
+            transfers.setNonce_str("NS" + System.currentTimeMillis());
+            // <partner_trade_no>100000982014120919616</partner_trade_no>
+            transfers.setPartner_trade_no(partner_trade_no);
+            // <openid>ohO4Gt7wVPxIT1A9GjFaMYMiZY1s</openid>
+            transfers.setOpenid(openid);
+            // <check_name>OPTION_CHECK</check_name>
+            // NO_CHECK
+            transfers.setCheck_name("NO_CHECK");
+            // <re_user_name>张三</re_user_name>
+            // <amount>100</amount>
+            transfers.setAmount(amount);
+            // <desc>节日快乐!</desc>
+            transfers.setDesc(desc);
+            // <spbill_create_ip>10.2.3.10</spbill_create_ip>
+            transfers.setSpbill_create_ip("10.2.3.10");
+            // <sign>C97BDBACF37622775366F38B629F45E3</sign>
+            LocalHttpClient.initMchKeyStore(mch_id, keyStoreFilePath);
+            /**
+             * 企业付款
+             *
+             * @param transfers
+             *            transfers
+             * @param key
+             *            key
+             * @return TransfersResult
+             */
+            TransfersResult tr = PayMchAPI.mmpaymkttransfersPromotionTransfers(
+                    transfers, mch_key);
+
+            System.out.println( XMLConverUtil.convertToXML(tr));
+            System.out.println("getErr_code:"+tr.getErr_code());
+            System.out.println("getErr_code_des:"+tr.getErr_code_des());
+
+            //			以下字段在return_code 和result_code都为SUCCESS的时候有返回
+            if(tr.getReturn_code().equals("SUCCESS")&&tr.getResult_code().equals("SUCCESS")){
+                //TODO 管理员发消息，通知交易成功
+                person = ClockUser.findByOpenid(openid)
+                person.frozen = 0
+                person.save(flush: true)
+
+            }else{
+                //TODO 管理员发消息，通知交易失败
+                //冻结清空，余额冲正
+                person = ClockUser.findByOpenid(openid)
+                person.cash = person.cash + cash
+                person.frozen = 0
+                person.save(flush: true)
+            }
+
+            def wpt = new WxPayTransfer()
+            wpt.nonce_str = tr.nonce_str
+            wpt.result_code= tr.result_code
+            wpt.return_code= tr.return_code
+            wpt.return_msg= tr.return_msg
+            wpt.sign_status= tr.sign_status
+            wpt.partner_trade_no= tr.partner_trade_no
+            wpt.payment_no= tr.payment_no
+            wpt.payment_time= tr.payment_time
+            wpt.save(flush: true)
+        } catch (Exception e) {
+            //TODO 管理员发消息，通知交易失败
+            //交易失败
+            //增加流水数据
+            cb1 = new CashBoard()
+            cb1.user = person
+            cb1.openid = person.openid
+            cb1.cashType = "Withdraw"
+            /**
+             * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
+             */
+            cb1.cash = cash
+            cb1.remark = "提取奖励金${cash/100}元失败，冲正到余额"
+            cb1.save(flush: true)
+            //冻结清空，余额冲正
+            person = ClockUser.findByOpenid(openid)
+            person.cash = person.cash + cash
+            person.frozen = 0
+            person.save(flush: true)
+        }
         return r as JSON
     }
 

@@ -44,6 +44,15 @@ class ClockUser {
      * 下注（每日定时器刷为下注）
      */
     boolean pour = false
+    /**
+     * 我的冻结余额
+     */
+    int frozen  = 0
+
+    /**
+     * 引导人微信公众号的ID
+     */
+    String popenid
 
     /**
      * 创建时间
@@ -61,5 +70,6 @@ class ClockUser {
     static constraints = {
         todayTime(nullable:true)
         unionid(nullable:true)
+        popenid(nullable:true)
     }
 }
