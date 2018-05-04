@@ -14,7 +14,7 @@ import java.nio.charset.Charset
 class PayController {
 
     def index() {
-        response.getOutputStream().println("Hello world！"+DateTool.today()+" "+DateTool.time())
+        response.getOutputStream().println("Hello world "+DateTool.today()+" "+DateTool.time())
         response.flushBuffer()
         return
     }
