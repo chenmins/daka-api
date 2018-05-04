@@ -1,15 +1,10 @@
 package org.chenmin.daka
 
-import grails.converters.JSON
 import org.springframework.web.bind.annotation.ResponseBody
-import weixin.popular.api.PayMchAPI
 import weixin.popular.bean.paymch.MchBaseResult
 import weixin.popular.bean.paymch.MchPayNotify
-import weixin.popular.bean.paymch.Unifiedorder
-import weixin.popular.bean.paymch.UnifiedorderResult
 import weixin.popular.support.ExpireKey
 import weixin.popular.support.expirekey.DefaultExpireKey
-import weixin.popular.util.PayUtil
 import weixin.popular.util.SignatureUtil
 import weixin.popular.util.StreamUtils
 import weixin.popular.util.XMLConverUtil
@@ -19,7 +14,7 @@ import java.nio.charset.Charset
 class PayController {
 
     def index() {
-        response.outputStream.println("Hello world！"+DateTool.today()+" "+DateTool.time())
+        response.getOutputStream().println("Hello world！"+DateTool.today()+" "+DateTool.time())
         response.flushBuffer()
         return
     }
