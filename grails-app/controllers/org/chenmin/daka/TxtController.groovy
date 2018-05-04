@@ -12,6 +12,7 @@ class TxtController {
     def index() {
         if(text)
             render text
-        render "1493cff504894e16d739d4a2e91adf32"
+        else
+            render "1493cff504894e16d739d4a2e91adf32"
     }
 }
