@@ -728,7 +728,7 @@ class SecurityResource {
             re. refund_fee = tr.refund_fee
             re. total_fee = tr.total_fee
             re. cash_fee = tr.cash_fee
-            re. cash_refund_fee = tr.appid
+            re. cash_refund_fee = tr.cash_refund_fee
             re. coupon_refund_fee = tr.cash_refund_fee
             re. coupon_refund_count = tr.coupon_refund_count
             re.save(flush: true)
