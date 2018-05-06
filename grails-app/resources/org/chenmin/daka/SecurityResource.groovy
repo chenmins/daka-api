@@ -495,7 +495,7 @@ class SecurityResource {
         return earlyStar as JSON
     }
 
-    //押金列表
+    //押金列表 倒排
     @GET
     @Path('/payList/{openid}')
     @ApiOperation(value = "押金列表", notes = "仅供测试")
@@ -504,7 +504,7 @@ class SecurityResource {
                    @PathParam("openid")
                            String openid){
         //def pay = CashBoard.findAllByOpenidAndCashTypeAndRefund(openid,"deposit","-1")
-        def pay = CashBoard.findAllByOpenidAndCashType(openid,"deposit")
+        def pay = CashBoard.findAllByOpenidAndCashType(openid,"deposit",[ sort:"id", order:"desc"])
         return pay
     }
 
