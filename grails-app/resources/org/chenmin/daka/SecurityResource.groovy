@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import org.apache.http.client.HttpClient
 import weixin.popular.api.PayMchAPI
+import weixin.popular.bean.paymch.SecapiPayRefund
+import weixin.popular.bean.paymch.SecapiPayRefundResult
 import weixin.popular.bean.paymch.Transfers
 import weixin.popular.bean.paymch.TransfersResult
 import weixin.popular.bean.paymch.Unifiedorder
@@ -518,6 +520,11 @@ class SecurityResource {
                @PathParam("cash")
                        int cash) {
         def r = [:]
+        if(cash<30){
+            r.success = false
+            r.msg = "提取奖励金${cash/100}元失败，不能低于0.3元"
+            return r as JSON
+        }
         def person = ClockUser.findByOpenid(openid)
         if(person.cash<cash){
             r.success = false
@@ -661,9 +668,109 @@ class SecurityResource {
                         String orderID) {
 
         def r = [:]
-        r.success = true
-        r.msg = "订单${orderID}退款成功，请注意查收银行消息预计在24小时内到账，（未实现，仅供测试）"
-        return r as JSON
+
+        //查询订单
+        def pay =CashBoard.findByOpenidAndCashTypeAndRefundAndOrderID(openid,"deposit","-1",orderID)
+        if(!pay){
+            r.success = false
+            r.msg = "订单${orderID}退款失败，请误尝试攻击服务器！您的IP和微信已经被记录！"
+            return r as JSON
+        }
+        //查询人员信息
+        def person = ClockUser.findByOpenid(openid)
+
+        String appid = "wxbd7ee929512fd71f";
+        String mch_id = "1490841962";
+        String mch_key = "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2";
+//        商户订单号	out_trade_no
+        String out_trade_no ="24bcb7f32041410aa9ccafecbe30b78e" ;
+//        商户退款单号	out_refund_no
+        String out_refund_no= "TK" + System.currentTimeMillis();
+//        订单金额	total_fee
+        Integer total_fee  = 100;
+//        退款金额	refund_fee
+        Integer refund_fee = 100;
+
+        String keyStoreFilePath= "/home/bae/app/apiclient_cert.p12";
+        LocalHttpClient.initMchKeyStore(mch_id, keyStoreFilePath);
+        SecapiPayRefund secapiPayRefund = new SecapiPayRefund();
+        secapiPayRefund.setNonce_str("NS" + System.currentTimeMillis());
+        secapiPayRefund.setAppid(appid);
+//        secapiPayRefund.setNotify_url("");
+        secapiPayRefund.setMch_id(mch_id);
+        //TODO 设置secapiPayRefund
+//
+        secapiPayRefund.setOut_trade_no(out_trade_no);
+        secapiPayRefund.setOut_refund_no(out_refund_no);
+        secapiPayRefund.setTotal_fee(total_fee);
+        secapiPayRefund.setRefund_fee(refund_fee);
+//        退款原因	refund_desc
+//        secapiPayRefund.setrefund
+        SecapiPayRefundResult tr = PayMchAPI.secapiPayRefund(secapiPayRefund, mch_key);
+        //  <result_code>SUCCESS</result_code>
+        if(tr.getResult_code().equals("SUCCESS")){
+            //记录腾讯反馈
+            def re = new WxPayRefund()
+            re.appid = tr.appid
+            re. mch_id = tr.mch_id
+            re. nonce_str = tr.nonce_str
+            re. result_code = tr.result_code
+            re. return_code = tr.return_code
+            re. return_msg = tr.return_msg
+            re. sign = tr.sign
+            re. sign_status = tr.sign_status
+
+            re. transaction_id = tr.transaction_id
+            re. out_trade_no = tr.out_trade_no
+            re. out_refund_no = tr.out_refund_no
+            re. refund_id = tr.refund_id
+            re. refund_channel = tr.refund_channel
+            re. refund_fee = tr.refund_fee
+            re. total_fee = tr.total_fee
+            re. cash_fee = tr.cash_fee
+            re. cash_refund_fee = tr.appid
+            re. coupon_refund_fee = tr.cash_refund_fee
+            re. coupon_refund_count = tr.coupon_refund_count
+            re.save(flush: true)
+
+            //增加流水数据
+            def cb1 = new CashBoard()
+            cb1.user = person
+            cb1.openid = person.openid
+            cb1.cashType = "returnDeposit"
+            /**
+             * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
+             */
+            cb1.cash = pay.cash*-1
+            cb1.remark = "原路退回${pay.cash/100}元"
+            cb1.save(flush: true)
+            //减去押金数据
+            person.paid = person.paid - pay.cash
+            person.save(flush: true)
+
+            r.success = true
+            r.msg = "订单${orderID}退款成功，请注意查收银行消息预计在24小时内到账，（未实现，仅供测试）"
+            return r as JSON
+        }else{
+            //记录腾讯反馈
+            def re = new WxPayRefund()
+            re.appid = tr.appid
+            re. mch_id = tr.mch_id
+            re. nonce_str = tr.nonce_str
+            re. result_code = tr.result_code
+            re. return_code = tr.return_code
+            re. return_msg = tr.return_msg
+            re. sign = tr.sign
+            re. sign_status = tr.sign_status
+
+            re. err_code = tr.err_code
+            re. err_code_des = tr.err_code_des
+            re.save(flush: true)
+
+            r.success = false
+            r.msg = "订单${orderID}退款失败，"+tr.err_code_des+"，请联系客服处理."
+            return r as JSON
+        }
 
     }
 

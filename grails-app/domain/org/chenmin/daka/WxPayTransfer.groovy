@@ -1,6 +1,7 @@
 package org.chenmin.daka
 
 class WxPayTransfer {
+
     String nonce_str
     String result_code
     String return_code
