@@ -620,6 +620,9 @@ class SecurityResource {
                 person.cash = person.cash + cash
                 person.frozen = 0
                 person.save(flush: true)
+                r.success = false
+                r.msg = "提取奖励金${cash/100}元失败，"+tr.return_msg
+                return r as JSON
             }
 
             def wpt = new WxPayTransfer()
