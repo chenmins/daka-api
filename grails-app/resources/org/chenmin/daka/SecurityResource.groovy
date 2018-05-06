@@ -743,6 +743,7 @@ class SecurityResource {
              */
             cb1.cash = pay.cash*-1
             cb1.remark = "原路退回${pay.cash/100}元"
+            cb1.orderID = tr.out_refund_no
             cb1.save(flush: true)
             //减去押金数据
             person.paid = person.paid - pay.cash
