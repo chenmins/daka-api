@@ -536,6 +536,7 @@ class SecurityResource {
             r.msg = "提取奖励金${cash/100}元失败，上一笔提现处理中，请稍候"
             return r as JSON
         }
+        String partner_trade_no = "TX" + System.currentTimeMillis();
         //记录资金流水日志
         //增加流水数据
         def cb1 = new CashBoard()
@@ -546,6 +547,7 @@ class SecurityResource {
          * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
          */
         cb1.cash = cash*-1
+        cb1.orderID = partner_trade_no
         cb1.remark = "提取奖励金${cash/100}元到微信零钱"
         cb1.save(flush: true)
         //扣除奖励金,进入冻结
@@ -564,7 +566,6 @@ class SecurityResource {
             String appid = "wxbd7ee929512fd71f";
             String mch_id = "1490841962";
             String mch_key= "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2";
-            String partner_trade_no = "TX" + System.currentTimeMillis();
             String keyStoreFilePath= "/home/bae/app/apiclient_cert.p12";
             Transfers transfers = new Transfers();
             // <mch_appid>wxe062425f740c30d8</mch_appid>
@@ -644,6 +645,7 @@ class SecurityResource {
              * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
              */
             cb1.cash = cash
+            cb1.orderID = partner_trade_no
             cb1.remark = "提取奖励金${cash/100}元失败，冲正到余额"
             cb1.save(flush: true)
             //冻结清空，余额冲正
