@@ -559,7 +559,7 @@ class SecurityResource {
 
 
         r.success = true
-        r.msg = "提取奖励金${cash/100}元成功，（未实现，仅供测试）"
+        r.msg = "提取奖励金${cash/100}元成功"
         try {
             String appid = "wxbd7ee929512fd71f";
             String mch_id = "1490841962";
@@ -687,9 +687,9 @@ class SecurityResource {
 //        商户退款单号	out_refund_no
         String out_refund_no= "TK" + System.currentTimeMillis();
 //        订单金额	total_fee
-        Integer total_fee  = 100;
+        Integer total_fee  = pay.cash;
 //        退款金额	refund_fee
-        Integer refund_fee = 100;
+        Integer refund_fee = pay.cash;
 
         String keyStoreFilePath= "/home/bae/app/apiclient_cert.p12";
         LocalHttpClient.initMchKeyStore(mch_id, keyStoreFilePath);
