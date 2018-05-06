@@ -698,7 +698,6 @@ class SecurityResource {
         secapiPayRefund.setAppid(appid);
 //        secapiPayRefund.setNotify_url("");
         secapiPayRefund.setMch_id(mch_id);
-        //TODO 设置secapiPayRefund
 //
         secapiPayRefund.setOut_trade_no(out_trade_no);
         secapiPayRefund.setOut_refund_no(out_refund_no);
@@ -748,9 +747,30 @@ class SecurityResource {
             //减去押金数据
             person.paid = person.paid - pay.cash
             person.save(flush: true)
+            //修改状态
+            pay.refund = 0
+            pay.save(flush: true)
+
+            int spaid = 0
+            def sql = new Sql(dataSource);
+            String strSql = "select ifnull(sum(paid),0) spaid from daka_clock_user t ";
+            sql.eachRow(strSql) {
+                spaid = it.spaid
+            }
+            // 更新挑战人数
+            int currentCount = 0
+            strSql = "select count(paid) counts from daka_clock_user t where t.paid>0 "
+            sql.eachRow(strSql) {
+                currentCount = it.counts
+            }
+            def hasToday = TodayBoard.findByYmd(DateTool.today())
+            hasToday.currentTotalMoney = spaid
+            //当前挑战人数
+            hasToday.currentParticipateCount=currentCount
+            hasToday.save(flush: true)
 
             r.success = true
-            r.msg = "订单${orderID}退款成功，请注意查收银行消息预计在24小时内到账，（未实现，仅供测试）"
+            r.msg = "订单${orderID}退款成功，请注意查收银行消息预计在24小时内到账"
             return r as JSON
         }else{
             //记录腾讯反馈
