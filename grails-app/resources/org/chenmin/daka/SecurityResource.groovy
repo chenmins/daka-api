@@ -683,7 +683,7 @@ class SecurityResource {
         String mch_id = "1490841962";
         String mch_key = "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2";
 //        商户订单号	out_trade_no
-        String out_trade_no ="24bcb7f32041410aa9ccafecbe30b78e" ;
+        String out_trade_no =orderID ;
 //        商户退款单号	out_refund_no
         String out_refund_no= "TK" + System.currentTimeMillis();
 //        订单金额	total_fee
