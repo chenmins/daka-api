@@ -557,7 +557,7 @@ class SecurityResource {
 
         //发送支付申请
         String amount= ""+cash;
-        String desc= "付款到个人零钱0.3元";
+        String desc= "提取奖励金付款到个人零钱${cash/100}元";
 
 
         r.success = true
