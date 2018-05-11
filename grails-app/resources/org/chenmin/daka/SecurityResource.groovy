@@ -225,6 +225,7 @@ class SecurityResource {
             cu.staminaCount = 0 //删除持续值
             cu.pour = false//改为没下注
             cu.save(flush: true)
+            //TODO 昨天以前的押金罚没，修改现金日志表
         }
         int reward = 0
         //发放奖励，记录流水，增加奖励金
@@ -452,6 +453,8 @@ class SecurityResource {
     String clock(@ApiParam(required = true, value = "微信个人ID")
                  @PathParam("openid")
                          String openid) {
+        //TODO 需要验证是否在合法时间打卡
+
         //检测打卡记录
         def has = RewardBoard.findByOpenidAndYmd(openid,DateTool.today())
         def earlyStar = ClockUser.findByOpenid(openid)
