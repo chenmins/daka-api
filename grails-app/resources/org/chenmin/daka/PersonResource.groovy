@@ -63,10 +63,10 @@ class PersonResource {
             has.headImg = body.headImg
             if(body.unionid)
                 has.unionid = body.unionid
-            else
-                has.unionid = ''
+            if(body.popenid!=null && has.popenid==null)
+                has.popenid = body.popenid
             has.save(flush: true)
-            return has
+            return ClockUser.findByOpenid(body.openid)
         }
     }
 
