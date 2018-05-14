@@ -49,9 +49,8 @@ class PersonResource {
             staminaStar.headImg = body.headImg
             if(body.unionid)
                 staminaStar.unionid = body.unionid
-            else
-                staminaStar.unionid = ''
-            //staminaStar.todayTime = "00:00:00"
+            if(body.popenid!=null && has.popenid==null)
+                staminaStar.popenid = body.popenid
             staminaStar.staminaCount = 0
             staminaStar.paid = 0
             staminaStar.cash = 0
