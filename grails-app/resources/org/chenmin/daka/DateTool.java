@@ -83,12 +83,40 @@ public class DateTool {
         return in;
     }
 
+    /*
+     * @param date1 <String>
+     * @param date2 <String>
+     * @return int
+     * @throws ParseException
+     */
+    public static int getDateSpace(Date date1, Date date2) {
+
+        Calendar calst = Calendar.getInstance();;
+        Calendar caled = Calendar.getInstance();
+        calst.setTime( date1 );
+        caled.setTime( date2 );
+        //设置时间为0时
+        calst.set(Calendar.HOUR_OF_DAY, 0);
+        calst.set(Calendar.MINUTE, 0);
+        calst.set(Calendar.SECOND, 0);
+        caled.set(Calendar.HOUR_OF_DAY, 0);
+        caled.set(Calendar.MINUTE, 0);
+        caled.set(Calendar.SECOND, 0);
+        //得到两个日期相差的天数
+        int days = ((int)(caled.getTime().getTime()/1000)-(int)(calst.getTime().getTime()/1000))/3600/24;
+        return days;
+    }
+
     public static void main(String args[]){
         System.out.println(in("22:10","22:30"));
         System.out.println(in("22:13","22:30"));
         System.out.println(in("22:10","22:13"));
         System.out.println(in("08:30","09:30"));
         System.out.println(leftTomorrow("06:30" ));
+        Date d1 = new Date();
+        d1.setDate(d1.getDate()+1);
+        Date d2 = new Date();
+        System.out.println(getDateSpace(d1,d2));
 
     }
 }

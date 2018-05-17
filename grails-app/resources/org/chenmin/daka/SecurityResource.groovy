@@ -226,6 +226,7 @@ class SecurityResource {
             cu.pour = false//改为没下注
             cu.save(flush: true)
             //TODO 昨天以前的押金罚没，修改现金日志表
+
         }
         int reward = 0
         //发放奖励，记录流水，增加奖励金
@@ -682,6 +683,13 @@ class SecurityResource {
         if(!pay){
             r.success = false
             r.msg = "订单${orderID}退款失败，请误尝试攻击服务器！您的IP和微信已经被记录！"
+            return r as JSON
+        }
+        //退款周期
+        int ic = DateTool.getDateSpace(pay.dateCreated,new Date())
+        if(ic % 21 != 0){
+            r.success = false
+            r.msg = "订单${orderID}退款失败，还差${ic}天才可以申请退款！"
             return r as JSON
         }
         //查询人员信息
