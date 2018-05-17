@@ -64,7 +64,7 @@ class SecurityResource {
                @ApiParam(required = true, value = "充值金额（单位分）")
                @PathParam("cash")
                        int cash) {
-        String url = "https://flywebs.duapp.com/pay/PayMchNotify.xml"
+        String url = "https://www.tuinai.com.cn/pay/PayMchNotify.xml"
         String appid = "wxbd7ee929512fd71f"
         String mch_id = "1490841962"
         String key = "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2"
