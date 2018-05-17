@@ -49,7 +49,7 @@ class PersonResource {
             staminaStar.headImg = body.headImg
             if(body.unionid)
                 staminaStar.unionid = body.unionid
-            if(body.popenid!=null && has.popenid==null)
+            if(body.popenid!=null )
                 staminaStar.popenid = body.popenid
             staminaStar.staminaCount = 0
             staminaStar.paid = 0

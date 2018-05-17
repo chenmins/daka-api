@@ -113,10 +113,10 @@ public class DateTool {
         System.out.println(in("22:10","22:13"));
         System.out.println(in("08:30","09:30"));
         System.out.println(leftTomorrow("06:30" ));
-        Date d1 = new Date();
-        d1.setDate(d1.getDate()+1);
-        Date d2 = new Date();
-        System.out.println(getDateSpace(d1,d2));
+//        Date d1 = new Date();
+//        d1.setDate(d1.getDate()+1);
+//        Date d2 = new Date();
+//        System.out.println(getDateSpace(d1,d2));
 
     }
 }
