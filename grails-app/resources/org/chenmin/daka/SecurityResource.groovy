@@ -225,8 +225,11 @@ class SecurityResource {
             cu.staminaCount = 0 //删除持续值
             cu.pour = false//改为没下注
             cu.save(flush: true)
-            //TODO 昨天以前的押金罚没，修改现金日志表
-
+            //昨天以前的押金罚没，修改现金日志表
+            //update daka_cash_board set refund = 2 where date_created < curdate() and openid = 'oIvCJ5fUZdEh9YWfiE2I7c1m9E6o';
+            strSql = "update daka_cash_board set refund = 2 where date_created < curdate() and openid ='"+cu.openid+"'"
+            int c = sql.executeUpdate(strSql)
+            println c+" is refund =2 ,openid: "+cu.openid
         }
         int reward = 0
         //发放奖励，记录流水，增加奖励金
