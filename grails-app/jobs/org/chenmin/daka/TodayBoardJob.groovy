@@ -74,6 +74,7 @@ cronExpression: "s m h D M W Y"
         today.endTime="07:30"
         today.needPay = true
         today.save(flush: true)
+        sql.close()
         println DateTool.today()+" "+ DateTool.time()+" TodayBoard has created!"
 
     }

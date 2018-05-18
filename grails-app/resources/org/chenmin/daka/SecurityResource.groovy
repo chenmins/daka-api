@@ -302,6 +302,7 @@ class SecurityResource {
             cb.currentParticipateCount = it.counts
         }
         hasToday.save(flush: true)
+        sql.close()
         return cb as JSON
     }
 
@@ -443,6 +444,7 @@ class SecurityResource {
         hasToday.notHitMoney=cb.reals
         hasToday.calc = true
         //hasToday.save(flush: true)
+        sql.close()
         return cb as JSON
     }
 
@@ -496,6 +498,7 @@ class SecurityResource {
         today.hitClock = counts
         today.notHitClock = today.currentParticipateCount - counts
         today.save(flush: true)
+        sql.close()
         return earlyStar as JSON
     }
 
@@ -692,9 +695,10 @@ class SecurityResource {
             r.msg = "订单${orderID}退款失败，刚刚充值，还差21天才可以申请退款！"
             return r as JSON
         }
-        if(ic % 21 != 0){
+        int smod = ic % 21
+        if(smod != 0){
             r.success = false
-            r.msg = "订单${orderID}退款失败，还差${ic}天才可以申请退款！"
+            r.msg = "订单${orderID}退款失败，还差${21-smod}天才可以申请退款！"
             return r as JSON
         }
         //查询人员信息
