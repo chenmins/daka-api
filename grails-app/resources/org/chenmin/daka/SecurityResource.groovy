@@ -226,6 +226,11 @@ class SecurityResource {
             //今天的不罚钱
             //select  sum(cash) sc from daka_cash_board where refund =-1 and openid = 'oIvCJ5XXUSGAl7_FvMRdMtFjtTv8'
             strSql = "select sum(cash) sc from daka_cash_board where refund =-1 and openid = '"+cu.openid+"'"
+            println strSql
+            if(true){
+                return
+            }
+
             sql.eachRow(strSql) {
                 cu.paid = it.sc
             }
