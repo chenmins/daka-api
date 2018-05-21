@@ -170,33 +170,33 @@ class SecurityResource {
         def cb = new CalcBoard()
         cb.ymd = DateTool.today()
         def sql = new Sql(dataSource)
-        String strSql = "select ifnull(sum(paid),0) all_paids from daka_clock_user u where u.paid>0 and u.pour = true"
+        String strSql = ""
+        //计算截止昨晚凌晨交押金数和未打卡人数
+        strSql = "select count(id) c,ifnull(sum(sc),0) sc from (" +
+                "    select cu.id,cu.nickname,cu.paid,cb.sc,cu.today_time from (" +
+                "    select * from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true" +
+                "    ) cu,(" +
+                "    select openid,ifnull(sum(cash),0)  sc from daka_cash_board where refund =-1 and date_created < curdate() group by openid" +
+                "    )cb where cu.openid = cb.openid" +
+                ") a"
         sql.eachRow(strSql) {
-            cb.currentTotalMoney = it.all_paids
+            cb.notHitClock = it.c
+            cb.notHitMoney = it.sc
         }
-        strSql = "select count(id) all_counts from daka_clock_user u where u.paid>0 and u.pour = true"
+        //计算截止昨晚凌晨交押金数和已经打卡人数
+        strSql = "select count(id) c,ifnull(sum(sc),0) sc from (" +
+                "    select cu.id,cu.nickname,cu.paid,cb.sc,cu.today_time from (" +
+                "    select * from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true" +
+                "    ) cu,(" +
+                "    select openid,ifnull(sum(cash),0)  sc from daka_cash_board where refund =-1 and date_created < curdate() group by openid" +
+                "    )cb where cu.openid = cb.openid" +
+                ") a"
         sql.eachRow(strSql) {
-            cb.currentParticipateCount = it.all_counts
+            cb.hitClock = it.c
+            cb.hitMoney = it.sc
         }
-        strSql = "select count(id) clock_counts from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
-        sql.eachRow(strSql) {
-            cb.hitClock = it.clock_counts
-        }
-        strSql = "select count(id) noclock_counts from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
-        sql.eachRow(strSql) {
-            cb.notHitClock = it.noclock_counts
-        }
-        //strSql = "select ifnull(sum(paid),0) clock_paids from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
-        strSql = "select ifnull(sum(paid),0) clock_paids from daka_reward_board u where u.ymd = '"+DateTool.today()+"'"
-        sql.eachRow(strSql) {
-            cb.hitMoney = it.clock_paids
-        }
-        //TODO 要排除今天的
-        strSql = "select ifnull(sum(paid),0) noclock_paids from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
-        sql.eachRow(strSql) {
-            cb.notHitMoney = it.noclock_paids
-        }
-
+        cb.currentTotalMoney = cb.notHitMoney+cb.hitMoney
+        cb.currentParticipateCount = cb.notHitClock+ cb.hitClock
         cb.cash = cash
         cb.paid = paid
         //可瓜分金额，扣除预留
@@ -204,28 +204,28 @@ class SecurityResource {
         //算出费率
         double v = cb.reals/cb.hitMoney
         cb.thousandRewardMoney = Math.floor(v*1000*100)
-
         int fine = 0
         //罚没挑战金，记录流水，删除挑战金
-        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
+        //strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true"
+        strSql ="select cu.id,cu.nickname,cu.paid,cb.sc,cu.today_time from (" +
+                "select * from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true" +
+                ") cu,(" +
+                "select openid,ifnull(sum(cash),0) sc from daka_cash_board where refund =-1 and date_created < curdate() group by openid" +
+                ")cb where cu.openid = cb.openid"
         sql.eachRow(strSql) {
             def cu = ClockUser.get(it.id)
-            fine += cu.paid
+            fine += it.sc
             //增加流水数据
             def cb1 = new CashBoard()
             cb1.user = cu
             cb1.openid = cu.openid
             cb1.cashType = "fine"
-
-
-
-
             /**
              * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
              */
             //TODO 不能把今天的加进去
-            cb1.cash = cu.paid*-1
-            cb1.remark = DateTool.today()+"未打卡，罚金${cu.paid/100}元"
+            cb1.cash = it.sc*-1
+            cb1.remark = DateTool.today()+"未打卡，罚金${it.sc/100}元"
             cb1.save(flush: true)
 
             //昨天以前的押金罚没，修改现金日志表
@@ -238,9 +238,6 @@ class SecurityResource {
             //select  sum(cash) sc from daka_cash_board where refund =-1 and openid = 'oIvCJ5XXUSGAl7_FvMRdMtFjtTv8'
             strSql = "select sum(cash) sc from daka_cash_board where refund =-1 and openid = '"+cu.openid+"'"
             println strSql
-//            if(true){
-//                return
-//            }
 
             sql.eachRow(strSql) {
                 if(it.sc==null){
@@ -258,12 +255,17 @@ class SecurityResource {
         }
         int reward = 0
         //发放奖励，记录流水，增加奖励金
-        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
+//        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
+        strSql ="select cu.id,cu.nickname,cu.paid,cb.sc,cu.today_time from (" +
+                "select * from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true" +
+                ") cu,(" +
+                "select openid,ifnull(sum(cash),0) sc from daka_cash_board where refund =-1 and date_created < curdate() group by openid" +
+                ")cb where cu.openid = cb.openid"
         sql.eachRow(strSql) {
             def cu = ClockUser.get(it.id)
             def rb = RewardBoard.findByYmdAndOpenid(DateTool.today(),cu.openid)
             //计算奖励
-            int va = Math.floor(rb.paid * v)
+            int va = Math.floor(it.sc * v)
             reward += va
             //增加流水数据
             def cb1 = new CashBoard()
@@ -274,13 +276,12 @@ class SecurityResource {
              * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
              */
             cb1.cash = va
-            cb1.remark = DateTool.today()+"坚持打卡，挑战金${rb.paid/100}元,奖金${va/100}元"
+            cb1.remark = DateTool.today()+"坚持打卡，挑战金${it.sc/100}元,奖金${va/100}元"
             cb1.save(flush: true)
             cu.cash =  cu.cash + va
             cu.totalReward = cu.totalReward + va
             cu.save(flush: true)
             //奖励金日历变更
-
             rb.reward = va
             rb.save(flush: true)
         }
@@ -322,12 +323,12 @@ class SecurityResource {
         //更新罚款后的实时挑战金
         strSql = "select ifnull(sum(paid),0) clock_paids from daka_clock_user u where u.paid>0"
         sql.eachRow(strSql) {
-            cb.currentTotalMoney = it.clock_paids
+            hasToday.currentTotalMoney = it.clock_paids
         }
         //更新罚款后的实时挑战人数
         strSql = "select count(paid) counts from daka_clock_user u where u.paid>0"
         sql.eachRow(strSql) {
-            cb.currentParticipateCount = it.counts
+            hasToday.currentParticipateCount = it.counts
         }
         hasToday.save(flush: true)
         sql.close()
