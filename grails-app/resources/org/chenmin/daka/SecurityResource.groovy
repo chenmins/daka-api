@@ -217,7 +217,24 @@ class SecurityResource {
             cb1.openid = cu.openid
             cb1.cashType = "fine"
 
-            //今天的不罚钱
+
+
+
+            /**
+             * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
+             */
+            //TODO 不能把今天的加进去
+            cb1.cash = cu.paid*-1
+            cb1.remark = DateTool.today()+"未打卡，罚金${cu.paid/100}元"
+            cb1.save(flush: true)
+
+            //昨天以前的押金罚没，修改现金日志表
+            //update daka_cash_board set refund = 2 where date_created < curdate() and openid = 'oIvCJ5fUZdEh9YWfiE2I7c1m9E6o';
+            strSql = "update daka_cash_board set refund = 2 where date_created < curdate() and refund = -1 and openid ='"+cu.openid+"'"
+            int c = sql.executeUpdate(strSql)
+            println c+" is refund =2 ,openid: "+cu.openid
+
+            //改完现金日志表才可以罚钱，并且今天的不罚钱
             //select  sum(cash) sc from daka_cash_board where refund =-1 and openid = 'oIvCJ5XXUSGAl7_FvMRdMtFjtTv8'
             strSql = "select sum(cash) sc from daka_cash_board where refund =-1 and openid = '"+cu.openid+"'"
             println strSql
@@ -238,21 +255,6 @@ class SecurityResource {
             cu.staminaCount = 0 //删除持续值
             cu.pour = false//改为没下注
             cu.save(flush: true)
-
-
-            /**
-             * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
-             */
-            //TODO 不能把今天的加进去
-            cb1.cash = cu.paid*-1
-            cb1.remark = DateTool.today()+"未打卡，罚金${cu.paid/100}元"
-            cb1.save(flush: true)
-
-            //昨天以前的押金罚没，修改现金日志表
-            //update daka_cash_board set refund = 2 where date_created < curdate() and openid = 'oIvCJ5fUZdEh9YWfiE2I7c1m9E6o';
-            strSql = "update daka_cash_board set refund = 2 where date_created < curdate() and refund = -1 and openid ='"+cu.openid+"'"
-            int c = sql.executeUpdate(strSql)
-            println c+" is refund =2 ,openid: "+cu.openid
         }
         int reward = 0
         //发放奖励，记录流水，增加奖励金
