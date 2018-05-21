@@ -186,7 +186,7 @@ class SecurityResource {
         //计算截止昨晚凌晨交押金数和已经打卡人数
         strSql = "select count(id) c,ifnull(sum(sc),0) sc from (" +
                 "    select cu.id,cu.nickname,cu.paid,cb.sc,cu.today_time from (" +
-                "    select * from daka_clock_user u where u.paid>0 and u.today_time is null and u.pour = true" +
+                "    select * from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true" +
                 "    ) cu,(" +
                 "    select openid,ifnull(sum(cash),0)  sc from daka_cash_board where refund =-1 and date_created < curdate() group by openid" +
                 "    )cb where cu.openid = cb.openid" +
