@@ -588,7 +588,7 @@ class SecurityResource {
             return r as JSON
         }
         sql.close()
-        dataSource.close()
+        //dataSource.close()
         String partner_trade_no = "TX" + System.currentTimeMillis();
         //记录资金流水日志
         //增加流水数据
