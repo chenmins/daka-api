@@ -25,9 +25,15 @@ cronExpression: "s m h D M W Y"
 
     def dataSource
 
+    boolean jobs = (System.getProperty("jobs","false") == "true")
+
     def execute() {
         // execute job
         println DateTool.time()
+        if(!jobs){
+            println "skip job!"
+            return
+        }
         def hasToday = TodayBoard.findByYmd(DateTool.today())
         if(hasToday!=null){
             println hasToday as JSON
