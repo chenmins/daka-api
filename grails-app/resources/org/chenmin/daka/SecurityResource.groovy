@@ -587,6 +587,8 @@ class SecurityResource {
             r.msg = "非常抱歉，每日可以提现"+max+"次，请明日再试"
             return r as JSON
         }
+        sql.close()
+        dataSource.close()
         String partner_trade_no = "TX" + System.currentTimeMillis();
         //记录资金流水日志
         //增加流水数据
