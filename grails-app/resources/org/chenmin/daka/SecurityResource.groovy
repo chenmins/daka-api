@@ -585,9 +585,12 @@ class SecurityResource {
         if(c>max){
             r.success = false
             r.msg = "非常抱歉，每日可以提现"+max+"次，请明日再试"
+            sql.close()
             return r as JSON
+        }else{
+            sql.close()
         }
-        sql.close()
+
         //dataSource.close()
         String partner_trade_no = "TX" + System.currentTimeMillis();
         //记录资金流水日志
