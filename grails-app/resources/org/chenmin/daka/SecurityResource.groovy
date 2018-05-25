@@ -572,6 +572,21 @@ class SecurityResource {
             r.msg = "提取奖励金${cash/100}元失败，上一笔提现处理中，请稍候"
             return r as JSON
         }
+        //select count(*) c from daka_cash_board a where a.cash_type = 'Withdraw' and a.openid = 'oIvCJ5af6xhDnBId5PcCLGFTTAQY'
+        // and a.date_created between curdate() and date_sub(curdate(),interval -1 day)
+        def sql = new Sql(dataSource)
+        int c = 0;
+        int max = 1;
+        String strSql = "select count(*) c from daka_cash_board a where a.cash_type = 'Withdraw' and a.openid = '"+openid+"' " +
+                "and a.date_created between curdate() and date_sub(curdate(),interval -1 day)"
+        sql.eachRow(strSql) {
+            c = it.c
+        }
+        if(c>max){
+            r.success = false
+            r.msg = "非常抱歉，每日可以提现"+max+"次，请明日再试"
+            return r as JSON
+        }
         String partner_trade_no = "TX" + System.currentTimeMillis();
         //记录资金流水日志
         //增加流水数据
