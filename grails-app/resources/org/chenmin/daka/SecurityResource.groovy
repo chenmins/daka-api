@@ -200,7 +200,7 @@ class SecurityResource {
         cb.cash = cash
         cb.paid = paid
         //可瓜分金额，扣除预留
-        cb.reals=cb.notHitMoney-cb.cash+cb.paid
+        cb.reals=cb.notHitMoney-cb.cash
         //算出费率
         double v = cb.reals/cb.hitMoney
         cb.thousandRewardMoney = Math.floor(v*1000*100)
@@ -254,6 +254,11 @@ class SecurityResource {
             cu.save(flush: true)
         }
         int reward = 0
+        //人均补贴
+        int pp = 0
+        if(paid>0){
+            pp = Math.floor(paid/cb.hitClock)
+        }
         //发放奖励，记录流水，增加奖励金
 //        strSql = "select id from daka_clock_user u where u.paid>0 and u.today_time is not null and u.pour = true"
         strSql ="select cu.id,cu.nickname,cu.paid,cb.sc,cu.today_time from (" +
@@ -267,7 +272,7 @@ class SecurityResource {
             //计算奖励
             int va = Math.floor(it.sc * v)
             reward += va
-            //增加流水数据
+            //增加瓜分流水数据
             def cb1 = new CashBoard()
             cb1.user = cu
             cb1.openid = cu.openid
@@ -280,9 +285,28 @@ class SecurityResource {
             cb1.save(flush: true)
             cu.cash =  cu.cash + va
             cu.totalReward = cu.totalReward + va
+            //cu.save(flush: true)
+            if(pp>0){
+                //增加补贴流水数据
+                def cb2 = new CashBoard()
+                cb2.user = cu
+                cb2.openid = cu.openid
+                cb2.cashType = "paid"
+                /**
+                 * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
+                 */
+                cb2.cash = pp
+                cb2.remark = DateTool.today()+"坚持打卡，补贴${paid/100}元,分到${pp/100}元"
+                cb2.save(flush: true)
+                reward += pp
+
+                cu.cash =  cu.cash + pp
+                cu.totalReward = cu.totalReward + pp
+            }
+
             cu.save(flush: true)
             //奖励金日历变更
-            rb.reward = va
+            rb.reward = va + pp
             rb.save(flush: true)
         }
         //平差价（四舍五入）
@@ -317,8 +341,8 @@ class SecurityResource {
         hasToday.staminaCount = staminaStar.staminaCount
         //更新每日表的发放状态和调整后的打卡数据
         hasToday.notHitMoney=cb.reals
-        //扣掉的钱加上去
-        hasToday.hitMoney = hasToday.hitMoney + cash
+        //扣掉的钱加上去cb.hitMoney
+        hasToday.hitMoney = cb.hitMoney + cash
         hasToday.calc = true
         //更新罚款后的实时挑战金
         strSql = "select ifnull(sum(paid),0) clock_paids from daka_clock_user u where u.paid>0"
