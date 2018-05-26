@@ -293,10 +293,12 @@ class SecurityResource {
                 cb2.openid = cu.openid
                 cb2.cashType = "paid"
                 /**
-                 * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款）
+                 * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款，paid：补贴）
                  */
                 cb2.cash = pp
-                cb2.remark = DateTool.today()+"坚持打卡，补贴${paid/100}元,分到${pp/100}元"
+//                cb2.remark = DateTool.today()+"坚持打卡，补贴${paid/100}元,分到${pp/100}元"
+                cb2.remark = DateTool.today()+"坚持打卡，平台补贴${pp/100}元"
+
                 cb2.save(flush: true)
                 reward += pp
 
