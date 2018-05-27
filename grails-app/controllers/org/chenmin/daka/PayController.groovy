@@ -135,7 +135,7 @@ class PayController {
                     if(popenid){
                         //有推荐人
                         println "#~~~~payMchNotify7~~~~~has popenid~~~~~~~~~~~~~~"
-                        FirstReward fr = FirstReward()
+                        FirstReward fr = new FirstReward()
                         fr.openid = payNotify.openid
                         fr.popenid = popenid
                         fr.cash = 100
