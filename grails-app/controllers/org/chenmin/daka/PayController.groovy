@@ -126,7 +126,7 @@ class PayController {
                 sql.eachRow(strSql) {
                     payCount = it.c
                 }
-                if(payCount<=0){
+                if(payCount==1){
                     //属于第一次充值
                     println "#~~~~payMchNotify6~~~~~first~~~~~~~~~~~~~~"
                     //查询出推荐人ID
