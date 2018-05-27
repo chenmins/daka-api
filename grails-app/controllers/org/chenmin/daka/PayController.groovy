@@ -118,6 +118,61 @@ class PayController {
                 hasToday.currentParticipateCount=currentCount
                 hasToday.save(flush: true)
                 println "#~~~~payMchNotify5~~~~~SUCCESS~~~~~~~~~~~~~~"
+                //核算首冲奖励
+                //select count(*) c from daka_cash_board a where a.cash_type ='deposit' and a.openid='oIvCJ5RwdgZQFiM04vIPa0Rq9LvQ';
+                int payCount = 0
+                strSql = "select count(*) c from daka_cash_board a where a.cash_type ='deposit' and a.openid='"+payNotify.openid+"'"
+                sql.eachRow(strSql) {
+                    payCount = it.c
+                }
+                if(payCount<=0){
+                    //属于第一次充值
+                    //查询出推荐人ID
+                    def u = ClockUser.findByOpenid(payNotify.openid)
+                    String popenid =  u.popenid
+                    if(popenid){
+                        //有推荐人
+                        FirstReward fr = FirstReward()
+                        fr.openid = payNotify.openid
+                        fr.popenid = popenid
+                        fr.cash = 100
+                        fr.pcash = 100
+                        fr.remark = '20180527政策，首冲各奖励1元'
+                        fr.save(flush: true)
+                        //记录首冲人奖励
+                        //增加流水数据
+                        def cbu = new CashBoard()
+                        cbu.user = u
+                        cbu.openid = payNotify.openid
+                        cbu.cashType = "first"
+                        /**
+                         * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款，first：首冲奖励）
+                         */
+                        cbu.cash =100
+                        cbu.remark = "首冲奖励${cbu.cash/100}元"
+                        cbu.save(flush: true)
+                        //记录推荐人奖励
+                        def pu =  ClockUser.findByOpenid(popenid)
+                        def cbp = new CashBoard()
+                        cbp.user = pu
+                        cbp.openid = popenid
+                        cbp.cashType = "first"
+                        /**
+                         * 支付类型（deposit ：付押金，reward：发奖励，Withdraw：提现奖励，returnDeposit：退押金,fine：罚款，first：首冲奖励）
+                         */
+                        cbp.cash =100
+                        cbp.remark = "推荐${u.nickname}首冲奖励${cbp.cash/100}元"
+                        cbp.save(flush: true)
+                        //变更首冲人余额和累计奖励
+                        u.cash = u.cash+cbu.cash
+                        u.totalReward = u.totalReward +cbu.cash
+                        //变更推荐人余额和累计奖励
+                        pu.cash = pu.cash+cbp.cash
+                        pu.totalReward = pu.totalReward +cbp.cash
+                        u.save(flush: true)
+                        pu.save(flush: true)
+                    }
+                }
             }
 
             response.getOutputStream().write(XMLConverUtil.convertToXML(baseResult).getBytes());
