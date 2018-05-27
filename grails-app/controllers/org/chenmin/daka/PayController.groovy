@@ -117,11 +117,12 @@ class PayController {
                 //当前挑战人数
                 hasToday.currentParticipateCount=currentCount
                 hasToday.save(flush: true)
-                println "#~~~~payMchNotify5~~~~~SUCCESS~~~~~~~~~~~~~~"
+                println "#~~~~payMchNotify5~~~~~SUCCESS chenmin~~~~~~~~~~~~~~"
                 //核算首冲奖励
                 //select count(*) c from daka_cash_board a where a.cash_type ='deposit' and a.openid='oIvCJ5RwdgZQFiM04vIPa0Rq9LvQ';
                 int payCount = 0
                 strSql = "select count(*) c from daka_cash_board a where a.cash_type ='deposit' and a.openid='"+payNotify.openid+"'"
+                println strSql
                 sql.eachRow(strSql) {
                     payCount = it.c
                 }
