@@ -127,11 +127,13 @@ class PayController {
                 }
                 if(payCount<=0){
                     //属于第一次充值
+                    println "#~~~~payMchNotify6~~~~~first~~~~~~~~~~~~~~"
                     //查询出推荐人ID
                     def u = ClockUser.findByOpenid(payNotify.openid)
                     String popenid =  u.popenid
                     if(popenid){
                         //有推荐人
+                        println "#~~~~payMchNotify7~~~~~has popenid~~~~~~~~~~~~~~"
                         FirstReward fr = FirstReward()
                         fr.openid = payNotify.openid
                         fr.popenid = popenid
@@ -171,6 +173,8 @@ class PayController {
                         pu.totalReward = pu.totalReward +cbp.cash
                         u.save(flush: true)
                         pu.save(flush: true)
+                        println "#~~~~payMchNotify8~~~~~FirstReward ok~~~~~~~~~~~~~~"
+
                     }
                 }
             }
