@@ -608,7 +608,7 @@ class SecurityResource {
         sql.eachRow(strSql) {
             c = it.c
         }
-        if(c>max){
+        if(c>=max){
             r.success = false
             r.msg = "非常抱歉，每日可以提现"+max+"次，请明日再试"
             sql.close()
