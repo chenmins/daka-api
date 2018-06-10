@@ -417,7 +417,13 @@ class SecurityResource {
                         String orderID) {
 
         def r = [:]
-
+        //今日未结算，暂时不能退款，请在17：30以后尝试退款
+        def has = CalcBoard.findByYmd(DateTool.today())
+        if(!has){
+            r.success = false
+            r.msg = "订单${orderID}退款失败，今日未结算，暂时不能退款，请在17：30以后尝试退款！"
+            return r as JSON
+        }
         //查询订单
         def pay =CashBoard.findByOpenidAndCashTypeAndRefundAndOrderID(openid,"deposit","-1",orderID)
         if(!pay){
