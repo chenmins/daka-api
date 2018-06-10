@@ -31,7 +31,7 @@ cronExpression: "s m h D M W Y"
         // execute job
         println DateTool.time()
         if(!jobs){
-            println "skip job!"
+            println "skip TodayBoardJob!"
             return
         }
         def hasToday = TodayBoard.findByYmd(DateTool.today())
