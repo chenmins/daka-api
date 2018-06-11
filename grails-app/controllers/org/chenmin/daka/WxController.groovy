@@ -18,6 +18,9 @@ class WxController {
     //从官方获取
     private String token = "test";
     WxService wxService
+
+    WxUserService wxUserService
+
     //重复通知过滤
     private static ExpireKey expireKey = new DefaultExpireKey();
     def index() {
@@ -58,15 +61,20 @@ class WxController {
             }else{
                 expireKey.add(key);
             }
-
+            //抓取用戶信息入庫
+            //TODO 帶參數的二維碼，要記錄popenid
+            String openid =  eventMessage.getFromUserName();
+            if(wxUserService.hasUser(openid)){
+                wxUserService.save(openid,null)
+            }
+            def user  = wxUserService.get(openid)
             //创建回复
             XMLMessage xmlTextMessage = new XMLTextMessage(
                     eventMessage.getFromUserName(),
                     eventMessage.getToUserName(),
-                    "你好");
+                    "你好，"+user.nickname+",系統正在开发中，请使用小程序测试功能");
             //回复
             xmlTextMessage.outputStreamWrite(outputStream);
-            String openid =  eventMessage.getFromUserName();
             String token =wxService.getToken("wx22617d41951fcc1f");
             println "token:"+token
             def t = JSON.parse(token)
