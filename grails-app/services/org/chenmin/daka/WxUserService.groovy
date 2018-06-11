@@ -14,7 +14,10 @@ class WxUserService {
         return get(openid)!=null
     }
     WxUser get(String openid){
-        return WxUser.findByOpenid(openid)
+        def u = WxUser.findByOpenid(openid)
+        println "~~~~WxUser~get~~~~~~"+openid
+        println u
+        return u
     }
 
     void save(String openid,String popenid){
