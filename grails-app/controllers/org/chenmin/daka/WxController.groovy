@@ -21,7 +21,7 @@ class WxController {
     //重复通知过滤
     private static ExpireKey expireKey = new DefaultExpireKey();
     def index() {
-
+        render "Hello WX"
     }
     def api() {
         ServletInputStream inputStream = request.getInputStream();
@@ -34,12 +34,14 @@ class WxController {
         //首次请求申请验证,返回echostr
         if(echostr!=null){
             outputStreamWrite(outputStream,echostr);
-            return;
+            response.flushBuffer()
+            return
         }
 
         //验证请求签名
         if(!signature.equals(SignatureUtil.generateEventMessageSignature(token,timestamp,nonce))){
             System.out.println("The request signature is invalid");
+            response.flushBuffer()
             return;
         }
 
@@ -52,6 +54,7 @@ class WxController {
             + eventMessage.getCreateTime();
             if(expireKey.exists(key)){
                 //重复通知不作处理
+                response.flushBuffer()
                 return;
             }else{
                 expireKey.add(key);
@@ -69,9 +72,12 @@ class WxController {
 
             User users = UserAPI.userInfo(token, openid,5);
             println users as JSON
+            response.flushBuffer()
             return;
         }
         outputStreamWrite(outputStream,"");
+        response.flushBuffer()
+        return;
     }
 
     /**
