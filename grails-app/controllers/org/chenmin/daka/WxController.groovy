@@ -68,8 +68,10 @@ class WxController {
             xmlTextMessage.outputStreamWrite(outputStream);
             String openid =  eventMessage.getFromUserName();
             String token =wxService.getToken("wx22617d41951fcc1f");
-
-            User users = UserAPI.userInfo(token, openid,5);
+            println "token:"+token
+            def t = JSON.parse(token)
+            println "t.msg:"+t.msg
+            User users = UserAPI.userInfo(t.msg, openid,5);
             println users as JSON
             response.flushBuffer()
             return;
