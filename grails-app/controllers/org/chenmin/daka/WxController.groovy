@@ -48,7 +48,8 @@ class WxController {
         if(inputStream!=null){
             //转换XML
             EventMessage eventMessage = XMLConverUtil.convertToObject(EventMessage.class,inputStream);
-            println eventMessage as JSON
+            println eventMessage
+            println XMLConverUtil.convertToXML(eventMessage)
             String key = eventMessage.getFromUserName() + "__"
             + eventMessage.getToUserName() + "__"
             + eventMessage.getMsgId() + "__"
