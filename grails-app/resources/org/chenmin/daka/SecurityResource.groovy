@@ -83,6 +83,7 @@ class SecurityResource {
         HttpClient hc = chc.getHttpClient();
         def p = new HashMap<String,String>()
         def json = HttpClientTools.get(hc,url,p)
+
         chc.close()
         return json
     }

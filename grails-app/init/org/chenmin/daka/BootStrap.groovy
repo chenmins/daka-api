@@ -4,12 +4,16 @@ import grails.converters.JSON
 
 class BootStrap {
 
+    WxService wxService
+
     def init = { servletContext ->
         JSON.registerObjectMarshaller(Date) {
-
             return it?.format("yyyy-MM-dd HH:mm:ss")
-
         }
+//wx22617d41951fcc1f
+//c66cbb465baa67ba3cd7396f49a72aba
+        String inits = wxService.init("wx22617d41951fcc1f","c66cbb465baa67ba3cd7396f49a72aba")
+        println inits
         if(ClockUser.get(1)!=null){
             println "It has init "
             return
