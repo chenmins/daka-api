@@ -50,10 +50,7 @@ class WxController {
             EventMessage eventMessage = XMLConverUtil.convertToObject(EventMessage.class,inputStream);
             println eventMessage
             println XMLConverUtil.convertToXML(eventMessage)
-            String key = eventMessage.getFromUserName() + "__"
-            + eventMessage.getToUserName() + "__"
-            + eventMessage.getMsgId() + "__"
-            + eventMessage.getCreateTime();
+            String key =  eventMessage.getMsgId()
             if(expireKey.exists(key)){
                 //重复通知不作处理
                 response.flushBuffer()
