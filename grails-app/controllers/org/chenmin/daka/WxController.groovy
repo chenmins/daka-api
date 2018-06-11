@@ -64,7 +64,7 @@ class WxController {
             //抓取用戶信息入庫
             //TODO 帶參數的二維碼，要記錄popenid
             String openid =  eventMessage.getFromUserName();
-            if(wxUserService.hasUser(openid)){
+            if(!wxUserService.hasUser(openid)){
                 println "${openid}不存在"
                 wxUserService.save(openid,null)
             }
