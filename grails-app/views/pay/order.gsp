@@ -7,7 +7,7 @@
 <body>
 <div id="text1"></div>
 <script type="text/javascript">
-    var url="https://www.tuinai.com/cn/api/wx/user/"+_openid;
+    var url="https://www.tuinai.com.cn/api/wx/user/"+_openid;
     $(function(){
         $.ajax({
             async:false,
