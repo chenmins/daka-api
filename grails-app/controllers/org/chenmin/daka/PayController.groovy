@@ -22,6 +22,10 @@ class PayController {
         return
     }
 
+    def order() {
+
+    }
+
     //重复通知过滤
     private static ExpireKey expireKey = new DefaultExpireKey();
     private String key = "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2";	//mch key
