@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="wx">
-    <title>微信支付</title>
+    <title>微信支付1</title>
 </head>
 <body>
 <div id="text1"></div>
