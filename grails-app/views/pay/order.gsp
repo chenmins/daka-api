@@ -8,14 +8,14 @@
 <div id="text1"></div>
 <script type="text/javascript">
     var url="https://www.tuinai.com/cn/api/wx/user/"+_openid;
-    alert(url)
-    $("#sign").click(function(){
+    $(function(){
         $.ajax({
             async:false,
             type: 'GET',
             url: url,
             success: function (json) {
                 alert(json)
+                $("#text1").val(json);
             }
         });
     });
