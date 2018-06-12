@@ -32,7 +32,7 @@ class WxResource {
     @Path('/unionid/{unionid}')
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "根据unionid获得打卡用户资料", notes = "")
-    WxUser unionid(@ApiParam(required = true, value = "微信个人unionid")
+    ClockUser unionid(@ApiParam(required = true, value = "微信个人unionid")
                 @PathParam("unionid")
                         String unionid) {
         return clockUserService.getByUnionid(unionid)
