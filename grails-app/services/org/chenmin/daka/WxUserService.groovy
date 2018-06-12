@@ -13,6 +13,7 @@ class WxUserService {
     boolean hasUser(String openid) {
         return get(openid)!=null
     }
+
     WxUser get(String openid){
         def u = WxUser.findByOpenid(openid)
         println "~~~~WxUser~get~~~~~~"+openid
