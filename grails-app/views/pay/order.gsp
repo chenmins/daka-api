@@ -83,7 +83,7 @@ good.send_url =window.location.href;//如果需要跳转不同页面改成常量
                 200: function(json) {
                     good.mediaId = good.mediaId + json.openid
                     good.send_url = "http://www.tuinai.com.cn/pay/notifyPay?" +
-                        "openid="+json.openid + "money="+good.money
+                        "openid="+json.openid + "&money="+good.money
                     update_goods();
                     $("#wx_pay").html("微信支付"+(good.money/100)+"元");
                     $("#wx_pay").click(function(){
