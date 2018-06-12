@@ -7,14 +7,15 @@
 <body>
 <div id="text1"></div>
 <script type="text/javascript">
-    var url="//www.tuinai.com.cn/api/wx/user/"+_openid;
-    $(function(){
+    function checkMP(){
+        var url="//www.tuinai.com.cn/api/wx/user/"+_openid;
         $.ajax({
             async:false,
             type: 'GET',
             url: url,
             statusCode: {
-                200: function() {
+                200: function(json) {
+                    checkAPP(json.unionid)
                     $("#text1").val(json);
                 },
                 204:function(){
@@ -22,6 +23,27 @@
                 }
             }
         });
+    }
+
+    function checkAPP(unionid){
+        var url="//www.tuinai.com.cn/api/wx/unionid/"+unionid;
+        $.ajax({
+            async:false,
+            type: 'GET',
+            url: url,
+            statusCode: {
+                200: function(json) {
+                    $("#text1").val(json);
+                },
+                204:function(){
+                    alert("请先打开小程序");
+                }
+            }
+        });
+    }
+    $(function(){
+        checkMP();
+
     });
 
 </script>

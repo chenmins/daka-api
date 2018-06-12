@@ -16,13 +16,25 @@ class WxResource {
 
     WxUserService wxUserService
 
+    ClockUserService clockUserService
+
     @GET
     @Path('/user/{openid}')
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "获得微信用户资料", notes = "")
+    @ApiOperation(value = "根据openid获得微信用户资料", notes = "")
     WxUser user(@ApiParam(required = true, value = "微信个人ID")
                 @PathParam("openid")
                         String openid) {
         return wxUserService.get(openid)
+    }
+
+    @GET
+    @Path('/unionid/{unionid}')
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "根据unionid获得打卡用户资料", notes = "")
+    WxUser unionid(@ApiParam(required = true, value = "微信个人unionid")
+                @PathParam("unionid")
+                        String unionid) {
+        return clockUserService.getByUnionid(unionid)
     }
 }
