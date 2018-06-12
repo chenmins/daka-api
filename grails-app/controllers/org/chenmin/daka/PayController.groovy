@@ -26,6 +26,14 @@ class PayController {
 
     }
 
+    def notifyPay() {
+        def out = response.getOutputStream()
+        out.println("openid=${params.openid}")
+        out.println("money=${params.money}")
+        response.flushBuffer()
+        return
+    }
+
     //重复通知过滤
     private static ExpireKey expireKey = new DefaultExpireKey();
     private String key = "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2";	//mch key
