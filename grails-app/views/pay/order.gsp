@@ -7,15 +7,19 @@
 <body>
 <div id="text1"></div>
 <script type="text/javascript">
-    var url="https://www.tuinai.com.cn/api/wx/user/"+_openid;
+    var url="//www.tuinai.com.cn/api/wx/user/"+_openid;
     $(function(){
         $.ajax({
             async:false,
             type: 'GET',
             url: url,
-            success: function (json) {
-                alert(json)
-                $("#text1").val(json);
+            statusCode: {
+                200: function() {
+                    $("#text1").val(json);
+                },
+                204:function(){
+                    alert("请先关注公众号");
+                }
             }
         });
     });
