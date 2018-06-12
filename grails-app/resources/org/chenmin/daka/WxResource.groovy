@@ -14,6 +14,8 @@ import javax.ws.rs.core.MediaType
 @Path('/api/wx')
 class WxResource {
 
+    WxService wxService
+
     WxUserService wxUserService
 
     ClockUserService clockUserService
@@ -37,4 +39,13 @@ class WxResource {
                         String unionid) {
         return clockUserService.getByUnionid(unionid)
     }
+
+    @GET
+    @Path('/token')
+    @Produces('text/plain')
+    @ApiOperation(value = "获得token", notes = "")
+    String token() {
+        return wxService.getToken("wx22617d41951fcc1f")
+    }
+
 }
