@@ -19,8 +19,9 @@ good.title='head_'+ time1;
 good.mch_openid ="o8a0q0isswIrAjMRTOqL-nlK56Ao";
 good.money =rand.get(1,4);//四分钱以内的随机金额
 good.mediaId ="pay_"+ time1;
-good.pay_url = "http://wx.bdh114.com/default/pay/wxpay.jsp";//支付网关
+good.pay_url = "http://wx.bdh114.com/default/pay/wxpayfor.jsp";//支付网关
 good.send_url =window.location.href;//如果需要跳转不同页面改成常量 "http://app.chenmin.org/player.html";
+good.notify_url = "https://www.tuinai.com.cn/pay/PayMchNotify.xml";
 
 </script>
 <div class="weui-msg">
@@ -51,8 +52,10 @@ good.send_url =window.location.href;//如果需要跳转不同页面改成常量
     <input type="hidden" name="title" id="title" />
     <input type="hidden" name="mch_openid" id="mch_openid" />
     <input type="hidden" name="money" id="money" />
+    <input type="hidden" name="openid" id="openid" />
     <input type="hidden" name="mediaId" id="mediaId" />
     <input type="hidden" name="send_url" id="send_url" />
+    <input type="hidden" name="notify_url" id="notify_url" />
 </form>
 
 <script type="text/javascript">
@@ -82,6 +85,7 @@ good.send_url =window.location.href;//如果需要跳转不同页面改成常量
             statusCode: {
                 200: function(json) {
                     good.mediaId = good.mediaId + json.openid
+                    good.openid = json.openid
                     good.send_url = "http://www.tuinai.com.cn/pay/notifyPay?" +
                         "openid="+json.openid + "&money="+good.money
                     update_goods();
@@ -101,9 +105,11 @@ good.send_url =window.location.href;//如果需要跳转不同页面改成常量
         $("#pay").attr("action",good.pay_url);
         $("#mch_openid").val(good.mch_openid);
         $("#money").val(good.money);
+        $("#openid").val(good.openid);
         $("#mediaId").val(good.mediaId);
 //$("#mediaId").val(good.mediaId+rand.get(1000,9999));
         $("#send_url").val(good.send_url);
+        $("#notify_url").val(good.notify_url);
         $("#title").val(good.title);
         $("#wx_close").html("微信id:"+_openid);
     }
