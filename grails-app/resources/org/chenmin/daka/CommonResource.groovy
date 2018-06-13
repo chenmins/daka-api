@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType
 @Path('/api/common')
 class CommonResource {
 
-    boolean verify = false
+    static boolean verify = false
 
     @GET
     @Path('/ip')
