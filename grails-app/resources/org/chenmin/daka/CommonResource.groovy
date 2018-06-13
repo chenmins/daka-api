@@ -62,7 +62,10 @@ class CommonResource {
     @ApiOperation(value = "反转并返回审核状态", notes = "")
     @Produces(MediaType.APPLICATION_JSON)
     String verify(){
-        verify = !verify
+        if(verify)
+            verify = false
+        else
+            verify = true
         def t =[:]
         t.verify = verify
         t.time=DateTool.time()
