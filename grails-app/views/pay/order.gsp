@@ -85,7 +85,7 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
             statusCode: {
                 200: function(json) {
                     good.mediaId = good.mediaId + json.openid
-                    good.openid = json.openid
+                    // good.openid =_openid
                     good.send_url = "http://www.tuinai.com.cn/pay/notifyPay?" +
                         "openid="+json.openid + "&money="+good.money
                     update_goods();
