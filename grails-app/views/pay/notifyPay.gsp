@@ -11,7 +11,7 @@
     <div class="weui-msg__text-area">
         <h2 class="weui-msg__title">支付成功</h2>
         <p class="weui-msg__desc">
-            ￥${params.money/100}
+            ￥${params.money.toInteger()/100}
         </p>
     </div>
     <div class="weui-msg__opr-area">
