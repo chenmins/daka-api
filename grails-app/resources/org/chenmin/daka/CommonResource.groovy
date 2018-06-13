@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType
 @Path('/api/common')
 class CommonResource {
 
+    boolean verify = false
+
     @GET
     @Path('/ip')
     @ApiOperation(value = "获得服务器请求IP", notes = "")
@@ -43,6 +45,31 @@ class CommonResource {
         t.time=DateTool.time()
         return t as JSON
     }
+
+    @GET
+    @Path('/verify/status')
+    @ApiOperation(value = "获得审核状态", notes = "")
+    @Produces(MediaType.APPLICATION_JSON)
+    String verifyStatus(){
+        def t =[:]
+        t.verify = verify
+        t.time=DateTool.time()
+        return t as JSON
+    }
+
+    @GET
+    @Path('/verify/reverse')
+    @ApiOperation(value = "反转并返回审核状态", notes = "")
+    @Produces(MediaType.APPLICATION_JSON)
+    String verify(){
+        verify = !verify
+        def t =[:]
+        t.verify = verify
+        t.time=DateTool.time()
+        return t as JSON
+    }
+
+
 
     @POST
     @Path('/sign')

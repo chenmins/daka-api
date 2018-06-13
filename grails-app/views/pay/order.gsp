@@ -71,6 +71,7 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
                 },
                 204:function(){
                     alert("请先关注公众号");
+                    wx.closeWindow();
                 }
             }
         });
@@ -95,7 +96,8 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
                     });
                 },
                 204:function(){
-                    alert("请先打开小程序");
+                    alert("请在公众号中打开小程序一次进行账号激活");
+                    wx.closeWindow();
                 }
             }
         });
