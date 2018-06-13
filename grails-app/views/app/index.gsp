@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <meta name="layout" content="wx">
+    <meta name="layout" content="app">
     <title>登录成功</title>
 </head>
 <body>
