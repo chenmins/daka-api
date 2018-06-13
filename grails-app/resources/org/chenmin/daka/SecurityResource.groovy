@@ -158,7 +158,9 @@ class SecurityResource {
 //        cb1.save(flush: true)
 //        //修改用户押金
 //        earlyStar.paid = earlyStar.paid + cash
-//        earlyStar.save(flush: true)
+        //非充值用户打卡下注
+        earlyStar.frozen = cash * -1
+        earlyStar.save(flush: true)
 //        //TODO 更新挑战金
 //        int spaid = 0
 //        def sql = new Sql(dataSource);
