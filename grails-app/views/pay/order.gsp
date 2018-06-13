@@ -21,7 +21,7 @@ good.money =rand.get(1,4);//四分钱以内的随机金额
 good.mediaId ="pay_"+ time1;
 good.pay_url = "http://wx.bdh114.com/default/pay/wxpayfor.jsp";//支付网关
 good.send_url =window.location.href;//如果需要跳转不同页面改成常量 "http://app.chenmin.org/player.html";
-good.notify_url = "https://www.tuinai.com.cn/pay/PayMchNotify.xml";
+good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
 
 </script>
 <div class="weui-msg">
