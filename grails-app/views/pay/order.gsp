@@ -31,7 +31,7 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
 </div>
 <div class="bd">
     <div class="page__bd">
-        <div class="weui-cells__title">保证金说明</div>
+        <div class="weui-cells__title">规则说明</div>
         <div class="weui-cells">
             <div class="weui-cell">
                 <div class="weui-cell__bd">
@@ -40,9 +40,11 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
                     <p>3.每日完成打卡参与者，大约下午17：30左右可获得平台鼓励金；</p>
                     <p>4.打卡时遇到任何问题，请在当日打卡时间内联系客服微信ipanpan123并提供截图；</p>
                     <p>5.连续完成21天打卡后，可自助退还押金。</p>
+                    <!--
                     <a href="javascript:void(0);" class="weui-cell weui-cell_link">
                         <div class="weui-cell__bd">了解更多</div>
                     </a>
+                    -->
                 </div>
             </div>
         </div>
@@ -51,6 +53,7 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
 <div class="weui-msg">
     <div class="weui-msg__opr-area">
         <p class="weui-btn-area">
+            <a href="javascript:pays(1);"   class="weui-btn weui-btn_primary">支付0.01元测试</a>
             <a href="javascript:pays(1000);"   class="weui-btn weui-btn_primary">支付10元</a>
             <a href="javascript:pays(10000);;"   class="weui-btn weui-btn_primary">支付100元</a>
         </p>
