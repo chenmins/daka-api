@@ -7,7 +7,7 @@
 <body>
 <script type="text/javascript">
 //调用：
-var time1 = new Date().Format("yyyy-MM-dd-hh-mm");
+var time1 = new Date().Format("yyyy-MM-dd-hh-mm-ss");
 //var time2 = new Date().Format("yyyy-MM-dd hh:mm:ss");
 //alert(time1)
 var rand = {};
@@ -28,6 +28,8 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
     <div class="weui-msg__text-area">
         <h2 class="weui-msg__title">支付早起挑战保证金</h2>
     </div>
+</div>
+<div class="bd">
     <div class="page__bd">
         <div class="weui-cells__title">保证金说明</div>
         <div class="weui-cells">
@@ -45,6 +47,8 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
             </div>
         </div>
     </div>
+</div>
+<div class="weui-msg">
     <div class="weui-msg__opr-area">
         <p class="weui-btn-area">
             <a href="javascript:pays(1000);"   class="weui-btn weui-btn_primary">支付10元</a>
