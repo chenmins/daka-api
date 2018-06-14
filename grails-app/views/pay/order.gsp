@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="wx">
-    <title>微信支付1</title>
+    <title>微信支付</title>
 </head>
 <body>
 <script type="text/javascript">
@@ -26,19 +26,22 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
 </script>
 <div class="weui-msg">
     <div class="weui-msg__text-area">
-        <h2 class="weui-msg__title">测试的商品1</h2>
-        <p class="weui-msg__desc" id="payOK">这里是描述1</p>
-        <p>
-
-
+        <h2 class="weui-msg__title">支付早起挑战保证金</h2>
+        <p class="weui-msg__desc" id="payOK">
+            <p>1.每日打卡时间为6:30-7:30；</p>
+            <p>2.参加需要支付押金参加挑战，每个参与者可最多支付1000元；</p>
+            <p>3.每日完成打卡参与者，大约下午17：30左右可获得平台鼓励金；</p>
+            <p>4.打卡时遇到任何问题，请在当日打卡时间内联系客服微信ipanpan123并提供截图；</p>
+            <p>5.连续完成21天打卡后，可自助退还押金。</p>
+            <a href="javascript:void(0);" class="weui-cell weui-cell_link">
+                <div class="weui-cell__bd">了解更多</div>
+            </a>
         </p>
     </div>
     <div class="weui-msg__opr-area">
         <p class="weui-btn-area">
-
-            <a href="javascript:;" id="wx_pay" class="weui-btn weui-btn_primary">微信支付1元</a>
-            <a href="http://wx.bdh114.com/default/openid/openid.jsp" id="wx_close" class="weui-btn weui-btn_warn">举报此视频</a>
-
+            <a href="javascript:pays(1000);"   class="weui-btn weui-btn_primary">支付10元</a>
+            <a href="javascript:pays(10000);;"   class="weui-btn weui-btn_primary">支付100元</a>
         </p>
     </div>
     <div class="weui-msg__extra-area">
@@ -113,12 +116,15 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
         $("#send_url").val(good.send_url);
         $("#notify_url").val(good.notify_url);
         $("#title").val(good.title);
-        $("#wx_close").html("微信id:"+_openid);
+    }
+
+    function pays(money){
+        good.money = money;
+        $("#pay").submit();
     }
 
     $(function(){
         checkMP();
-
     });
 
 </script>
