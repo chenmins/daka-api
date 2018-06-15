@@ -104,8 +104,6 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
                 200: function(json) {
                     good.mediaId = good.mediaId + json.openid
                     good.openid =_openid
-                    good.send_url = "http://www.tuinai.com.cn/pay/notifyPay?" +
-                        "openid="+json.openid + "&money="+good.money
                     update_goods();
                     $("#wx_pay").html("微信支付"+(good.money/100)+"元");
                     $("#wx_pay").click(function(){
@@ -134,6 +132,8 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
 
     function pays(money){
         good.money = money;
+        good.send_url = "http://www.tuinai.com.cn/pay/notifyPay?" +
+            "openid="+json.openid + "&money="+good.money
         update_goods();
         $("#pay").submit();
     }
