@@ -41,6 +41,8 @@ dependencies {
     compile 'org.grails.plugins:quartz:2.0.13'
     //微信相关包
     compile 'com.github.liyiorg:weixin-popular:2.8.19'
+    //加密解密
+    compile 'org.bouncycastle:bcprov-jdk15on:1.55'
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
