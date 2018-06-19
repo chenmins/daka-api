@@ -85,7 +85,7 @@ class WxResource {
 //        String openid = (String) json.get("openid");
         try {
             String result = AesService.decrypt(encryptedData, session_key, iv, "UTF-8");
-            JSONObject jsonr = JSONObject.parseObject(jsonText);
+            JSONObject jsonr = JSONObject.parseObject(result);
             jsonr.put("session_key",session_key)
             println "result:${result}"
             return jsonr.toJSONString()
