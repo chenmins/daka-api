@@ -76,9 +76,7 @@ class WxResource {
         HttpClient hc = chc.getHttpClient();
         def p = new HashMap<String, String>()
         def jsonText = HttpClientTools.get(hc, url, p)
-
         chc.close()
-
         //解析相应内容（转换成json对象）
         JSONObject json = JSONObject.parseObject(jsonText);
         //获取会话密钥（session_key）
@@ -87,12 +85,34 @@ class WxResource {
 //        String openid = (String) json.get("openid");
         try {
             String result = AesService.decrypt(encryptedData, session_key, iv, "UTF-8");
+            JSONObject jsonr = JSONObject.parseObject(jsonText);
+            jsonr.put("session_key",session_key)
             println "result:${result}"
-            return result
+            return jsonr.toJSONString()
         } catch (Exception e) {
             e.printStackTrace();
         }
         return jsonText
+    }
+
+    @POST
+    @Path('/session_key/{session_key}')
+    @ApiOperation(value = "数据解密", notes = "")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    String session_key(
+            @ApiParam(required = true, value = " 临时登录凭证code")
+            @PathParam("session_key") String session_key,
+            @FormParam("iv") String iv,
+            @FormParam("encryptedData") String encryptedData
+    ) {
+        try {
+            String result = AesService.decrypt(encryptedData, session_key, iv, "UTF-8");
+            return result
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return
     }
 
 }
