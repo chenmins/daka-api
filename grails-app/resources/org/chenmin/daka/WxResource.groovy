@@ -26,8 +26,6 @@ class WxResource {
 
     ClockUserService clockUserService
 
-    AesService aesService
-
     @GET
     @Path('/user/{openid}')
     @Produces(MediaType.APPLICATION_JSON)
@@ -81,40 +79,20 @@ class WxResource {
 
         chc.close()
 
-        Map map = new HashMap();
-
         //解析相应内容（转换成json对象）
         JSONObject json = JSONObject.parseObject(jsonText);
         //获取会话密钥（session_key）
         String session_key = json.get("session_key").toString();
         //用户的唯一标识（openid）
 //        String openid = (String) json.get("openid");
-
         try {
-            String result = aesService.decrypt(encryptedData, session_key, iv, "UTF-8");
+            String result = AesService.decrypt(encryptedData, session_key, iv, "UTF-8");
             println "result:${result}"
-            if (null != result && result.length() > 0) {
-                map.put("status", 1);
-                map.put("msg", "解密成功");
-
-                JSONObject userInfoJSON = JSONObject.parseObject(result);
-                Map userInfo = new HashMap();
-                userInfo.put("openId", userInfoJSON.get("openId"));
-                userInfo.put("nickName", userInfoJSON.get("nickName"));
-                userInfo.put("gender", userInfoJSON.get("gender"));
-                userInfo.put("city", userInfoJSON.get("city"));
-                userInfo.put("province", userInfoJSON.get("province"));
-                userInfo.put("country", userInfoJSON.get("country"));
-                userInfo.put("avatarUrl", userInfoJSON.get("avatarUrl"));
-                userInfo.put("unionId", userInfoJSON.get("unionId"));
-                map.put("userInfo", userInfo);
-                println map
-            }
+            return result
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return map as JSON
-//        return jsonText
+        return jsonText
     }
 
 }

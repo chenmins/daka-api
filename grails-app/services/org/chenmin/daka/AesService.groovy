@@ -1,6 +1,5 @@
 package org.chenmin.daka
 
-import grails.gorm.transactions.Transactional
 import org.apache.commons.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import javax.crypto.BadPaddingException;
@@ -12,7 +11,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.*;
 import java.security.spec.InvalidParameterSpecException;
 
-@Transactional
 class AesService {
 
     static {
@@ -30,7 +28,7 @@ class AesService {
      * @return
      * @throws Exception
      */
-    public String decrypt(String data, String key, String iv, String encodingFormat) throws Exception {
+    public static String decrypt(String data, String key, String iv, String encodingFormat) throws Exception {
 
         //被加密的数据
         byte[] dataByte = Base64.decodeBase64(data);
