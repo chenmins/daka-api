@@ -475,12 +475,12 @@ class SecurityResource {
             r.msg = "订单${orderID}退款失败，刚刚充值，还差21天才可以申请退款！"
             return r as JSON
         }
-        int smod = ic % 21
-        if(smod != 0){
-            r.success = false
-            r.msg = "订单${orderID}退款失败，还差${21-smod}天才可以申请退款！"
-            return r as JSON
-        }
+//        int smod = ic % 21
+//        if(smod != 0){
+//            r.success = false
+//            r.msg = "订单${orderID}退款失败，还差${21-smod}天才可以申请退款！"
+//            return r as JSON
+//        }
         //查询人员信息
         def person = ClockUser.findByOpenid(openid)
 
