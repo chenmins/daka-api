@@ -18,9 +18,9 @@
         <p class="weui-btn-area">
             <a href="javascript:wx.miniProgram.navigateTo({url: '/pages/login/login'})" class="weui-btn weui-btn_primary">授权登录</a>
             <a href="javascript:wx.previewImage({urls:[serverBase+'<asset:assetPath src='gh_5fecada2d3b6_258.jpg' />']})" class="weui-btn weui-btn_primary">关注公众号</a>
-            <a href="javascript:wx.closeWindow();" class="weui-btn weui-btn_default">关闭网页</a>
-            <asset:image src="gh_5fecada2d3b6_258.jpg" />
-            <asset:image src="cmcm.png" />
+            <g:link controller="pay" action="order" class="weui-btn weui-btn_default" >充值测试</g:link>
+            %{--<asset:image src="gh_5fecada2d3b6_258.jpg" />--}%
+            %{--<asset:image src="cmcm.png" />--}%
         </p>
     </div>
     <div class="weui-msg__extra-area">
