@@ -22,9 +22,9 @@ class WxUserService {
     }
 
     WxUser getByUnionid(String unionid){
-        def u = WxUser.findByUnionid(openid)
-//        println "~~~~WxUser~get~~~~~~"+openid
-//        println u
+        def u = WxUser.findByUnionid(unionid)
+        println "~~~~WxUser~get~~getByUnionid~~~~"+unionid
+        println u
         return u
     }
 

@@ -7,11 +7,11 @@ class AppController {
     WxUserService wxUserService
 
     def index() {
-        if(params.unionid){
+        if(params.unionid!=null){
             ClockUser du = clockUserService.getByUnionid(params.unionid)
             flash.du =  du
             WxUser wu = wxUserService.getByUnionid(params.unionid)
-            flash.wu =  du
+            flash.wu =  wu
         }
 
     }
