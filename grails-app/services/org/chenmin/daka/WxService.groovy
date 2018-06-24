@@ -49,7 +49,7 @@ class WxService  {
     }
 
     void createQrcode(String appid,String code,String openid){
-        String bg =  new File("/home/bae/app/bg.jpg")
+        File bg =  new File("/home/bae/app/bg.jpg")
         BufferedImage ibg = ImageIO.read(bg);
         String token = getTokenString(appid)
         QrcodeTicket qr =  QrcodeAPI.qrcodeCreateFinal(token,code)
