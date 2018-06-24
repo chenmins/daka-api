@@ -78,6 +78,8 @@ class PersonResource {
                           String openid) {
         def persons = ClockUser.findByOpenid(openid)
         def json = persons as JSON
+        println "~~~~/api/board/${openid}~~~~~~~~~~"
+        println json
         return json
     }
 
