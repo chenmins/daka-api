@@ -21,6 +21,13 @@ class WxUserService {
         return u
     }
 
+    WxUser getByUnionid(String unionid){
+        def u = WxUser.findByUnionid(openid)
+//        println "~~~~WxUser~get~~~~~~"+openid
+//        println u
+        return u
+    }
+
     void save(String openid,String popenid){
         String punionid = null
         if( popenid!=null && !popenid.isEmpty()){

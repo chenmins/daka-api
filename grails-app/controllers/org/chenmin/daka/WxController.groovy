@@ -78,7 +78,7 @@ class WxController {
                         XMLMessage xmlTextMessage = new XMLTextMessage(
                                 eventMessage.getFromUserName(),
                                 eventMessage.getToUserName(),
-                                "你好，二维码即将生产");
+                                "二维码正在制作中，稍后会自动发送");
                         //回复
                         xmlTextMessage.outputStreamWrite(outputStream);
                         response.flushBuffer()
