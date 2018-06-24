@@ -67,26 +67,73 @@ class WxController {
             if (eventMessage.getMsgType().equals("event")) {
                 if (eventMessage.getEvent().equals("CLICK")) {
                     if(eventMessage.getEventKey().equals("my_qrcode")){
-                        //创建回复
-                        XMLMessage xmlTextMessage = new XMLTextMessage(
-                                eventMessage.getFromUserName(),
-                                eventMessage.getToUserName(),
-                                "你好，二维码即将生产");
-
                         Runnable r = new Runnable() {
-
                             public void run() {
-
                                 wxService.createQrcode(APPID,openid,openid)
                             }
                         };
                         Thread t = new Thread(r);
                         t.start();
+                        //创建回复
+                        XMLMessage xmlTextMessage = new XMLTextMessage(
+                                eventMessage.getFromUserName(),
+                                eventMessage.getToUserName(),
+                                "你好，二维码即将生产");
                         //回复
                         xmlTextMessage.outputStreamWrite(outputStream);
                         response.flushBuffer()
                         return;
                     }
+                }
+                if (eventMessage.getEvent().equals("subscribe")) {
+                    String eventKey = eventMessage.getEventKey()
+                    String qrscene_ = "qrscene_"
+                    if(!eventKey.isEmpty()&&eventKey.startsWith(qrscene_)){
+                        eventKey = eventKey.substring(qrscene_.length())
+                        if(!wxUserService.hasUser(openid)){
+                            println "${openid}不存在,关系eventKey：${eventKey}"
+                            wxUserService.save(openid,eventKey)
+                        }else{
+                            println "${openid}存在,更新eventKey：${eventKey}"
+                            wxUserService.update(openid,eventKey)
+                        }
+                        //TODO 通知贡献者
+                        //感谢扫描者
+                        WxUser pu = wxUserService.get(eventKey)
+                        String msg = "感谢扫描，由【"+pu.nickname+"】分享的二维码"
+                        //创建回复
+                        XMLMessage xmlTextMessage = new XMLTextMessage(
+                                eventMessage.getFromUserName(),
+                                eventMessage.getToUserName(),
+                                "你好，二维码即将生产");
+                        //回复
+                        xmlTextMessage.outputStreamWrite(outputStream);
+                        response.flushBuffer()
+                        return;
+                    }
+                }
+                if (eventMessage.getEvent().equals("SCAN")) {
+                    String eventKey = eventMessage.getEventKey()
+                    if(!wxUserService.hasUser(openid)){
+                        println "${openid}不存在,关系eventKey：${eventKey}"
+                        wxUserService.save(openid,eventKey)
+                    }else{
+                        println "${openid}存在,更新eventKey：${eventKey}"
+                        wxUserService.update(openid,eventKey)
+                    }
+                    //TODO 通知贡献者
+                    //感谢扫描者
+                    WxUser pu = wxUserService.get(eventKey)
+                    String msg = "感谢扫描，由【"+pu.nickname+"】分享的二维码"
+                    //创建回复
+                    XMLMessage xmlTextMessage = new XMLTextMessage(
+                            eventMessage.getFromUserName(),
+                            eventMessage.getToUserName(),
+                            "你好，二维码正在努力制作，请稍候");
+                    //回复
+                    xmlTextMessage.outputStreamWrite(outputStream);
+                    response.flushBuffer()
+                    return;
                 }
             }
             //抓取用戶信息入庫

@@ -61,7 +61,7 @@ class WxService  {
         //左右拼接
         //g.drawImage(image2, image1.getWidth(), 0, null);
         //上下拼接
-        g.drawImage(bqr, 560, 1260, null);
+        g.drawImage(bqr, 350, 1050, null);
 
 
         final File htmlFile = File.createTempFile("temp"+System.currentTimeMillis(), ".jpg");//创建临时文件

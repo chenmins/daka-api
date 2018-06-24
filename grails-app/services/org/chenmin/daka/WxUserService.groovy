@@ -16,8 +16,8 @@ class WxUserService {
 
     WxUser get(String openid){
         def u = WxUser.findByOpenid(openid)
-        println "~~~~WxUser~get~~~~~~"+openid
-        println u
+//        println "~~~~WxUser~get~~~~~~"+openid
+//        println u
         return u
     }
 
@@ -34,5 +34,15 @@ class WxUserService {
         u.unionid = users.unionid
         u.popenid = popenid
         u.save(flush: true)
+    }
+
+    void update(String openid,String popenid){
+        WxUser u = get(openid)
+        if(u==null)
+            return
+        if(u.popenid==null){
+            u.popenid = popenid
+            u.save(flush: true)
+        }
     }
 }
