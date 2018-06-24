@@ -66,7 +66,7 @@ class WxService extends BaseAPI{
         println "path:"+htmlFile.getAbsolutePath()
         ImageIO.write(bqr, "jpg", htmlFile);
         // 上传微信服务器
-        Media media = MediaAPI.mediaUpload(token, MediaType.image, new File(htmlFile));
+        Media media = MediaAPI.mediaUpload(token, MediaType.image, htmlFile);
         String media_id = media.getMedia_id();
         custom_send_Image(token, openid, media_id);
         htmlFile.deleteOnExit()
