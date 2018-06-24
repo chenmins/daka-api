@@ -13,6 +13,6 @@ class AppController {
             WxUser wu = wxUserService.getByUnionid(params.unionid)
             flash.wu =  wu
         }
-
+        render(view: 'index')
     }
 }
