@@ -76,9 +76,13 @@ class PersonResource {
     String person(@ApiParam(required = true, value = "微信个人ID")
                   @PathParam("openid")
                           String openid) {
-        def persons = ClockUser.findByOpenid(openid)
-        def json = persons as JSON
         println "~~~~/api/board/${openid}~~~~~~~~~~"
+        def persons = ClockUser.findByOpenid(openid)
+        if(persons==null){
+            persons = new ClockUser()
+            persons.id = 9999
+        }
+        def json = persons as JSON
         println json
         return json
     }
