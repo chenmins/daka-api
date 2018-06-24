@@ -21,6 +21,7 @@
 
             <a href="javascript:wx.closeWindow();" class="weui-btn weui-btn_default">关闭网页</a>
             <asset:image src="gh_5fecada2d3b6_258.jpg" />
+            <asset:image src="cmcm.png" />
         </p>
     </div>
     <div class="weui-msg__extra-area">
