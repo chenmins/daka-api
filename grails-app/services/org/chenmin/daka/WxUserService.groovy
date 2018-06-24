@@ -22,11 +22,8 @@ class WxUserService {
     }
 
     void save(String openid,String popenid){
-        String token =wxService.getToken("wx22617d41951fcc1f");
-        println "token:"+token
-        def t = JSON.parse(token)
-        println "t.msg:"+t.msg
-        User users = UserAPI.userInfo(t.msg, openid,5);
+        String token =wxService.getTokenString("wx22617d41951fcc1f");
+        User users = UserAPI.userInfo(token, openid,5);
         def u = new WxUser()
         u.openid = users.openid
         u.headimgurl = users.headimgurl

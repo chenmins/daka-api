@@ -1,5 +1,6 @@
 package org.chenmin.daka
 
+import grails.converters.JSON
 import grails.gorm.transactions.Transactional
 import org.apache.http.client.HttpClient
 
@@ -32,4 +33,9 @@ class WxService {
         return json
     }
 
+    String getTokenString(String appid){
+        String token = getToken(  appid)
+        def t = JSON.parse(token)
+        return t.msg
+    }
 }

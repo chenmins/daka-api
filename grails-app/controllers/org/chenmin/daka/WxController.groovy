@@ -51,6 +51,7 @@ class WxController {
         if(inputStream!=null){
             //转换XML
             EventMessage eventMessage = XMLConverUtil.convertToObject(EventMessage.class,inputStream);
+            String openid =  eventMessage.getFromUserName();
             println eventMessage
             println XMLConverUtil.convertToXML(eventMessage)
             String key =  eventMessage.getMsgId()
@@ -61,9 +62,24 @@ class WxController {
             }else{
                 expireKey.add(key);
             }
+
+            if (eventMessage.getMsgType().equals("event")) {
+                if (eventMessage.getEvent().equals("CLICK")) {
+                    if(eventMessage.getEventKey().equals("my_qrcode")){
+                        //创建回复
+                        XMLMessage xmlTextMessage = new XMLTextMessage(
+                                eventMessage.getFromUserName(),
+                                eventMessage.getToUserName(),
+                                "你好，系統正在开发中，二维码即将生产");
+                        //回复
+                        xmlTextMessage.outputStreamWrite(outputStream);
+                        response.flushBuffer()
+                        return;
+                    }
+                }
+            }
             //抓取用戶信息入庫
             //TODO 帶參數的二維碼，要記錄popenid
-            String openid =  eventMessage.getFromUserName();
             if(!wxUserService.hasUser(openid)){
                 println "${openid}不存在"
                 wxUserService.save(openid,null)
@@ -76,11 +92,8 @@ class WxController {
                     "你好，"+user.nickname+",系統正在开发中，请使用小程序测试功能");
             //回复
             xmlTextMessage.outputStreamWrite(outputStream);
-            String token =wxService.getToken("wx22617d41951fcc1f");
-            println "token:"+token
-            def t = JSON.parse(token)
-            println "t.msg:"+t.msg
-            User users = UserAPI.userInfo(t.msg, openid,5);
+            String token =wxService.getTokenString("wx22617d41951fcc1f");
+            User users = UserAPI.userInfo(token, openid,5);
             println users as JSON
             response.flushBuffer()
             return;
