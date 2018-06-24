@@ -16,6 +16,7 @@ import javax.servlet.ServletOutputStream
 
 class WxController {
     //从官方获取
+    public static final String APPID = "wx22617d41951fcc1f"
     private String token = "test";
     WxService wxService
 
@@ -51,7 +52,7 @@ class WxController {
         if(inputStream!=null){
             //转换XML
             EventMessage eventMessage = XMLConverUtil.convertToObject(EventMessage.class,inputStream);
-            String openid =  eventMessage.getFromUserName();
+            final String openid =  eventMessage.getFromUserName();
             println eventMessage
             println XMLConverUtil.convertToXML(eventMessage)
             String key =  eventMessage.getMsgId()
@@ -70,7 +71,17 @@ class WxController {
                         XMLMessage xmlTextMessage = new XMLTextMessage(
                                 eventMessage.getFromUserName(),
                                 eventMessage.getToUserName(),
-                                "你好，系統正在开发中，二维码即将生产");
+                                "你好，二维码即将生产");
+
+                        Runnable r = new Runnable() {
+
+                            public void run() {
+
+                                wxService.createQrcode(APPID,openid,openid)
+                            }
+                        };
+                        Thread t = new Thread(r);
+                        t.start();
                         //回复
                         xmlTextMessage.outputStreamWrite(outputStream);
                         response.flushBuffer()
@@ -92,7 +103,7 @@ class WxController {
                     "你好，"+user.nickname+",系統正在开发中，请使用小程序测试功能");
             //回复
             xmlTextMessage.outputStreamWrite(outputStream);
-            String token =wxService.getTokenString("wx22617d41951fcc1f");
+            String token =wxService.getTokenString(APPID);
             User users = UserAPI.userInfo(token, openid,5);
             println users as JSON
             response.flushBuffer()
