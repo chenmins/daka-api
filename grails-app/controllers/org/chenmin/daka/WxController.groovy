@@ -105,7 +105,7 @@ class WxController {
                         XMLMessage xmlTextMessage = new XMLTextMessage(
                                 eventMessage.getFromUserName(),
                                 eventMessage.getToUserName(),
-                                "你好，二维码即将生产");
+                                msg);
                         //回复
                         xmlTextMessage.outputStreamWrite(outputStream);
                         response.flushBuffer()
@@ -129,7 +129,7 @@ class WxController {
                     XMLMessage xmlTextMessage = new XMLTextMessage(
                             eventMessage.getFromUserName(),
                             eventMessage.getToUserName(),
-                            "你好，二维码正在努力制作，请稍候");
+                            msg);
                     //回复
                     xmlTextMessage.outputStreamWrite(outputStream);
                     response.flushBuffer()

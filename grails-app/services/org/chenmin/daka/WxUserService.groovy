@@ -22,6 +22,11 @@ class WxUserService {
     }
 
     void save(String openid,String popenid){
+        String punionid = null
+        if( popenid!=null && !popenid.isEmpty()){
+            WxUser pu = get(popenid)
+            punionid =  pu.unionid
+        }
         String token =wxService.getTokenString("wx22617d41951fcc1f");
         User users = UserAPI.userInfo(token, openid,5);
         def u = new WxUser()
@@ -33,15 +38,22 @@ class WxUserService {
         u.subscribe_time = users.subscribe_time
         u.unionid = users.unionid
         u.popenid = popenid
+        u.punionid = punionid
         u.save(flush: true)
     }
 
     void update(String openid,String popenid){
+        String punionid = null
+        if( popenid!=null && !popenid.isEmpty()){
+            WxUser pu = get(popenid)
+            punionid =  pu.unionid
+        }
         WxUser u = get(openid)
         if(u==null)
             return
         if(u.popenid==null){
             u.popenid = popenid
+            u.punionid = punionid
             u.save(flush: true)
         }
     }

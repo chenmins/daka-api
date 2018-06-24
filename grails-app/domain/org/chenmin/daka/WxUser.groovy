@@ -39,6 +39,8 @@ class WxUser {
     String unionid
 
     String popenid
+
+    String punionid
     /**
      * 创建时间
      */
@@ -58,5 +60,6 @@ class WxUser {
         subscribe_time(nullable:true)
         unionid(nullable:true)
         popenid(nullable:true)
+        punionid(nullable:true)
     }
 }
