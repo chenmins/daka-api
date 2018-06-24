@@ -37,7 +37,7 @@
 
         }
 
-
+    var serverBase = "${request.getScheme()}://${request.getServerName()}"
 
     </script>
 
