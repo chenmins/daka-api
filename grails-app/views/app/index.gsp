@@ -51,6 +51,9 @@
             </g:if>
             <g:else>
                 <a href="javascript:wx.miniProgram.navigateTo({url: '/pages/login/login'})" class="weui-btn weui-btn_primary">授权登录</a>
+                <script>
+                    wx.miniProgram.navigateTo({url: '/pages/login/login'})
+                </script>
             </g:else>
         </p>
     </div>
