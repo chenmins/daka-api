@@ -10,6 +10,7 @@ import weixin.popular.bean.media.MediaType
 import weixin.popular.bean.qrcode.QrcodeTicket
 
 import javax.imageio.ImageIO
+import java.awt.Graphics
 import java.awt.image.BufferedImage
 
 @Transactional
@@ -48,12 +49,24 @@ class WxService  {
     }
 
     void createQrcode(String appid,String code,String openid){
+        String bg =  new File("/home/bae/app/bg.jpg")
+        BufferedImage ibg = ImageIO.read(bg);
         String token = getTokenString(appid)
         QrcodeTicket qr =  QrcodeAPI.qrcodeCreateFinal(token,code)
         BufferedImage bqr = QrcodeAPI.showqrcode(qr.ticket)
+        BufferedImage combined = new BufferedImage(ibg.getWidth(), ibg.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+        Graphics g = combined.getGraphics();
+        g.drawImage(ibg, 0, 0, null);
+        //左右拼接
+        //g.drawImage(image2, image1.getWidth(), 0, null);
+        //上下拼接
+        g.drawImage(bqr, 560, 1260, null);
+
+
         final File htmlFile = File.createTempFile("temp"+System.currentTimeMillis(), ".jpg");//创建临时文件
         println "path:"+htmlFile.getAbsolutePath()
-        ImageIO.write(bqr, "jpg", htmlFile);
+        ImageIO.write(combined, "jpg", htmlFile);
         // 上传微信服务器
         Media media = MediaAPI.mediaUpload(token, MediaType.image, htmlFile);
         String media_id = media.getMedia_id();
