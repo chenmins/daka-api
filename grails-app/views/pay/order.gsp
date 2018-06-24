@@ -136,7 +136,7 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
     function pays(money){
         good.money = money;
         good.send_url = "http://www.tuinai.com.cn/pay/notifyPay?" +
-            "openid="+json.openid + "&money="+good.money
+            "openid="+_openid+ "&money="+good.money
         update_goods();
         $("#pay").submit();
     }
