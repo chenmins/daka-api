@@ -50,12 +50,13 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
         </div>
     </div>
 </div>
-<div class="weui-msg">
+<div class="weui-msg" id="mmsg">
     <div class="weui-msg__opr-area">
         <p class="weui-btn-area">
-            <a href="javascript:pays(1);"   class="weui-btn weui-btn_primary">支付0.01元测试</a>
+            %{--<a href="javascript:pays(1);"   class="weui-btn weui-btn_primary">支付0.01元测试</a>--}%
+            <a href="javascript:pays(200);"   class="weui-btn weui-btn_primary">支付2元</a>
             <a href="javascript:pays(1000);"   class="weui-btn weui-btn_primary">支付10元</a>
-            <a href="javascript:pays(10000);;"   class="weui-btn weui-btn_primary">支付100元</a>
+            %{--<a href="javascript:pays(10000);;"   class="weui-btn weui-btn_primary">支付100元</a>--}%
         </p>
     </div>
     <div class="weui-msg__extra-area">
@@ -88,6 +89,7 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
                 },
                 204:function(){
                     alert("请先关注公众号");
+                    $("#mmsg").hide();
                     wx.closeWindow();
                 }
             }
@@ -111,7 +113,8 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
                     });
                 },
                 204:function(){
-                    alert("请在公众号中打开小程序一次进行账号激活");
+                    alert("请在公众号中点击一次【参与竞赛】进行账号激活");
+                    $("#mmsg").hide();
                     wx.closeWindow();
                 }
             }
