@@ -21,6 +21,10 @@ class WxUserService {
         return u
     }
 
+    int countByUnionid(String unionid){
+        return WxUser.countByUnionid(unionid)
+    }
+
     WxUser getByUnionid(String unionid){
         def u = WxUser.findByUnionid(unionid)
         println "~~~~WxUser~get~~getByUnionid~~~~"+unionid

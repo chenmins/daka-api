@@ -9,8 +9,8 @@
 <div class="weui-msg">
 
 
-    <g:if test="${flash.du!=null}">
-        <g:if test="${flash.wu!=null}">
+    <g:if test="${flash.du!=null && flash.du>0}">
+        <g:if test="${flash.wu!=null && flash.wu>0}">
             <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
             <div class="weui-msg__text-area">
                 <h2 class="weui-msg__title">帐号激活成功</h2>
@@ -41,8 +41,8 @@
 
     <div class="weui-msg__opr-area">
         <p class="weui-btn-area">
-            <g:if test="${flash.du!=null}">
-                <g:if test="${flash.wu!=null}">
+            <g:if test="${flash.du!=null && flash.du>0}">
+                <g:if test="${flash.wu!=null && flash.wu>0}">
                         请在公众号中点击充值，此打卡游戏仅供测试。
                 </g:if>
                 <g:else>

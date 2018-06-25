@@ -8,10 +8,10 @@ class AppController {
 
     def index() {
         if(params.unionid!=null){
-            ClockUser du = clockUserService.getByUnionid(params.unionid)
-            flash.du =  du
-            WxUser wu = wxUserService.getByUnionid(params.unionid)
-            flash.wu =  wu
+            flash.du = clockUserService.countByUnionid(params.unionid)
+            println "flash.du :"+flash.du
+            flash.wu =  wxUserService.countByUnionid(params.unionid)
+            println "flash.wu :"+flash.wu
         }
         render(view: 'index')
     }

@@ -16,6 +16,10 @@ class ClockUserService {
         return u
     }
 
+    int countByUnionid(String unionid){
+        return ClockUser.countByUnionid(unionid)
+    }
+
     ClockUser getByUnionid(String unionid){
         def u =  ClockUser.findByUnionid(unionid)
         println "~~~~ClockUser~findByUnionid~~~~~~"+unionid
