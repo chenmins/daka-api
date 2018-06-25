@@ -35,6 +35,14 @@ class PersonResource {
         //更新打卡表的上下级别关系
         //根据自己的打卡openid查询到自己的上级punionid
         def popenid = null
+        if(body.unionid!=null){
+            def wxu = wxUserService.getByUnionid(body.unionid)
+            if(wxu!=null && wxu.punionid!=null){
+                //我有上线
+                def pcu =  clockUserService.getByUnionid(wxu.punionid)
+                popenid = pcu.openid
+            }
+        }
         def ccu = clockUserService.get(body.openid)
         if(ccu!=null){
             def wxu = wxUserService.getByUnionid(ccu.unionid)
