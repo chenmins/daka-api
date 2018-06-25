@@ -2,6 +2,7 @@ package org.chenmin.daka
 
 import grails.converters.JSON
 import grails.gorm.transactions.Transactional
+import groovy.sql.Sql
 import weixin.popular.api.UserAPI
 import weixin.popular.bean.user.User
 
@@ -9,6 +10,8 @@ import weixin.popular.bean.user.User
 class WxUserService {
 
     WxService wxService
+
+    def dataSource
 
     boolean hasUser(String openid) {
         return get(openid)!=null
@@ -22,7 +25,15 @@ class WxUserService {
     }
 
     int countByUnionid(String unionid){
-        return WxUser.countByUnionid(unionid)
+        int spaid = 0
+        def sql = new Sql(dataSource)
+        String strSql = "select count(*) spaid from wx_user t where t.unionid='"+unionid+"'"
+        sql.eachRow(strSql) {
+            spaid = it.spaid
+        }
+        sql.close()
+        return spaid
+//        return WxUser.countByUnionid(unionid)
     }
 
     WxUser getByUnionid(String unionid){

@@ -1,9 +1,12 @@
 package org.chenmin.daka
 
 import grails.gorm.transactions.Transactional
+import groovy.sql.Sql
 
 @Transactional
 class ClockUserService {
+
+    def dataSource
 
     boolean hasUser(String openid) {
         return get(openid)!=null
@@ -17,7 +20,15 @@ class ClockUserService {
     }
 
     int countByUnionid(String unionid){
-        return ClockUser.countByUnionid(unionid)
+        int spaid = 0
+        def sql = new Sql(dataSource)
+        String strSql = "select count(*) spaid from daka_clock_user t where t.unionid='"+unionid+"'"
+        sql.eachRow(strSql) {
+            spaid = it.spaid
+        }
+        sql.close()
+        return spaid
+//        return ClockUser.countByUnionid(unionid)
     }
 
     ClockUser getByUnionid(String unionid){
