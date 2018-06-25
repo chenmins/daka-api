@@ -14,6 +14,40 @@ class WxMessageService {
 
     WxService wxService
 
+//    SYaHOdJpBAh5A9axS111RNEJGm30buF1lDGpaem4Bsk
+//    标题奖金发放通知
+//    详细内容
+//    {{first.DATA}}
+//    合伙人：{{keyword1.DATA}}
+//    结算等级：{{keyword2.DATA}}
+//    发放金额：{{keyword3.DATA}}
+//    发放时间：{{keyword4.DATA}}
+//    {{remark.DATA}}
+    def faMessage(String appid,String openid,
+                    String firstString,String keyword1String,
+                    String keyword2String, String keyword3String,String remarkString){
+        TemplateMessage templateMessage  = new TemplateMessage()
+        templateMessage.setTouser(openid)
+        templateMessage.setTemplate_id("SYaHOdJpBAh5A9axS111RNEJGm30buF1lDGpaem4Bsk")
+        LinkedHashMap<String, TemplateMessageItem> data = new LinkedHashMap<String, TemplateMessageItem>();
+        TemplateMessageItem first=new TemplateMessageItem(firstString,"#0000FF");
+        TemplateMessageItem keyword1=new TemplateMessageItem(keyword1String,"#FF0000");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        TemplateMessageItem keyword2=new TemplateMessageItem(keyword2String,"#0000FF");
+        TemplateMessageItem keyword3=new TemplateMessageItem(keyword3String,"#0000FF");
+        TemplateMessageItem keyword4=new TemplateMessageItem(sdf.format(new Date()),"#0000FF");
+        TemplateMessageItem remark = new TemplateMessageItem(remarkString,"#0000FF");
+        data.put("first", first);
+        data.put("keyword1", keyword1);
+        data.put("keyword2", keyword2);
+        data.put("keyword3", keyword3);
+        data.put("keyword4", keyword4);
+        data.put("remark", remark);
+        templateMessage.setData(data )
+        templateMessage.setMiniprogram(wxa())
+        messageTemplateSend(appid,templateMessage)
+    }
+
 //    模版ID 8eqhZ_ox_l-7YwtNlbFecowfOzwtppK0E7gOOx9lt1A
 //    推荐成功通知
 //    详细内容

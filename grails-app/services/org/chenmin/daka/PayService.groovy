@@ -8,6 +8,12 @@ import weixin.popular.bean.paymch.MchPayNotify
 class PayService {
 
     def dataSource
+    //从官方获取
+    public static final String APPID = "wx22617d41951fcc1f"
+    //oJRLp04tlU0f5HHPwMcz5YWo4kVk 盼盼
+    public static final String ADMIN_OPENID = "oJRLp04tlU0f5HHPwMcz5YWo4kVk"
+
+    WxMessageService wxMessageService
 
     def payfor(String openid, MchPayNotify payNotify) {
         def wpt = new WxPayTicket()
@@ -123,6 +129,11 @@ class PayService {
                 u.save(flush: true)
                 pu.save(flush: true)
                 println "#~~~~payMchNotify8~~~~~FirstReward ok~~~~~~~~~~~~~~"
+
+                //发放奖励通知，充值人，和推荐人各自一个
+                wxMessageService.faMessage(APPID,openid,"首冲奖励",pu.nickname,"青铜","${cbp.cash / 100}元",cbp.remark)
+                wxMessageService.faMessage(APPID,popenid,"首冲奖励",pu.nickname,"青铜","${cbp.cash / 100}元",cbp.remark)
+                wxMessageService.faMessage(APPID,ADMIN_OPENID,"首冲奖励",pu.nickname,"青铜","${cbp.cash / 100}元",cbp.remark)
 
             }
         }
