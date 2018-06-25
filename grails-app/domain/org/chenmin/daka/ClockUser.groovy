@@ -65,6 +65,9 @@ class ClockUser {
 
     static mapping = {
         table('daka_clock_user')
+        openid column:'openid', index:'openid_idx'
+        popenid column:'popenid', index:'popenid_idx'
+        unionid column:'unionid', index:'unionid_idx'
     }
 
     static constraints = {

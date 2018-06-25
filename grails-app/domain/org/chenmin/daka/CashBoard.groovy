@@ -43,6 +43,7 @@ class CashBoard {
 
     static mapping = {
         table('daka_cash_board')
+        openid column:'openid', index:'openid_idx'
     }
 
     static constraints = {

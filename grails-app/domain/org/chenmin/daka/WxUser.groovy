@@ -52,6 +52,10 @@ class WxUser {
 
     static mapping = {
         table('wx_user')
+        openid column:'openid', index:'openid_idx'
+        unionid column:'unionid', index:'unionid_idx'
+        popenid column:'popenid', index:'popenid_idx'
+        punionid column:'punionid', index:'punionid_idx'
     }
 
     static constraints = {
