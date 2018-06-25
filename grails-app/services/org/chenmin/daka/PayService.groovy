@@ -12,8 +12,9 @@ class PayService {
     public static final String APPID = "wx22617d41951fcc1f"
     //oJRLp04tlU0f5HHPwMcz5YWo4kVk 盼盼
     public static final String ADMIN_OPENID = "oJRLp04tlU0f5HHPwMcz5YWo4kVk"
-
+    ClockUserService clockUserService
     WxMessageService wxMessageService
+    WxUserService wxUserService
 
     def payfor(String openid, MchPayNotify payNotify) {
         def wpt = new WxPayTicket()
@@ -129,12 +130,17 @@ class PayService {
                 u.save(flush: true)
                 pu.save(flush: true)
                 println "#~~~~payMchNotify8~~~~~FirstReward ok~~~~~~~~~~~~~~"
+                //反向查找公众号的id
+                def wxu = wxUserService.getByUnionid(earlyStar.unionid)
+                def wxopenid = wxu.openid
+
+                def pwxu = wxUserService.getByUnionid(pu.unionid)
+                def pwxopenid = pwxu.openid
 
                 //发放奖励通知，充值人，和推荐人各自一个
-                wxMessageService.faMessage(APPID,openid,"首冲奖励",pu.nickname,"青铜","${cbp.cash / 100}元",cbp.remark)
-                wxMessageService.faMessage(APPID,popenid,"首冲奖励",pu.nickname,"青铜","${cbp.cash / 100}元",cbp.remark)
+                wxMessageService.faMessage(APPID,wxopenid,"首冲奖励",pu.nickname,"青铜","${cbp.cash / 100}元",cbu.remark)
+                wxMessageService.faMessage(APPID,pwxopenid,"首冲奖励",pu.nickname,"青铜","${cbp.cash / 100}元",cbp.remark)
                 wxMessageService.faMessage(APPID,ADMIN_OPENID,"首冲奖励",pu.nickname,"青铜","${cbp.cash / 100}元",cbp.remark)
-
             }
         }
     }
