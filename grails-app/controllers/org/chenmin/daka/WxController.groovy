@@ -17,9 +17,12 @@ import javax.servlet.ServletOutputStream
 class WxController {
     //从官方获取
     public static final String APPID = "wx22617d41951fcc1f"
+    //oJRLp04tlU0f5HHPwMcz5YWo4kVk 盼盼
+    public static final String ADMIN_OPENID = "oJRLp04tlU0f5HHPwMcz5YWo4kVk"
+
     private String token = "test";
     WxService wxService
-
+    WxMessageService wxMessageService
     WxUserService wxUserService
 
     //重复通知过滤
@@ -98,9 +101,13 @@ class WxController {
                             wxUserService.update(openid,eventKey)
                         }
 
-                        //TODO 通知贡献者
-                        //感谢扫描者
                         WxUser pu = wxUserService.get(eventKey)
+                        def newUser  = wxUserService.get(openid)
+                        //通知贡献者
+                        wxMessageService.scanMessage(APPID,eventKey,"感谢你的推广",""+newUser.nickname,"扫描推广二维码","")
+                        //推荐成功通知ADMIN_OPENID
+                        wxMessageService.shareMessage(APPID,ADMIN_OPENID,"推广提示",pu.nickname,""+newUser.nickname,"扫描推广二维码")
+                        //感谢扫描者
                         String msg = "感谢扫描，由【"+pu.nickname+"】分享的二维码"
                         //创建回复
                         XMLMessage xmlTextMessage = new XMLTextMessage(
@@ -122,10 +129,13 @@ class WxController {
                         println "${openid}存在,更新eventKey：${eventKey}"
                         wxUserService.update(openid,eventKey)
                     }
-
-                    //TODO 通知贡献者
-                    //感谢扫描者
                     WxUser pu = wxUserService.get(eventKey)
+                    def newUser  = wxUserService.get(openid)
+                    //通知贡献者
+                    wxMessageService.scanMessage(APPID,eventKey,"感谢你的推广",""+newUser.nickname,"扫描推广二维码","")
+                    //推荐成功通知ADMIN_OPENID
+                    wxMessageService.shareMessage(APPID,ADMIN_OPENID,"推广提示",pu.nickname,""+newUser.nickname,"扫描推广二维码")
+                    //感谢扫描者
                     String msg = "感谢扫描，由【"+pu.nickname+"】分享的二维码"
                     //创建回复
                     XMLMessage xmlTextMessage = new XMLTextMessage(
