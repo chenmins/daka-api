@@ -17,6 +17,9 @@ import javax.ws.rs.core.MediaType
 @Api(value = "person", description = "个人服务相关接口")
 @Path('/api/person')
 class PersonResource {
+    WxUserService wxUserService
+
+    ClockUserService clockUserService
 
     @POST
     @Path('/update')
@@ -29,6 +32,17 @@ class PersonResource {
         }
         println "~~~~/api/person/update~~~~~~~~~~"
         println body as JSON
+        //更新打卡表的上下级别关系
+        //根据自己的打卡openid查询到自己的上级punionid
+        def ccu = clockUserService.get(body.openid)
+        def wxu = wxUserService.getByUnionid(ccu.unionid)
+        def popenid = null
+        if(wxu!=null && wxu.punionid!=null){
+            //我有上线
+            def pcu =  clockUserService.getByUnionid(wxu.punionid)
+            popenid = pcu.openid
+        }
+
         //type 1
 //        EmojiUtil.parseToHtmlHexadecimal
 //        //type 2
@@ -49,6 +63,8 @@ class PersonResource {
             staminaStar.headImg = body.headImg
             if(body.unionid)
                 staminaStar.unionid = body.unionid
+            if(popenid!=null )
+                staminaStar.popenid = popenid
             if(body.popenid!=null )
                 staminaStar.popenid = body.popenid
             staminaStar.staminaCount = 0
@@ -62,6 +78,8 @@ class PersonResource {
             has.headImg = body.headImg
             if(body.unionid)
                 has.unionid = body.unionid
+            if(popenid!=null )
+                has.popenid = popenid
             if(body.popenid!=null && has.popenid==null)
                 has.popenid = body.popenid
             has.save(flush: true)
@@ -76,14 +94,14 @@ class PersonResource {
     String person(@ApiParam(required = true, value = "微信个人ID")
                   @PathParam("openid")
                           String openid) {
-        println "~~~~/api/board/${openid}~~~~~~~~~~"
+//        println "~~~~/api/board/${openid}~~~~~~~~~~"
         def persons = ClockUser.findByOpenid(openid)
         if(persons==null){
             persons = new ClockUser()
             persons.id = 9999
         }
         def json = persons as JSON
-        println json
+//        println json
         return json
     }
 

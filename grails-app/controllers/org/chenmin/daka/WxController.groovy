@@ -97,6 +97,7 @@ class WxController {
                             println "${openid}存在,更新eventKey：${eventKey}"
                             wxUserService.update(openid,eventKey)
                         }
+
                         //TODO 通知贡献者
                         //感谢扫描者
                         WxUser pu = wxUserService.get(eventKey)
@@ -121,6 +122,7 @@ class WxController {
                         println "${openid}存在,更新eventKey：${eventKey}"
                         wxUserService.update(openid,eventKey)
                     }
+
                     //TODO 通知贡献者
                     //感谢扫描者
                     WxUser pu = wxUserService.get(eventKey)
