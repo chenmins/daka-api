@@ -460,12 +460,12 @@ class SecurityResource {
             return r as JSON
         }
         //退款周期
-        int ic = DateTool.getDateSpace(pay.dateCreated,new Date())
-        if(ic == 0){
-            r.success = false
-            r.msg = "订单${orderID}退款失败，刚刚充值，还差21天才可以申请退款！"
-            return r as JSON
-        }
+//        int ic = DateTool.getDateSpace(pay.dateCreated,new Date())
+//        if(ic == 0){
+//            r.success = false
+//            r.msg = "订单${orderID}退款失败，刚刚充值，还差21天才可以申请退款！"
+//            return r as JSON
+//        }
 //        int smod = ic % 21
 //        if(smod != 0){
 //            r.success = false

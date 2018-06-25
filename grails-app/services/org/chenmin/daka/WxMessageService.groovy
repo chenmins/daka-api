@@ -45,7 +45,13 @@ class WxMessageService {
         data.put("remark", remark);
         templateMessage.setData(data )
         templateMessage.setMiniprogram(wxa())
-        messageTemplateSend(appid,templateMessage)
+        TemplateMessageResult r = messageTemplateSend(appid,templateMessage)
+        println "奖金发放通知：${firstString}"
+        println "奖金发放通知openid：${openid}"
+        println "msgid:"+r.msgid
+        println "errmsg:"+r.errmsg
+        println "errcode:"+r.errcode
+        println r
     }
 
 //    模版ID 8eqhZ_ox_l-7YwtNlbFecowfOzwtppK0E7gOOx9lt1A
