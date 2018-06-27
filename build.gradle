@@ -43,6 +43,9 @@ dependencies {
     compile 'com.github.liyiorg:weixin-popular:2.8.19'
     //加密解密
     compile 'org.bouncycastle:bcprov-jdk15on:1.55'
+    //七牛文件上传
+    compile 'com.qiniu:qiniu-java-sdk:7.2.+'
+    //新的插件结束
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
