@@ -47,8 +47,7 @@ class CashBoard {
     }
 
     static constraints = {
-        orderID(nullable:true)
+        orderID  nullable:true,index: "orderid_idx", unique: true
         refund(nullable:true)
-        //TODO 确保唯一订单orderID
     }
 }

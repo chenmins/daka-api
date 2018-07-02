@@ -27,6 +27,7 @@ class WxPayTicket {
 
     static constraints = {
         attach(nullable:true)
+        out_trade_no nullable:true,index: "out_trade_no_idx", unique: true
     }
 
     static mapping = {
