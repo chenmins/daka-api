@@ -7,6 +7,7 @@ class AppController {
     WxUserService wxUserService
 
     def index() {
+        println "params.unionid :"+params.unionid
         if(params.unionid!=null){
             flash.du = clockUserService.countByUnionid(params.unionid)
             println "flash.du :"+flash.du
