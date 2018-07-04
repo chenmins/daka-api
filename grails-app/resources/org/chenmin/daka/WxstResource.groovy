@@ -18,7 +18,7 @@ class WxstResource {
     @Path('/get/{hashFile}')
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "存储图片", notes = "")
-    String get(  @ApiParam(required = true, value = "微信图片id")
+    WxImages get(  @ApiParam(required = true, value = "微信图片id")
                  @PathParam("hashFile")String hashFile) {
         return WxImages.findByHashFileAndValid(hashFile,true)
     }
@@ -31,6 +31,18 @@ class WxstResource {
     WxImages save(WxImages wx){
         wx.save(flush: true)
         return WxImages.findByHashFile(wx.hashFile)
+    }
+
+    @GET
+    @Path('/del/{hashFile}')
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "删除图片", notes = "")
+    WxImages del(  @ApiParam(required = true, value = "微信图片id")
+                 @PathParam("hashFile")String hashFile) {
+        def  a =  WxImages.findByHashFileAndValid(hashFile)
+        a.valid = false
+        a.save(flush: true)
+        return a
     }
 
 
