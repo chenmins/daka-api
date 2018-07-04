@@ -43,10 +43,10 @@ class CashBoard {
 
     static mapping = {
         table('daka_cash_board')
-        openid column:'openid', index:'openid_idx'
     }
 
     static constraints = {
+        openid  index:'openid_idx'
         orderID  nullable:true,index: "orderid_idx", unique: true
         refund(nullable:true)
     }

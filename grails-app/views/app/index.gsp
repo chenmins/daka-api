@@ -43,7 +43,12 @@
         <p class="weui-btn-area">
             <g:if test="${flash.du!=null && flash.du>0}">
                 <g:if test="${flash.wu!=null && flash.wu>0}">
-                        请在公众号中点击充值，此打卡游戏仅供测试。
+                        请在公众号中点击充值中心。
+                    <script>
+                        $.alert("请长按识别微信公众号二维码，点击充值中心", function() {
+                            wx.previewImage({urls:[serverBase+'<asset:assetPath src='gh_5fecada2d3b6_258.jpg' />']})
+                        });
+                    </script>
                 </g:if>
                 <g:else>
                     <a href="javascript:wx.previewImage({urls:[serverBase+'<asset:assetPath src='gh_5fecada2d3b6_258.jpg' />']})" class="weui-btn weui-btn_primary">关注公众号</a>
