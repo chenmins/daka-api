@@ -39,7 +39,7 @@ class WxstResource {
     @ApiOperation(value = "删除图片", notes = "")
     WxImages del(  @ApiParam(required = true, value = "微信图片id")
                  @PathParam("hashFile")String hashFile) {
-        def  a =  WxImages.findByHashFileAndValid(hashFile)
+        def  a =  WxImages.findByHashFileAndValid(hashFile,true)
         a.valid = false
         a.save(flush: true)
         return a
