@@ -40,6 +40,9 @@ class WxstResource {
     WxImages del(  @ApiParam(required = true, value = "微信图片id")
                  @PathParam("hashFile")String hashFile) {
         def  a =  WxImages.findByHashFileAndValid(hashFile,true)
+        if(a==null){
+            return  null
+        }
         a.valid = false
         a.save(flush: true)
         return a
