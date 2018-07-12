@@ -110,11 +110,11 @@ class SecurityResource {
         UnifiedorderResult unifiedorderResult = PayMchAPI.payUnifiedorder(unifiedorder,key);
         println unifiedorder as JSON
         println unifiedorderResult as JSON
-        //@since 2.8.5  API返回数据签名验证
-        if(unifiedorderResult.getSign_status() !=null && unifiedorderResult.getSign_status()){
-            String json = PayUtil.generateMchPayJsRequestJson(unifiedorderResult.getPrepay_id(), appid, key);
-            return json
-        }
+//        //@since 2.8.5  API返回数据签名验证
+//        if(unifiedorderResult.getSign_status() !=null && unifiedorderResult.getSign_status()){
+//            String json = PayUtil.generateMchPayJsRequestJson(unifiedorderResult.getPrepay_id(), appid, key);
+//            return json
+//        }
         return unifiedorderResult as JSON
     }
     //下单

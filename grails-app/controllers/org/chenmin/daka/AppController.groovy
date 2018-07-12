@@ -6,7 +6,7 @@ class AppController {
 
     WxUserService wxUserService
 
-    def index() {
+    def index2() {
         println "params.unionid :"+params.unionid
         if(params.unionid!=null){
             flash.du = clockUserService.countByUnionid(params.unionid)
@@ -15,5 +15,9 @@ class AppController {
             println "flash.wu :"+flash.wu
         }
         render(view: 'index')
+    }
+
+    def index() {
+
     }
 }
