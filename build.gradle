@@ -47,6 +47,8 @@ dependencies {
     compile 'org.bouncycastle:bcprov-jdk15on:1.55'
     //七牛文件上传
     compile 'com.qiniu:qiniu-java-sdk:7.2.+'
+    //二维码
+    compile 'org.grails.plugins:qrcode:0.9'
     //新的插件结束
 
     compile "org.springframework.boot:spring-boot-starter-logging"
