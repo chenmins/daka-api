@@ -78,7 +78,45 @@ class SecurityResource {
         chc.close()
         return json
     }
+//下单
+    @GET
+    @Path('/scan/{cash}')
+    @ApiOperation(value = "扫码支付", notes = "仅供测试")
+    @Produces(MediaType.APPLICATION_JSON)
+    String order2(
+                 @ApiParam(required = true, value = "充值金额（单位分）")
+                 @PathParam("cash")
+                         int cash) {
+        String url = "https://www.tuinai.com.cn/pay/PayMchNotify.xml"
+        String appid = "wxbd7ee929512fd71f"
+        String mch_id = "1490841962"
+        String key = "J8HTUYWLYIPLJLELU3D4GPLNO7FYNFH2"
+//        String wx_openid = openid
+        String fee = ""+cash
+        Unifiedorder unifiedorder = new Unifiedorder();
+        unifiedorder.setAppid(appid);
+        unifiedorder.setMch_id(mch_id);
+        unifiedorder.setNonce_str(UUID.randomUUID().toString().toString().replace("-", ""));
 
+//        unifiedorder.setOpenid(wx_openid);
+        unifiedorder.setBody(""+(fee/100)+"元充值卡");
+        unifiedorder.setOut_trade_no(UUID.randomUUID().toString().toString().replace("-", ""));
+        unifiedorder.setTotal_fee(fee);//单位分
+        unifiedorder.setSpbill_create_ip("127.0.0.1");//IP
+        unifiedorder.setNotify_url(url);
+        unifiedorder.setTrade_type("NATIVE");//JSAPI，NATIVE，APP，WAP
+        unifiedorder.setAttach("scan__"+DateTool.today()+"_"+DateTool.timeOnly());
+        //统一下单，生成预支付订单
+        UnifiedorderResult unifiedorderResult = PayMchAPI.payUnifiedorder(unifiedorder,key);
+        println unifiedorder as JSON
+        println unifiedorderResult as JSON
+        //@since 2.8.5  API返回数据签名验证
+        if(unifiedorderResult.getSign_status() !=null && unifiedorderResult.getSign_status()){
+            String json = PayUtil.generateMchPayJsRequestJson(unifiedorderResult.getPrepay_id(), appid, key);
+            return json
+        }
+        return unifiedorderResult as JSON
+    }
     //下单
     @GET
     @Path('/order/{openid}/{cash}')
