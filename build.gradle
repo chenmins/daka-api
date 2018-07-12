@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         mavenLocal()
-        maven { url "https://repo.grails.org/grails/core" }
+        maven { url "http://repo.grails.org/grails/core" }
         maven {url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     dependencies {
@@ -23,7 +23,7 @@ apply plugin:"org.grails.grails-gsp"
 
 repositories {
     mavenLocal()
-    maven { url "https://repo.grails.org/grails/core" }
+    maven { url "http://repo.grails.org/grails/core" }
     maven {url 'http://maven.aliyun.com/nexus/content/groups/public/'}
 }
 
