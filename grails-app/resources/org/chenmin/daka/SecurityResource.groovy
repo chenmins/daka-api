@@ -99,7 +99,7 @@ class SecurityResource {
         unifiedorder.setNonce_str(UUID.randomUUID().toString().toString().replace("-", ""));
 
 //        unifiedorder.setOpenid(wx_openid);
-        unifiedorder.setBody(""+(fee/100)+"元充值卡");
+        unifiedorder.setBody(""+(cash/100)+"元充值卡");
         unifiedorder.setOut_trade_no(UUID.randomUUID().toString().toString().replace("-", ""));
         unifiedorder.setTotal_fee(fee);//单位分
         unifiedorder.setSpbill_create_ip("127.0.0.1");//IP
