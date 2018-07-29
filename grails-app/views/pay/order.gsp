@@ -26,12 +26,12 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
 </script>
 <div class="weui-msg">
     <div class="weui-msg__text-area">
-        <h2 class="weui-msg__title">支付早起挑战保证金</h2>
+        <h2 class="weui-msg__title">支付参赛资金</h2>
     </div>
 </div>
 <div class="bd">
     <div class="page__bd">
-        <div class="weui-cells__title">规则说明</div>
+        <div class="weui-cells__title">早起竞赛规则说明</div>
         <div class="weui-cells">
             <div class="weui-cell">
                 <div class="weui-cell__bd">
@@ -54,8 +54,8 @@ good.notify_url = "https://www.tuinai.com.cn/pay/payMchNotifyFor.xml";
     <div class="weui-msg__opr-area">
         <p class="weui-btn-area">
             %{--<a href="javascript:pays(1);"   class="weui-btn weui-btn_primary">支付0.01元测试</a>--}%
-            <a href="javascript:pays(200);"   class="weui-btn weui-btn_primary">支付2元</a>
-            <a href="javascript:pays(1000);"   class="weui-btn weui-btn_primary">支付10元</a>
+            <a href="javascript:pays(200);"   class="weui-btn weui-btn_primary">同意规则并支付2元参与竞赛</a>
+            <a href="javascript:pays(1000);"   class="weui-btn weui-btn_primary">同意规则并支付10元参与竞赛</a>
             %{--<a href="javascript:pays(10000);;"   class="weui-btn weui-btn_primary">支付100元</a>--}%
         </p>
     </div>
