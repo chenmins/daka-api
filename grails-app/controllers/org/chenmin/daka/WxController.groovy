@@ -63,6 +63,9 @@ class WxController {
             + eventMessage.getToUserName() + "__"
 //            + eventMessage.getMsgId() + "__"
             + eventMessage.getCreateTime();
+            println key
+            println expireKey
+            println "~~~~~~~~~~~~~~~~"
             if(expireKey.exists(key)){
                 //重复通知不作处理
                 response.flushBuffer()
