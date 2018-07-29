@@ -61,7 +61,7 @@ class WxController {
            // String key =  eventMessage.getMsgId()
             String key = eventMessage.getFromUserName() + "__"
             + eventMessage.getToUserName() + "__"
-            + eventMessage.getMsgId() + "__"
+//            + eventMessage.getMsgId() + "__"
             + eventMessage.getCreateTime();
             if(expireKey.exists(key)){
                 //重复通知不作处理
