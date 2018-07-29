@@ -58,7 +58,11 @@ class WxController {
             final String openid =  eventMessage.getFromUserName();
             println eventMessage
             println XMLConverUtil.convertToXML(eventMessage)
-            String key =  eventMessage.getMsgId()
+           // String key =  eventMessage.getMsgId()
+            String key = eventMessage.getFromUserName() + "__"
+            + eventMessage.getToUserName() + "__"
+            + eventMessage.getMsgId() + "__"
+            + eventMessage.getCreateTime();
             if(expireKey.exists(key)){
                 //重复通知不作处理
                 response.flushBuffer()
