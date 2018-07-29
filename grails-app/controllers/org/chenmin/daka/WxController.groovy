@@ -59,10 +59,7 @@ class WxController {
             println eventMessage
             println XMLConverUtil.convertToXML(eventMessage)
            // String key =  eventMessage.getMsgId()
-            String key = eventMessage.getFromUserName() + "__"
-            + eventMessage.getToUserName() + "__"
-//            + eventMessage.getMsgId() + "__"
-            + eventMessage.getCreateTime();
+            String key = eventMessage.getFromUserName() + "__" + eventMessage.getToUserName() + "__"  + eventMessage.getCreateTime();
             println key
             println expireKey
             println "~~~~~~~~~~~~~~~~"
